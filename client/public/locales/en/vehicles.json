@@ -1,0 +1,28 @@
+{
+  "title": "Our Vehicles",
+  "carTypes": {
+    "allTypes": "All Types",
+    "suv": "SUV",
+    "sport": "Sport",
+    "luxury": "Luxury",
+    "convertible": "Convertible",
+    "economy": "Economy"
+  },
+  "book": "Book",
+  "filters": {
+    "allBrands": "All Brands"
+  },
+  "seats": "Seats",
+  "showingVehicles": "Showing {{count}} of {{total}} vehicles",
+  "filteredBy": "filtered by",
+  "noVehiclesAvailable": "No vehicles available with the selected criteria.",
+  "errors": {
+    "fetchFailed": "Failed to load cars"
+  },
+  "whatsappModal": {
+    "title": "Contact Us via WhatsApp",
+    "message": "Would you like to inquire about the",
+    "startChat": "Start WhatsApp Chat"
+  },
+  "whatsappMessage": "Hello! I'm interested in the {{brand}} {{model}}"
+}

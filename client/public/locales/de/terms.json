@@ -1,0 +1,66 @@
+{
+  "title": "Allgemeine Geschäftsbedingungen",
+  "subtitle": "Bitte lesen Sie unsere Mietbedingungen und erforderlichen Unterlagen, bevor Sie Ihr Premium-Fahrzeugerlebnis buchen.",
+
+  "documents": {
+    "title": "Erforderliche Dokumente zum Mieten Ihres Autos",
+    "residents": {
+      "title": "Für Einwohner der VAE",
+      "passport": "Gültige Passkopie",
+      "license": "Gültiger VAE-Führerschein",
+      "id": "Kopie der Emirates ID"
+    },
+    "tourists": {
+      "title": "Für ausländische Touristen in Dubai",
+      "passport": "Gültige Passkopie",
+      "license": "Gültiger Führerschein des Heimatlandes",
+      "visa": "Gültiger VAE-Visumstempel",
+      "stamp": "Einreisestempel am Flughafen im Pass"
+    }
+  },
+
+  "services": {
+    "title": "Unsere Premium-Dienstleistungen",
+    "delivery": {
+      "title": "Kostenlose Lieferung rund um die Uhr",
+      "description": "Wir bieten kostenlosen Fahrzeuglieferservice an jeden Ort in Dubai, 24 Stunden am Tag, 7 Tage die Woche. Egal wann Sie Ihr Luxusfahrzeug brauchen, wir sorgen dafür, dass es pünktlich bei Ihnen ankommt."
+    },
+    "chauffeur": {
+      "title": "Chauffeur-Service",
+      "description": "Verbessern Sie Ihr Erlebnis mit unserem professionellen Chauffeur-Service. Unsere erfahrenen Fahrer bieten ein erstklassiges Transporterlebnis, damit Sie Dubai in vollkommenem Komfort genießen können."
+    },
+    "airport": {
+      "title": "Flughafentransfer",
+      "description": "Starten Sie Ihr Dubai-Erlebnis direkt nach der Landung. Wir bieten bequeme Abholservices am Flughafen, um einen nahtlosen Übergang von Ihrem Flug zu Ihrem Zielort zu gewährleisten."
+    }
+  },
+
+  "noDeposit": {
+    "title": "Keine Kaution erforderlich",
+    "description": "Erleben Sie problemlose Luxusautovermietung ohne Kaution. Wir glauben daran, Luxus zugänglich zu machen, ohne die Last großer Sicherheitseinlagen."
+  },
+
+  "generalTerms": {
+    "title": "Allgemeine Bedingungen",
+    "rentalPeriod": {
+      "title": "Mietdauer",
+      "description": "Die Mindestmietdauer beträgt 24 Stunden. Eine Kulanzfrist von 1 Stunde wird für Rückgaben gewährt, danach wird ein zusätzlicher Tag berechnet."
+    },
+    "insurance": {
+      "title": "Versicherung",
+      "description": "Alle unsere Fahrzeuge verfügen über umfassenden Versicherungsschutz. Der Mieter haftet jedoch für Schäden, die nicht von der Versicherungspolice abgedeckt sind."
+    },
+    "fuelPolicy": {
+      "title": "Kraftstoffrichtlinie",
+      "description": "Alle Fahrzeuge werden mit vollem Tank geliefert und sollten mit vollem Tank zurückgegeben werden. Andernfalls wird eine Betankungsgebühr plus die Kraftstoffkosten berechnet."
+    },
+    "mileageLimit": {
+      "title": "Kilometerbegrenzung",
+      "description": "Unsere Luxusfahrzeuge haben ein tägliches Kilometerlimit von 300 km. Zusätzliche Kilometer werden je nach Fahrzeugmodell zu einem bestimmten Tarif berechnet."
+    },
+    "cancellation": {
+      "title": "Stornierungsbedingungen",
+      "description": "Bei Stornierungen, die 48 Stunden oder mehr vor der geplanten Abholzeit vorgenommen werden, erhalten Sie eine vollständige Rückerstattung. Bei Stornierungen, die weniger als 48 Stunden im Voraus erfolgen, wird eine Tagesmiete berechnet."
+    }
+  }
+}

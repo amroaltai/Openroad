@@ -1,0 +1,23 @@
+{
+  "companyInfo": {
+    "title": "أوبن رود دبي",
+    "description": "استمتع بالفخامة والأداء مع خدمة تأجير السيارات الفاخرة في دبي.",
+    "followUs": "تابعنا على:"
+  },
+  "quickLinks": {
+    "title": "روابط سريعة",
+    "termsAndConditions": "الشروط والأحكام",
+    "aboutUs": "من نحن",
+    "ourVehicles": "مركباتنا"
+  },
+  "contactUs": {
+    "title": "اتصل بنا",
+    "address": "شارع ابن الزهراوي، الجداف دبي، برج أزوريت، محل 16",
+    "phone": "056 399 5002",
+    "whatsapp": "+971 56 399 5002",
+    "email": "openroad@gmail.com"
+  },
+  "bottomBar": {
+    "copyright": "© {year} أوبن رود للتأجير ش.ذ.م.م دبي. جميع الحقوق محفوظة."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "home": "INICIO",
+    "vehicles": "VEHÍCULOS",
+    "termsAndConditions": "TÉRMINOS Y CONDICIONES",
+    "aboutUs": "SOBRE NOSOTROS",
+    "adminPanel": "PANEL DE ADMIN",
+    "logout": "CERRAR SESIÓN"
+  },
+  "whatsappModal": {
+    "title": "Contáctenos por WhatsApp",
+    "message": "¿Le gustaría reservar un coche o obtener más información?",
+    "startChat": "Iniciar chat de WhatsApp"
+  },
+  "adminLogin": {
+    "title": "Inicio de Sesión de Admin",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "loginButton": "Iniciar Sesión",
+    "errorMessage": "Nombre de usuario o contraseña incorrectos"
+  },
+  "bookNow": "RESERVAR AHORA"
+}

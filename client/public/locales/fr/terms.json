@@ -1,0 +1,66 @@
+{
+  "title": "Conditions Générales",
+  "subtitle": "Veuillez consulter nos conditions de location et les documents requis avant de réserver votre expérience de véhicule premium.",
+
+  "documents": {
+    "title": "Documents Requis Pour Louer Votre Voiture",
+    "residents": {
+      "title": "Pour les Résidents Locaux des EAU",
+      "passport": "Copie de Passeport Valide",
+      "license": "Permis de Conduire des EAU Valide",
+      "id": "Copie de la Carte d'Identité Emirates"
+    },
+    "tourists": {
+      "title": "Pour les Touristes Étrangers à Dubaï",
+      "passport": "Copie de Passeport Valide",
+      "license": "Permis de Conduire Valide du Pays d'Origine",
+      "visa": "Visa des EAU Valide",
+      "stamp": "Tampon d'Entrée d'Aéroport sur le Passeport"
+    }
+  },
+
+  "services": {
+    "title": "Nos Services Premium",
+    "delivery": {
+      "title": "Livraison Gratuite 24/7",
+      "description": "Nous offrons la livraison gratuite de véhicules partout à Dubaï, disponible 24 heures sur 24, 7 jours sur 7. Peu importe quand vous avez besoin de votre véhicule de luxe, nous nous assurons qu'il vous parvienne à temps."
+    },
+    "chauffeur": {
+      "title": "Service de Chauffeur",
+      "description": "Améliorez votre expérience avec notre service de chauffeur professionnel. Nos chauffeurs expérimentés offrent une expérience de transport premium, vous permettant de profiter de Dubaï dans un confort total."
+    },
+    "airport": {
+      "title": "Prise en Charge à l'Aéroport",
+      "description": "Commencez votre expérience à Dubaï dès votre atterrissage. Nous fournissons des services pratiques de prise en charge à l'aéroport pour assurer une transition en douceur de votre vol à votre destination."
+    }
+  },
+
+  "noDeposit": {
+    "title": "Aucun Dépôt Requis",
+    "description": "Profitez d'une location de voiture de luxe sans tracas avec zéro dépôt. Nous croyons en rendant le luxe accessible sans le fardeau des grands dépôts de garantie."
+  },
+
+  "generalTerms": {
+    "title": "Conditions Générales",
+    "rentalPeriod": {
+      "title": "Période de Location",
+      "description": "La période minimale de location est de 24 heures. Un délai de grâce d'une heure est accordé pour les retours, après quoi un jour supplémentaire sera facturé."
+    },
+    "insurance": {
+      "title": "Assurance",
+      "description": "Tous nos véhicules sont livrés avec une couverture d'assurance complète. Cependant, le locataire est responsable de tout dommage non couvert par la police d'assurance."
+    },
+    "fuelPolicy": {
+      "title": "Politique de Carburant",
+      "description": "Tous les véhicules sont livrés avec un réservoir plein de carburant et doivent être rendus avec un réservoir plein. Sinon, des frais de ravitaillement plus le coût du carburant seront facturés."
+    },
+    "mileageLimit": {
+      "title": "Limite de Kilométrage",
+      "description": "Nos véhicules de luxe sont livrés avec une limite quotidienne de 300 km. Les kilomètres supplémentaires seront facturés à un tarif spécifique au modèle du véhicule."
+    },
+    "cancellation": {
+      "title": "Politique d'Annulation",
+      "description": "Les annulations effectuées 48 heures ou plus avant l'heure de prise en charge prévue donnent droit à un remboursement complet. Les annulations effectuées moins de 48 heures à l'avance sont soumises à des frais de location d'une journée."
+    }
+  }
+}

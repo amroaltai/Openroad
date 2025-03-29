@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "home": "ГЛАВНАЯ",
+    "vehicles": "АВТОМОБИЛИ",
+    "termsAndConditions": "УСЛОВИЯ",
+    "aboutUs": "О НАС",
+    "adminPanel": "ПАНЕЛЬ АДМИНИСТРАТОРА",
+    "logout": "ВЫЙТИ"
+  },
+  "whatsappModal": {
+    "title": "Свяжитесь с нами через WhatsApp",
+    "message": "Хотите забронировать автомобиль или получить дополнительную информацию?",
+    "startChat": "Начать чат в WhatsApp"
+  },
+  "adminLogin": {
+    "title": "Вход для администратора",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "loginButton": "Войти",
+    "errorMessage": "Неверное имя пользователя или пароль"
+  },
+  "bookNow": "ЗАБРОНИРОВАТЬ"
+}

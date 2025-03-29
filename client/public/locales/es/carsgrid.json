@@ -1,0 +1,14 @@
+{
+  "fleetTitle": "Notre Flotte",
+  "fleetDescription": "Explorez notre sélection premium de véhicules. Des berlines de luxe aux voitures de sport haute performance, nous avons le véhicule parfait pour votre expérience à Dubaï.",
+  "loading": "Chargement des véhicules...",
+  "allCars": "Tous les Véhicules",
+  "book": "Réserver",
+  "seats": "Sièges",
+  "whatsappModal": {
+    "title": "Contactez-nous via WhatsApp",
+    "message": "Souhaitez-vous vous renseigner sur la",
+    "startChat": "Démarrer une discussion WhatsApp"
+  },
+  "whatsappMessage": "Bonjour! Je suis intéressé(e) par la {{brand}} {{model}} de votre flotte."
+}

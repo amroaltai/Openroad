@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "home": "HOME",
+    "vehicles": "VEHICLES",
+    "termsAndConditions": "TERMS AND CONDITIONS",
+    "aboutUs": "ABOUT US",
+    "adminPanel": "ADMIN PANEL",
+    "logout": "LOGOUT"
+  },
+  "whatsappModal": {
+    "title": "Contact Us via WhatsApp",
+    "message": "Would you like to book a car or get more information?",
+    "startChat": "Start WhatsApp Chat"
+  },
+  "adminLogin": {
+    "title": "Admin Login",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "errorMessage": "Incorrect username or password"
+  },
+  "bookNow": "BOOK NOW"
+}

@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+header {
+  z-index: 1000;
+}
+
+.vehicle-filters-area {
+  position: relative;
+  z-index: 50;
+}
+
+#brand-dropdown {
+  z-index: 100;
+}
+
+.type-filter-container button {
+  z-index: 50;
+  touch-action: manipulation;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@media (max-width: 767px) {
+  .vehicle-filters-area {
+    z-index: 50;
+  }
+
+  #brand-dropdown {
+    z-index: 100;
+  }
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.bg-gradient-to-r:not(button):not(.btn):not([role="button"]):not(
+    [class*="header"]
+  ):not([class*="footer"]):not([class*="car"]):not([class*="glow"]):not(
+    [class*="hero"]
+  ):not([class*="button"]) {
+  background: #111827 !important;
+}
+
+.blur-md,
+.blur-lg,
+.blur-xl,
+.blur-2xl,
+.blur-3xl {
+  isolation: isolate;
+  contain: paint;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-orange-500 rounded-full;
+}
+
+body {
+  background: #000;
+  overflow-x: hidden;
+  isolation: isolate;
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: -1;
+}
+
+.from-orange-500\/30,
+.to-amber-500\/30 {
+  opacity: 0.3 !important;
+}

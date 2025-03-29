@@ -1,0 +1,23 @@
+{
+  "companyInfo": {
+    "title": "Open Road Dubai",
+    "description": "Испытайте роскошь и производительность с нашим премиальным сервисом проката автомобилей в Дубае.",
+    "followUs": "Подписывайтесь на нас:"
+  },
+  "quickLinks": {
+    "title": "Быстрые ссылки",
+    "termsAndConditions": "Условия и положения",
+    "aboutUs": "О нас",
+    "ourVehicles": "Наши автомобили"
+  },
+  "contactUs": {
+    "title": "Свяжитесь с нами",
+    "address": "Улица Ибн Аль-Захрави, Аль-Джаддаф, Дубай, Башня Азурит, Магазин 16",
+    "phone": "056 399 5002",
+    "whatsapp": "+971 56 399 5002",
+    "email": "openroad@gmail.com"
+  },
+  "bottomBar": {
+    "copyright": "© {year} Open Road Rental L.L.C Dubai. Все права защищены."
+  }
+}

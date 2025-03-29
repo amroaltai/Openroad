@@ -1,0 +1,23 @@
+{
+  "companyInfo": {
+    "title": "Open Road Dubai",
+    "description": "Experimente lujo y rendimiento con nuestro servicio de alquiler de coches premium en Dubái.",
+    "followUs": "Síguenos en:"
+  },
+  "quickLinks": {
+    "title": "Enlaces Rápidos",
+    "termsAndConditions": "Términos y Condiciones",
+    "aboutUs": "Sobre Nosotros",
+    "ourVehicles": "Nuestros Vehículos"
+  },
+  "contactUs": {
+    "title": "Contáctenos",
+    "address": "Calle Ibn Al Zahrawi, Al Jaddaf Dubái, Torre Azurite, Tienda 16",
+    "phone": "056 399 5002",
+    "whatsapp": "+971 56 399 5002",
+    "email": "openroad@gmail.com"
+  },
+  "bottomBar": {
+    "copyright": "© {year} Open Road Rental L.L.C Dubai. Todos los derechos reservados."
+  }
+}

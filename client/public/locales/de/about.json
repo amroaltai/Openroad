@@ -1,0 +1,42 @@
+{
+  "title": "Über",
+  "subtitle": "Ihr Premium-Autovermietservice im Herzen von Dubai, der Luxus- und Sportfahrzeuge für alle Ihre Bedürfnisse anbietet.",
+
+  "ourStory": {
+    "title": "Unsere Geschichte",
+    "paragraph1": "Open Road Car Rental Dubai wurde mit der Vision gegründet, ein unvergleichliches Mieterlebnis in einer Stadt zu bieten, die für Luxus und Innovation bekannt ist. Was als Leidenschaft für außergewöhnliche Automobile begann, hat sich zum renommiertesten Autovermietungsdienst Dubais entwickelt.",
+    "paragraph2": "Unser Team besteht aus leidenschaftlichen Automobilexperten mit jahrelanger Erfahrung in der Luxusautomobilbranche. Wir wählen jedes Fahrzeug in unserer Flotte persönlich nach Leistung, Komfort, Stil und diesem besonderen Gefühl aus, das Sie am Steuer eines wirklich bemerkenswerten Autos erleben.",
+    "paragraph3": "Mit unserer sorgfältig zusammengestellten Flotte von Premium- und exotischen Fahrzeugen bieten wir Ihnen die Möglichkeit, Dubai so zu erleben, wie es gedacht war - in raffiniertem Luxus und beeindruckendem Stil. Ob Sie geschäftlich unterwegs sind, in der Freizeit, zu einem besonderen Anlass oder einfach, um sich Ihren Traum zu erfüllen, einen Supersportwagen auf der Sheikh Zayed Road zu fahren - wir machen es möglich mit tadellosem Service und Liebe zum Detail."
+  },
+
+  "whyChoose": {
+    "title": "Warum Open Road wählen?",
+    "premiumVehicles": {
+      "title": "Premium-Fahrzeuge",
+      "description": "Unsere Flotte besteht aus neuen, gut gewarteten Fahrzeugen, die regelmäßig gereinigt und gewartet werden."
+    },
+    "exceptionalService": {
+      "title": "Außergewöhnlicher Service",
+      "description": "Wir bieten einen personalisierten, kundenorientierten Service mit flexiblen Mietoptionen."
+    },
+    "competitiveRates": {
+      "title": "Wettbewerbsfähige Preise",
+      "description": "Transparente Preisgestaltung ohne versteckte Gebühren und wettbewerbsfähige Tarife für alle unsere Premium-Fahrzeuge."
+    }
+  },
+
+  "visitLocation": {
+    "title": "Besuchen Sie unseren Standort",
+    "description": "Unser günstiger Standort in Al Jaddaf, Dubai, macht es Ihnen leicht, Ihr Premium-Mietauto abzuholen."
+  },
+
+  "whatsappSupport": "WhatsApp-Support rund um die Uhr",
+  "openHours": "Täglich geöffnet von 9:00 bis 21:00 Uhr",
+
+  "readyToExperience": {
+    "title": "Bereit, Luxus zu erleben?",
+    "description": "Kontaktieren Sie uns noch heute, um Ihr Premium-Fahrzeug zu reservieren und Ihr Dubai-Erlebnis zu steigern."
+  },
+
+  "callNow": "Jetzt anrufen"
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Terms & Conditions",
+  "subtitle": "Please review our rental terms and required documentation before booking your premium vehicle experience.",
+
+  "documents": {
+    "title": "Documents Required To Hire Your Car",
+    "residents": {
+      "title": "For Local UAE Residents",
+      "passport": "Valid Passport Copy",
+      "license": "Valid UAE Driving License",
+      "id": "Copy of Emirates ID"
+    },
+    "tourists": {
+      "title": "For Foreign Tourists in Dubai",
+      "passport": "Valid Passport Copy",
+      "license": "Valid Home Country Driving License",
+      "visa": "Valid UAE Visa Stamp",
+      "stamp": "Airport Entry Stamp On Passport"
+    }
+  },
+
+  "services": {
+    "title": "Our Premium Services",
+    "delivery": {
+      "title": "24/7 Free Delivery",
+      "description": "We offer complimentary vehicle delivery anywhere in Dubai, available 24 hours a day, 7 days a week. No matter when you need your luxury vehicle, we'll ensure it reaches you on time."
+    },
+    "chauffeur": {
+      "title": "Chauffeur Service",
+      "description": "Enhance your experience with our professional chauffeur service. Our experienced drivers provide a premium transportation experience, allowing you to enjoy Dubai in complete comfort."
+    },
+    "airport": {
+      "title": "Airport Pickup",
+      "description": "Start your Dubai experience the moment you land. We provide convenient airport pickup services to ensure a seamless transition from your flight to your destination."
+    }
+  },
+
+  "noDeposit": {
+    "title": "No Deposit Required",
+    "description": "Experience hassle-free luxury car rental with zero deposit. We believe in making luxury accessible without the burden of large security deposits."
+  },
+
+  "generalTerms": {
+    "title": "General Terms",
+    "rentalPeriod": {
+      "title": "Rental Period",
+      "description": "The minimum rental period is 24 hours. A grace period of 1 hour is provided for returns, after which an additional day will be charged."
+    },
+    "insurance": {
+      "title": "Insurance",
+      "description": "All our vehicles come with comprehensive insurance coverage. However, the renter is responsible for any damage not covered by the insurance policy."
+    },
+    "fuelPolicy": {
+      "title": "Fuel Policy",
+      "description": "All vehicles are delivered with a full tank of fuel and should be returned with a full tank. Otherwise, a refueling fee plus the cost of fuel will be charged."
+    },
+    "mileageLimit": {
+      "title": "Mileage Limit",
+      "description": "Our luxury vehicles come with a daily mileage limit of 300 km. Additional kilometers will be charged at a rate specific to the vehicle model."
+    },
+    "cancellation": {
+      "title": "Cancellation Policy",
+      "description": "Cancellations made 48 hours or more before the scheduled pickup time receive a full refund. Cancellations made less than 48 hours in advance are subject to a one-day rental fee."
+    }
+  }
+}

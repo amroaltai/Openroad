@@ -1,0 +1,22 @@
+{
+  "delivery": {
+    "title": "24/7 Delivery",
+    "description": "Available anytime, anywhere",
+    "expandedContent": "Our round-the-clock delivery service is FREE and ensures you can rent your dream car whenever and wherever you want. Whether it's early morning or late at night, we're always ready to serve you with prompt and efficient vehicle delivery across Dubai."
+  },
+  "fleet": {
+    "title": "50+ Cars",
+    "description": "Premium selection of vehicles",
+    "expandedContent": "Choose from our extensive fleet of over 50 premium vehicles. From luxurious SUVs to high-performance sports cars, we offer a diverse range of top-tier vehicles to match your style, occasion, and preferences."
+  },
+  "location": {
+    "title": "Ibn Al Zahrawi Street, Al Jaddaf",
+    "description": "Azurite Tower, Shop 16",
+    "expandedContent": "Visit us at Ibn Al Zahrawi Street, Al Jaddaf Dubai, Azurite Tower, Shop 16. Our convenient location provides easy access from various parts of the city, ensuring less travel time for you and more time enjoying your premium rental experience."
+  },
+  "security": {
+    "title": "100% Secure",
+    "description": "Safe and reliable service",
+    "expandedContent": "We prioritize your safety with comprehensive insurance, rigorous vehicle maintenance, and secure transaction processes. Our commitment to security ensures you can rent with complete peace of mind and enjoy a worry-free luxury car experience."
+  }
+}

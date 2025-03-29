@@ -1,0 +1,28 @@
+{
+  "title": "سياراتنا",
+  "carTypes": {
+    "allTypes": "جميع الأنواع",
+    "suv": "دفع رباعي",
+    "sport": "رياضية",
+    "luxury": "فاخرة",
+    "convertible": "مكشوفة",
+    "economy": "اقتصادية"
+  },
+  "book": "حجز",
+  "filters": {
+    "allBrands": "جميع العلامات التجارية"
+  },
+  "seats": "مقاعد",
+  "showingVehicles": "عرض {{count}} من {{total}} سيارة",
+  "filteredBy": "تمت التصفية حسب",
+  "noVehiclesAvailable": "لا توجد سيارات متاحة بالمعايير المحددة.",
+  "errors": {
+    "fetchFailed": "فشل تحميل السيارات"
+  },
+  "whatsappModal": {
+    "title": "تواصل معنا عبر واتساب",
+    "message": "هل ترغب في الاستفسار عن",
+    "startChat": "بدء محادثة واتساب"
+  },
+  "whatsappMessage": "مرحبًا! أنا مهتم بسيارة {{brand}} {{model}}"
+}

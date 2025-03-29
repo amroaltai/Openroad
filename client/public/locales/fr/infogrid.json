@@ -1,0 +1,22 @@
+{
+  "delivery": {
+    "title": "Livraison 24/7",
+    "description": "Disponible à tout moment, partout",
+    "expandedContent": "Notre service de livraison 24h/24 et 7j/7 est GRATUIT et vous garantit de pouvoir louer la voiture de vos rêves quand et où vous le souhaitez. Que ce soit tôt le matin ou tard le soir, nous sommes toujours prêts à vous servir avec une livraison de véhicule rapide et efficace dans tout Dubaï."
+  },
+  "fleet": {
+    "title": "Plus de 50 voitures",
+    "description": "Sélection premium de véhicules",
+    "expandedContent": "Choisissez parmi notre vaste flotte de plus de 50 véhicules haut de gamme. Des SUV luxueux aux voitures de sport haute performance, nous offrons une gamme diversifiée de véhicules de premier ordre pour correspondre à votre style, à l'occasion et à vos préférences."
+  },
+  "location": {
+    "title": "Rue Ibn Al Zahrawi, Al Jaddaf",
+    "description": "Tour Azurite, Boutique 16",
+    "expandedContent": "Rendez-nous visite à la rue Ibn Al Zahrawi, Al Jaddaf Dubaï, Tour Azurite, Boutique 16. Notre emplacement pratique offre un accès facile depuis différentes parties de la ville, vous assurant moins de temps de déplacement et plus de temps pour profiter de votre expérience de location premium."
+  },
+  "security": {
+    "title": "100% Sécurisé",
+    "description": "Service sûr et fiable",
+    "expandedContent": "Nous donnons la priorité à votre sécurité avec une assurance complète, un entretien rigoureux des véhicules et des processus de transaction sécurisés. Notre engagement envers la sécurité vous garantit de pouvoir louer en toute tranquillité d'esprit et de profiter d'une expérience de voiture de luxe sans soucis."
+  }
+}

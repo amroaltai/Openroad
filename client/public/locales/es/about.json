@@ -1,0 +1,42 @@
+{
+  "title": "Acerca de",
+  "subtitle": "Su servicio premium de alquiler de coches en el corazón de Dubái, que ofrece vehículos de lujo y exóticos para todas sus necesidades.",
+
+  "ourStory": {
+    "title": "Nuestra Historia",
+    "paragraph1": "Open Road Car Rental Dubai fue fundada con la visión de proporcionar una experiencia de alquiler sin igual en una ciudad reconocida por su lujo e innovación. Lo que comenzó como una pasión por los automóviles excepcionales se ha convertido en el servicio de alquiler de coches más distinguido de Dubái.",
+    "paragraph2": "Nuestro equipo está formado por entusiastas apasionados del automóvil con años de experiencia en la industria de coches de lujo. Seleccionamos personalmente cada vehículo de nuestra flota basándonos en el rendimiento, la comodidad, el estilo y esa sensación especial que se experimenta al volante de un coche verdaderamente extraordinario.",
+    "paragraph3": "Con nuestra flota cuidadosamente seleccionada de coches premium y exóticos, le ofrecemos la oportunidad de experimentar Dubái como debe ser: con un lujo sofisticado y un estilo impresionante. Ya sea que esté aquí por negocios, placer, una ocasión especial o simplemente para cumplir su sueño de conducir un superdeportivo por Sheikh Zayed Road, lo hacemos posible con un servicio impecable y atención al detalle."
+  },
+
+  "whyChoose": {
+    "title": "¿Por Qué Elegir Open Road?",
+    "premiumVehicles": {
+      "title": "Vehículos Premium",
+      "description": "Nuestra flota consiste en vehículos nuevos y bien mantenidos que se limpian y revisan regularmente."
+    },
+    "exceptionalService": {
+      "title": "Servicio Excepcional",
+      "description": "Proporcionamos un servicio personalizado, centrado en el cliente, con opciones de alquiler flexibles."
+    },
+    "competitiveRates": {
+      "title": "Tarifas Competitivas",
+      "description": "Precios transparentes sin cargos ocultos y tarifas competitivas para todos nuestros vehículos premium."
+    }
+  },
+
+  "visitLocation": {
+    "title": "Visite Nuestra Ubicación",
+    "description": "Nuestra conveniente ubicación en Al Jaddaf, Dubái, facilita la recogida de su coche de alquiler premium."
+  },
+
+  "whatsappSupport": "Soporte por WhatsApp 24/7",
+  "openHours": "Abierto todos los días de 9:00 AM a 9:00 PM",
+
+  "readyToExperience": {
+    "title": "¿Listo para Experimentar el Lujo?",
+    "description": "Contáctenos hoy para reservar su vehículo premium y elevar su experiencia en Dubái."
+  },
+
+  "callNow": "Llamar Ahora"
+}

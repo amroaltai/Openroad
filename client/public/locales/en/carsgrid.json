@@ -1,0 +1,14 @@
+{
+  "fleetTitle": "Our Fleet",
+  "fleetDescription": "Explore our premium selection of vehicles. From luxury sedans to high-performance sports cars, we have the perfect vehicle for your Dubai experience.",
+  "loading": "Loading cars...",
+  "allCars": "All Cars",
+  "book": "Book",
+  "seats": "Seats",
+  "whatsappModal": {
+    "title": "Contact Us via WhatsApp",
+    "message": "Would you like to inquire about the",
+    "startChat": "Start WhatsApp Chat"
+  },
+  "whatsappMessage": "Hello! I'm interested in the {{brand}} {{model}} from your fleet."
+}

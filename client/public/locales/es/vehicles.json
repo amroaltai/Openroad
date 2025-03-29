@@ -1,0 +1,28 @@
+{
+  "title": "Nuestros Vehículos",
+  "carTypes": {
+    "allTypes": "Todos los Tipos",
+    "suv": "SUV",
+    "sport": "Deportivo",
+    "luxury": "Lujo",
+    "convertible": "Descapotable",
+    "economy": "Económico"
+  },
+  "book": "Reservar",
+  "filters": {
+    "allBrands": "Todas las Marcas"
+  },
+  "seats": "Asientos",
+  "showingVehicles": "Mostrando {{count}} de {{total}} vehículos",
+  "filteredBy": "filtrado por",
+  "noVehiclesAvailable": "No hay vehículos disponibles con los criterios seleccionados.",
+  "errors": {
+    "fetchFailed": "Error al cargar los coches"
+  },
+  "whatsappModal": {
+    "title": "Contáctenos por WhatsApp",
+    "message": "¿Le gustaría consultar sobre el",
+    "startChat": "Iniciar chat de WhatsApp"
+  },
+  "whatsappMessage": "¡Hola! Estoy interesado/a en el {{brand}} {{model}}"
+}

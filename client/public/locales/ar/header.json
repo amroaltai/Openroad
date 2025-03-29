@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "home": "الرئيسية",
+    "vehicles": "المركبات",
+    "termsAndConditions": "الشروط والأحكام",
+    "aboutUs": "من نحن",
+    "adminPanel": "لوحة الإدارة",
+    "logout": "تسجيل الخروج"
+  },
+  "whatsappModal": {
+    "title": "تواصل معنا عبر واتساب",
+    "message": "هل ترغب في حجز سيارة أو الحصول على مزيد من المعلومات؟",
+    "startChat": "ابدأ الدردشة على واتساب"
+  },
+  "adminLogin": {
+    "title": "تسجيل دخول المسؤول",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "loginButton": "تسجيل الدخول",
+    "errorMessage": "اسم المستخدم أو كلمة المرور غير صحيحة"
+  },
+  "bookNow": "احجز الآن"
+}

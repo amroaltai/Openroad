@@ -1,0 +1,28 @@
+{
+  "title": "Наши Автомобили",
+  "carTypes": {
+    "allTypes": "Все Типы",
+    "suv": "Внедорожник",
+    "sport": "Спортивный",
+    "luxury": "Люкс",
+    "convertible": "Кабриолет",
+    "economy": "Эконом"
+  },
+  "book": "Забронировать",
+  "filters": {
+    "allBrands": "Все Марки"
+  },
+  "seats": "Мест",
+  "showingVehicles": "Показано {{count}} из {{total}} автомобилей",
+  "filteredBy": "отфильтровано по",
+  "noVehiclesAvailable": "Нет доступных автомобилей по выбранным критериям.",
+  "errors": {
+    "fetchFailed": "Не удалось загрузить автомобили"
+  },
+  "whatsappModal": {
+    "title": "Свяжитесь с нами через WhatsApp",
+    "message": "Хотите узнать больше о",
+    "startChat": "Начать чат в WhatsApp"
+  },
+  "whatsappMessage": "Здравствуйте! Меня интересует {{brand}} {{model}}"
+}

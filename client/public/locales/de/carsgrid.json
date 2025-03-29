@@ -1,0 +1,14 @@
+{
+  "fleetTitle": "Unsere Flotte",
+  "fleetDescription": "Entdecken Sie unsere Premium-Auswahl an Fahrzeugen. Von Luxus-Limousinen bis hin zu Hochleistungs-Sportwagen, wir haben das perfekte Fahrzeug für Ihr Dubai-Erlebnis.",
+  "loading": "Fahrzeuge werden geladen...",
+  "allCars": "Alle Fahrzeuge",
+  "book": "Buchen",
+  "seats": "Sitze",
+  "whatsappModal": {
+    "title": "Kontaktieren Sie uns über WhatsApp",
+    "message": "Möchten Sie Informationen über den",
+    "startChat": "WhatsApp-Chat starten"
+  },
+  "whatsappMessage": "Hallo! Ich interessiere mich für den {{brand}} {{model}} aus Ihrer Flotte."
+}

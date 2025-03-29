@@ -1,0 +1,23 @@
+{
+  "navigation": {
+    "home": "STARTSEITE",
+    "vehicles": "FAHRZEUGE",
+    "termsAndConditions": "AGB",
+    "aboutUs": "ÜBER UNS",
+    "adminPanel": "ADMIN-BEREICH",
+    "logout": "ABMELDEN"
+  },
+  "whatsappModal": {
+    "title": "Kontaktieren Sie uns über WhatsApp",
+    "message": "Möchten Sie ein Auto buchen oder weitere Informationen erhalten?",
+    "startChat": "WhatsApp-Chat starten"
+  },
+  "adminLogin": {
+    "title": "Admin-Login",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "loginButton": "Anmelden",
+    "errorMessage": "Falscher Benutzername oder Passwort"
+  },
+  "bookNow": "JETZT BUCHEN"
+}

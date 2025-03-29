@@ -1,0 +1,42 @@
+{
+  "title": "À propos",
+  "subtitle": "Votre service de location de voitures premium au cœur de Dubaï, offrant des véhicules de luxe et exotiques pour tous vos besoins.",
+
+  "ourStory": {
+    "title": "Notre Histoire",
+    "paragraph1": "Open Road Car Rental Dubai a été fondée avec la vision de fournir une expérience de location inégalée dans une ville réputée pour son luxe et son innovation. Ce qui a commencé comme une passion pour les automobiles exceptionnelles s'est transformé en service de location de voitures le plus distingué de Dubaï.",
+    "paragraph2": "Notre équipe est composée de passionnés d'automobile avec des années d'expérience dans l'industrie des voitures de luxe. Nous sélectionnons personnellement chaque véhicule de notre flotte en fonction des performances, du confort, du style et de cette sensation spéciale que vous ressentez au volant d'une voiture vraiment remarquable.",
+    "paragraph3": "Avec notre flotte soigneusement sélectionnée de voitures premium et exotiques, nous vous offrons la possibilité d'expérimenter Dubaï comme il se doit - dans un luxe sophistiqué et un style impressionnant. Que vous soyez ici pour affaires, loisirs, une occasion spéciale, ou simplement pour réaliser votre rêve de conduire une supercar le long de Sheikh Zayed Road, nous rendons cela possible avec un service impeccable et une attention aux détails."
+  },
+
+  "whyChoose": {
+    "title": "Pourquoi Choisir Open Road?",
+    "premiumVehicles": {
+      "title": "Véhicules Premium",
+      "description": "Notre flotte se compose de véhicules neufs et bien entretenus, régulièrement nettoyés et entretenus."
+    },
+    "exceptionalService": {
+      "title": "Service Exceptionnel",
+      "description": "Nous fournissons un service personnalisé, axé sur le client, avec des options de location flexibles."
+    },
+    "competitiveRates": {
+      "title": "Tarifs Compétitifs",
+      "description": "Prix transparents sans frais cachés et tarifs compétitifs pour tous nos véhicules premium."
+    }
+  },
+
+  "visitLocation": {
+    "title": "Visitez Notre Emplacement",
+    "description": "Notre emplacement pratique à Al Jaddaf, Dubaï, facilite la prise en charge de votre voiture de location premium."
+  },
+
+  "whatsappSupport": "Support WhatsApp 24/7",
+  "openHours": "Ouvert tous les jours de 9h00 à 21h00",
+
+  "readyToExperience": {
+    "title": "Prêt à Vivre le Luxe?",
+    "description": "Contactez-nous dès aujourd'hui pour réserver votre véhicule premium et élever votre expérience à Dubaï."
+  },
+
+  "callNow": "Appelez Maintenant"
+}

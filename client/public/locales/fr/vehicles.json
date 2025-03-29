@@ -1,0 +1,28 @@
+{
+  "title": "Nos Véhicules",
+  "carTypes": {
+    "allTypes": "Tous les Types",
+    "suv": "SUV",
+    "sport": "Sport",
+    "luxury": "Luxe",
+    "convertible": "Cabriolet",
+    "economy": "Économique"
+  },
+  "book": "Réserver",
+  "filters": {
+    "allBrands": "Toutes les Marques"
+  },
+  "seats": "Sièges",
+  "showingVehicles": "Affichage de {{count}} sur {{total}} véhicules",
+  "filteredBy": "filtré par",
+  "noVehiclesAvailable": "Aucun véhicule disponible selon les critères sélectionnés.",
+  "errors": {
+    "fetchFailed": "Échec du chargement des voitures"
+  },
+  "whatsappModal": {
+    "title": "Contactez-nous via WhatsApp",
+    "message": "Souhaitez-vous vous renseigner sur la",
+    "startChat": "Démarrer une discussion WhatsApp"
+  },
+  "whatsappMessage": "Bonjour! Je suis intéressé(e) par la {{brand}} {{model}}"
+}

@@ -1,0 +1,22 @@
+{
+  "delivery": {
+    "title": "Entrega 24/7",
+    "description": "Disponible en cualquier momento y lugar",
+    "expandedContent": "Nuestro servicio de entrega las 24 horas es GRATUITO y garantiza que puedas alquilar el coche de tus sueños cuando y donde quieras. Ya sea temprano por la mañana o tarde por la noche, siempre estamos listos para servirte con una entrega rápida y eficiente de vehículos en todo Dubái."
+  },
+  "fleet": {
+    "title": "Más de 50 coches",
+    "description": "Selección premium de vehículos",
+    "expandedContent": "Elige entre nuestra amplia flota de más de 50 vehículos premium. Desde SUVs de lujo hasta deportivos de alto rendimiento, ofrecemos una gama diversa de vehículos de alta gama para adaptarse a tu estilo, ocasión y preferencias."
+  },
+  "location": {
+    "title": "Calle Ibn Al Zahrawi, Al Jaddaf",
+    "description": "Torre Azurite, Tienda 16",
+    "expandedContent": "Visítanos en la calle Ibn Al Zahrawi, Al Jaddaf Dubái, Torre Azurite, Tienda 16. Nuestra conveniente ubicación proporciona fácil acceso desde varias partes de la ciudad, asegurando menos tiempo de viaje para ti y más tiempo disfrutando de tu experiencia de alquiler premium."
+  },
+  "security": {
+    "title": "100% Seguro",
+    "description": "Servicio seguro y confiable",
+    "expandedContent": "Priorizamos tu seguridad con un seguro integral, un riguroso mantenimiento de los vehículos y procesos de transacción seguros. Nuestro compromiso con la seguridad garantiza que puedas alquilar con total tranquilidad y disfrutar de una experiencia de coche de lujo sin preocupaciones."
+  }
+}

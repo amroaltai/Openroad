@@ -1,0 +1,66 @@
+{
+  "title": "Términos y Condiciones",
+  "subtitle": "Por favor, revise nuestros términos de alquiler y los documentos necesarios antes de reservar un vehículo premium.",
+
+  "documents": {
+    "title": "Documentos Necesarios para Alquilar un Vehículo",
+    "residents": {
+      "title": "Para Residentes de EAU",
+      "passport": "Copia válida de pasaporte",
+      "license": "Licencia de conducir de EAU válida",
+      "id": "Copia de Emirates ID"
+    },
+    "tourists": {
+      "title": "Para Turistas Extranjeros en Dubái",
+      "passport": "Copia válida de pasaporte",
+      "license": "Licencia de conducir válida del país de residencia",
+      "visa": "Visa de EAU válida",
+      "stamp": "Sello de entrada del aeropuerto en el pasaporte"
+    }
+  },
+
+  "services": {
+    "title": "Nuestros Servicios Premium",
+    "delivery": {
+      "title": "Entrega Gratuita 24/7",
+      "description": "Ofrecemos entrega gratuita de vehículos a cualquier lugar de Dubái las 24 horas del día, los 7 días de la semana. Independientemente de cuándo necesite un automóvil de lujo, garantizamos su entrega puntual."
+    },
+    "chauffeur": {
+      "title": "Servicios de Chófer",
+      "description": "Mejore su experiencia con nuestro servicio profesional de chófer. Nuestros conductores experimentados proporcionan un servicio de transporte premium, permitiéndole disfrutar de Dubái con total comodidad."
+    },
+    "airport": {
+      "title": "Recogida en el Aeropuerto",
+      "description": "Comience su experiencia en Dubái desde el momento en que aterriza. Proporcionamos convenientes servicios de recogida en el aeropuerto para garantizar una transición sin problemas desde su vuelo hasta su destino."
+    }
+  },
+
+  "noDeposit": {
+    "title": "No Se Requiere Depósito",
+    "description": "Experimente el alquiler de coches de lujo sin complicaciones y sin depósito. Nos esforzamos por hacer que el lujo sea accesible sin la carga de grandes depósitos de garantía."
+  },
+
+  "generalTerms": {
+    "title": "Términos Generales",
+    "rentalPeriod": {
+      "title": "Periodo de Alquiler",
+      "description": "El periodo mínimo de alquiler es de 24 horas. Se proporciona un periodo de gracia de 1 hora para la devolución, después del cual se cobrará un día adicional."
+    },
+    "insurance": {
+      "title": "Seguro",
+      "description": "Todos nuestros vehículos tienen cobertura completa de seguro. Sin embargo, el arrendatario es responsable de cualquier daño no cubierto por la póliza de seguro."
+    },
+    "fuelPolicy": {
+      "title": "Política de Combustible",
+      "description": "Todos los vehículos se entregan con el tanque lleno de combustible y deben devolverse con el tanque lleno. De lo contrario, se aplicará un cargo por servicio de reabastecimiento más el costo del combustible."
+    },
+    "mileageLimit": {
+      "title": "Límite de Kilometraje",
+      "description": "Nuestros vehículos de lujo tienen un límite de kilometraje diario de 300 km. Los kilómetros adicionales se cobrarán según una tarifa que depende del modelo del vehículo."
+    },
+    "cancellation": {
+      "title": "Política de Cancelación",
+      "description": "Las cancelaciones realizadas 48 horas o más antes del tiempo de recogida programado reciben un reembolso completo. Las cancelaciones realizadas menos de 48 horas antes del inicio incurrirán en un cargo de alquiler de un día."
+    }
+  }
+}

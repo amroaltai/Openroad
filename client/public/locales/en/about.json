@@ -1,0 +1,42 @@
+{
+  "title": "About",
+  "subtitle": "Your premium car rental service in the heart of Dubai, offering luxury and exotic vehicles for all your needs.",
+
+  "ourStory": {
+    "title": "Our Story",
+    "paragraph1": "Open Road Car Rental Dubai was founded with a vision to provide an unparalleled rental experience in a city known for luxury and innovation. What started as a passion for exceptional automobiles has grown into Dubai's most distinguished car rental service.",
+    "paragraph2": "Our team consists of passionate automotive enthusiasts with years of experience in the luxury car industry. We personally select each vehicle in our fleet based on performance, comfort, style, and that special feeling you get behind the wheel of a truly remarkable car.",
+    "paragraph3": "With our carefully curated fleet of premium and exotic cars, we offer you the opportunity to experience Dubai the way it was meant to be - in sophisticated luxury and impressive style. Whether you're here for business, leisure, a special occasion, or simply to fulfill your dream of driving a supercar along Sheikh Zayed Road, we make it happen with impeccable service and attention to detail."
+  },
+
+  "whyChoose": {
+    "title": "Why Choose Open Road?",
+    "premiumVehicles": {
+      "title": "Premium Vehicles",
+      "description": "Our fleet consists of new, well-maintained vehicles that are regularly cleaned and serviced to ensure an optimal driving experience."
+    },
+    "exceptionalService": {
+      "title": "Exceptional Service",
+      "description": "We provide personalized, customer-focused service with flexible rental options and 24/7 support for all your needs."
+    },
+    "competitiveRates": {
+      "title": "Competitive Rates",
+      "description": "Transparent pricing with no hidden fees and competitive rates for all our premium vehicles."
+    }
+  },
+
+  "visitLocation": {
+    "title": "Visit Our Location",
+    "description": "Our convenient location in Al Jaddaf, Dubai makes it easy to pick up your premium rental car. You can also opt for our delivery service anywhere in Dubai."
+  },
+
+  "whatsappSupport": "WhatsApp Support 24/7",
+  "openHours": "Open daily from 9:00 AM to 9:00 PM",
+
+  "readyToExperience": {
+    "title": "Ready to Experience Luxury?",
+    "description": "Contact us today to reserve your premium vehicle and elevate your Dubai experience."
+  },
+
+  "callNow": "Call Now"
+}
