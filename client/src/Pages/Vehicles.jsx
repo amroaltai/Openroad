@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-// Memoize static SVG components
 const WhatsAppIcon = memo(() => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -65,16 +64,13 @@ SeatsIcon.displayName = "SeatsIcon";
 
 const WhatsAppModal = memo(({ isOpen, onClose, car, onWhatsAppClick }) => {
   const { t } = useTranslation("vehicles");
-
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1200]">
       <div className="bg-gray-900 rounded-lg p-8 max-w-md w-full mx-4 text-center relative">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-400 hover:text-white"
-          aria-label="Close modal"
         >
           ✕
         </button>
@@ -103,9 +99,7 @@ WhatsAppModal.displayName = "WhatsAppModal";
 const Pagination = memo(
   ({ totalItems, itemsPerPage, currentPage, setCurrentPage }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-
     if (totalItems <= itemsPerPage) return null;
-
     const handlePageChange = useCallback(
       (newPage) => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -113,22 +107,17 @@ const Pagination = memo(
       },
       [setCurrentPage]
     );
-
     const pageNumbers = useMemo(() => {
-      const pages = [];
-      pages.push(1);
+      const pages = [1];
       for (
         let i = Math.max(2, currentPage - 1);
         i <= Math.min(totalPages - 1, currentPage + 1);
         i++
-      ) {
+      )
         pages.push(i);
-      }
       if (totalPages > 1) pages.push(totalPages);
-      // Remove duplicates (important for when totalPages is small)
       return [...new Set(pages)];
     }, [currentPage, totalPages]);
-
     return (
       <div className="flex justify-center items-center space-x-2 mt-12 pb-8">
         <button
@@ -180,20 +169,15 @@ Pagination.displayName = "Pagination";
 
 const ScrollToTopButton = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    const toggleVisibility = () => {
-      setIsVisible(window.pageYOffset > 300);
-    };
-
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
     window.addEventListener("scroll", toggleVisibility);
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
+  const scrollToTop = useCallback(
+    () => window.scrollTo({ top: 0, behavior: "smooth" }),
+    []
+  );
   return (
     <button
       className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-amber-500 shadow-lg flex items-center justify-center transform transition-all duration-300 z-30 ${
@@ -210,10 +194,12 @@ const ScrollToTopButton = memo(() => {
 });
 ScrollToTopButton.displayName = "ScrollToTopButton";
 
-// Car image navigation buttons extracted as components to reduce complexity
 const ImageNavButton = memo(({ direction, onClick, ariaLabel }) => (
   <button
-    onClick={onClick}
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick(e);
+    }}
     aria-label={ariaLabel}
     className={`absolute ${
       direction === "prev" ? "left-2" : "right-2"
@@ -236,28 +222,30 @@ const CarCard = memo(
     getCurrentCarImage,
     navigateCarImage,
     handleBookClick,
+    handleEnlargeImage,
     t,
   }) => {
-    // Memoize translated car type
     const carType = useMemo(
       () => car.type || t("carTypes.luxury"),
       [car.type, t]
     );
-
-    // Memoize image navigation handlers
     const handlePrevImage = useCallback(
       (e) => navigateCarImage(e, car.id, "prev"),
       [navigateCarImage, car.id]
     );
-
     const handleNextImage = useCallback(
       (e) => navigateCarImage(e, car.id, "next"),
       [navigateCarImage, car.id]
     );
-
     return (
       <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px]">
-        <div className="relative w-full h-60 bg-gray-800 overflow-hidden group">
+        <div
+          className="relative w-full h-60 bg-gray-800 overflow-hidden group cursor-pointer"
+          onClick={() =>
+            window.innerWidth >= 768 &&
+            handleEnlargeImage(car.id, currentImageIndex)
+          }
+        >
           <ImageNavButton
             direction="prev"
             onClick={handlePrevImage}
@@ -289,7 +277,7 @@ const CarCard = memo(
         </div>
         <div className="p-6">
           <h3 className="text-2xl font-bold text-white transition-colors duration-300 hover:text-orange-400">
-            {car.model}
+            {car.brand} {car.model}
           </h3>
           <p className="text-gray-400">{car.year}</p>
           <div className="mt-4 space-y-2">
@@ -326,12 +314,13 @@ const CarCard = memo(
 CarCard.displayName = "CarCard";
 
 const TypeFilterButton = memo(({ type, selectedType, onClick, t }) => {
-  // Memoize translated type
-  const translatedType = useMemo(() => {
-    if (type === "all") return t("carTypes.allTypes");
-    return t(`carTypes.${type.toLowerCase()}`);
-  }, [type, t]);
-
+  const translatedType = useMemo(
+    () =>
+      type === "all"
+        ? t("carTypes.allTypes")
+        : t(`carTypes.${type.toLowerCase()}`),
+    [type, t]
+  );
   return (
     <button
       onClick={() => onClick(type)}
@@ -347,10 +336,8 @@ const TypeFilterButton = memo(({ type, selectedType, onClick, t }) => {
 });
 TypeFilterButton.displayName = "TypeFilterButton";
 
-// Constant car types
 const CAR_TYPES = ["all", "SUV", "Sport", "Luxury", "Convertible", "Economy"];
 
-// Custom dropdown component extracted for better organization
 const BrandDropdown = memo(
   ({
     selectedBrand,
@@ -360,7 +347,6 @@ const BrandDropdown = memo(
     setFilterMenuOpen,
     t,
   }) => {
-    // Separate handlers for better event management
     const toggleDropdown = useCallback(
       (e) => {
         e.stopPropagation();
@@ -368,17 +354,13 @@ const BrandDropdown = memo(
       },
       [filterMenuOpen, setFilterMenuOpen]
     );
-
     const selectBrand = useCallback(
       (brand) => {
         setSelectedBrand(brand);
-        setTimeout(() => {
-          setFilterMenuOpen(false);
-        }, 50); // Small delay to ensure the click registers
+        setTimeout(() => setFilterMenuOpen(false), 50);
       },
       [setSelectedBrand, setFilterMenuOpen]
     );
-
     return (
       <div className="w-full md:w-auto relative z-[100]">
         <button
@@ -402,7 +384,7 @@ const BrandDropdown = memo(
           <div
             className="absolute mt-1 w-full bg-gray-900/90 border border-orange-500/30 rounded-md shadow-lg py-1 max-h-60 overflow-auto"
             role="listbox"
-            onClick={(e) => e.stopPropagation()} // Prevent click propagation
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => selectBrand("all")}
@@ -439,12 +421,63 @@ const BrandDropdown = memo(
 );
 BrandDropdown.displayName = "BrandDropdown";
 
-// Main component
-const Vehicles = memo(() => {
-  // i18n translation hook
-  const { t, i18n } = useTranslation("vehicles");
+const EnlargedImageModal = memo(
+  ({ car, initialImageIndex, onClose, getImageUrl }) => {
+    const images = useMemo(
+      () => [car.image1, car.image2, car.image3].filter((img) => img),
+      [car]
+    );
+    const [currentIndex, setCurrentIndex] = useState(
+      Math.min(initialImageIndex, images.length - 1)
+    );
+    useEffect(
+      () => setCurrentIndex(Math.min(initialImageIndex, images.length - 1)),
+      [initialImageIndex, images.length]
+    );
+    const handlePrev = () =>
+      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    const handleNext = () =>
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    if (!car) return null;
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[1300]">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-50"
+        >
+          &times;
+        </button>
+        <div className="relative max-w-90vw max-h-90vh flex items-center justify-center">
+          <img
+            src={getImageUrl(images[currentIndex])}
+            alt={`Enlarged ${car.brand} ${car.model}`}
+            className="max-w-full max-h-full object-contain"
+          />
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-colors"
+              >
+                <ChevronLeft className="w-8 h-8 text-white" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 rounded-full p-2 hover:bg-black/70 transition-colors"
+              >
+                <ChevronRight className="w-8 h-8 text-white" />
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+);
+EnlargedImageModal.displayName = "EnlargedImageModal";
 
-  // State variables
+const Vehicles = memo(() => {
+  const { t, i18n } = useTranslation("vehicles");
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -456,16 +489,13 @@ const Vehicles = memo(() => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20; // No need for useState if this never changes
-
-  // API base URL
+  const [enlargedImage, setEnlargedImage] = useState(null);
+  const itemsPerPage = 20;
   const API_BASE_URL = useMemo(
     () =>
       process.env.NODE_ENV === "production" ? "" : "http://localhost:5000",
     []
   );
-
-  // Click outside handler for dropdown
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -478,23 +508,17 @@ const Vehicles = memo(() => {
         setFilterMenuOpen(false);
       }
     };
-
-    // Use capture phase to ensure this runs before other handlers
     document.addEventListener("mousedown", handleClickOutside, true);
-    return () => {
+    return () =>
       document.removeEventListener("mousedown", handleClickOutside, true);
-    };
   }, [filterMenuOpen]);
 
-  // Fetch cars from API
   const fetchCars = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/api/cars`);
       if (!response.ok) throw new Error("Failed to fetch cars");
       const data = await response.json();
-
-      // Initialize all state related to cars in one batch
       setCars(data);
       setFilteredCars(data);
       setBrands([...new Set(data.map((car) => car.brand))].sort());
@@ -509,43 +533,36 @@ const Vehicles = memo(() => {
     }
   }, [API_BASE_URL, t]);
 
-  // Load cars on mount
   useEffect(() => {
     fetchCars();
   }, [fetchCars]);
 
-  // Filter cars when filters change
   useEffect(() => {
-    // Use functional update to ensure we have latest cars data
     let filtered = [...cars];
-
-    if (selectedBrand !== "all") {
+    if (selectedBrand !== "all")
       filtered = filtered.filter((car) => car.brand === selectedBrand);
-    }
-
-    if (selectedType !== "all") {
+    if (selectedType !== "all")
       filtered = filtered.filter(
         (car) => car.type?.toLowerCase() === selectedType.toLowerCase()
       );
-    }
-
     setFilteredCars(filtered);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   }, [selectedBrand, selectedType, cars]);
 
-  // Get current page of cars
-  const currentCars = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    return filteredCars.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
-  }, [currentPage, filteredCars, itemsPerPage]);
+  const currentCars = useMemo(
+    () =>
+      filteredCars.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      ),
+    [currentPage, filteredCars, itemsPerPage]
+  );
 
-  // Image URL helper
   const getImageUrl = useCallback(
     (url) => (url?.startsWith("http") ? url : `${API_BASE_URL}${url}`),
     [API_BASE_URL]
   );
 
-  // Image navigation
   const navigateCarImage = useCallback((e, carId, direction) => {
     e.stopPropagation();
     setCurrentImages((prev) => ({
@@ -554,7 +571,6 @@ const Vehicles = memo(() => {
     }));
   }, []);
 
-  // Get current car image
   const getCurrentCarImage = useCallback(
     (car) =>
       car[["image1", "image2", "image3"][currentImages[car.id] || 0]] ||
@@ -562,41 +578,34 @@ const Vehicles = memo(() => {
     [currentImages]
   );
 
-  // Booking and modal handlers
   const handleBookClick = useCallback((car) => setSelectedCar(car), []);
   const handleCloseModal = useCallback(() => setSelectedCar(null), []);
 
-  // WhatsApp message handler
   const handleWhatsAppClick = useCallback(() => {
     if (!selectedCar) return;
-
     const message = t(
       "whatsappMessage",
       "Hello! I'm interested in the {{brand}} {{model}}",
-      {
-        brand: selectedCar.brand,
-        model: selectedCar.model,
-      }
+      { brand: selectedCar.brand, model: selectedCar.model }
     );
-
     window.open(
       `https://wa.me/+971563995002?text=${encodeURIComponent(message)}`
     );
-
     setSelectedCar(null);
   }, [selectedCar, t]);
 
-  // Filter state text for accessibility
+  const handleEnlargeImage = useCallback((carId, imageIndex) => {
+    if (window.innerWidth >= 768) setEnlargedImage({ carId, imageIndex });
+  }, []);
+
   const filterStateText = useMemo(() => {
     let text = "";
-    if (selectedBrand !== "all") {
+    if (selectedBrand !== "all")
       text += ` (${t("filteredBy", "filtered by")} ${selectedBrand})`;
-    }
-    if (selectedType !== "all") {
+    if (selectedType !== "all")
       text += ` (${t("filteredBy", "filtered by")} ${t(
         `carTypes.${selectedType.toLowerCase()}`
       )})`;
-    }
     return text;
   }, [selectedBrand, selectedType, t]);
 
@@ -664,14 +673,10 @@ const Vehicles = memo(() => {
                 {t(
                   "showingVehicles",
                   "Showing {{count}} of {{total}} vehicles",
-                  {
-                    count: currentCars.length,
-                    total: filteredCars.length,
-                  }
-                )}
+                  { count: currentCars.length, total: filteredCars.length }
+                )}{" "}
                 {filterStateText}
               </div>
-
               <div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 aria-live="polite"
@@ -685,11 +690,11 @@ const Vehicles = memo(() => {
                     getCurrentCarImage={getCurrentCarImage}
                     navigateCarImage={navigateCarImage}
                     handleBookClick={handleBookClick}
+                    handleEnlargeImage={handleEnlargeImage}
                     t={t}
                   />
                 ))}
               </div>
-
               <Pagination
                 totalItems={filteredCars.length}
                 itemsPerPage={itemsPerPage}
@@ -708,10 +713,17 @@ const Vehicles = memo(() => {
         car={selectedCar || {}}
         onWhatsAppClick={handleWhatsAppClick}
       />
+      {enlargedImage && (
+        <EnlargedImageModal
+          car={cars.find((c) => c.id === enlargedImage.carId)}
+          initialImageIndex={enlargedImage.imageIndex}
+          onClose={() => setEnlargedImage(null)}
+          getImageUrl={getImageUrl}
+        />
+      )}
     </div>
   );
 });
 
 Vehicles.displayName = "Vehicles";
-
 export default Vehicles;
