@@ -13,16 +13,27 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Uppdaterad CORS-konfiguration för att inkludera Render-domän och alla subdomäner
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "https://openroad.onrender.com",
+      /\.onrender\.com$/, // Tillåter alla Render-subdomäner
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
 app.use(express.json());
+
+// Serva statiska filer från tidigare public-mapp
 app.use(express.static(path.join(__dirname, "..", "public")));
+
+// Serva byggda frontend-filer från client/dist
+app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,6 +48,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Skapa uploads-mapp om den inte finns
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -599,6 +611,16 @@ async function setupRoutes(db) {
       console.error("Error deleting car:", err);
       res.status(500).json({ error: "Failed to delete car" });
     }
+  });
+
+  // Skapa en enkel hälsokoll-endpoint för Render
+  app.get("/health", (req, res) => {
+    res.json({ status: "ok", message: "Server is running" });
+  });
+
+  // Lägg till denna route sist, efter alla API-routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
   });
 }
 
