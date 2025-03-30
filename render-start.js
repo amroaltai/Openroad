@@ -1,63 +1,24 @@
-import express from "express";
-import path from "path";
+import { spawn } from "child_process";
 import { fileURLToPath } from "url";
-import cors from "cors";
+import path from "path";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
+// Försäkra oss om att port är korrekt satt
 const PORT = process.env.PORT || 10000;
+process.env.PORT = PORT;
 
-app.use(cors());
-app.use(express.json());
+console.log(`Starting server on port ${PORT}...`);
 
-// Serva statiska filer från client/dist
-app.use(express.static(path.join(__dirname, "client", "dist")));
-
-// En enkel API-endpoint för att visa att servern fungerar
-app.get("/api/status", (req, res) => {
-  res.json({
-    status: "ok",
-    message: "Server is running in Render environment",
-  });
+// Starta server.js i en underprocess
+const serverProcess = spawn("node", ["server/server.js"], {
+  stdio: "inherit",
+  env: process.env,
 });
 
-// Dummy API för bilar
-app.get("/api/cars", (req, res) => {
-  const dummyCars = [
-    {
-      id: 1,
-      brand: "Lamborghini",
-      model: "Huracán",
-      year: 2023,
-      image1: "/images/lamborghini-1.jpg",
-      color: "Gul",
-      seats: 2,
-      horsepower: 640,
-      type: "Sport",
-    },
-    {
-      id: 2,
-      brand: "Mercedes-Benz",
-      model: "G63 AMG",
-      year: 2023,
-      image1: "/images/g63-1.jpg",
-      color: "Svart",
-      seats: 5,
-      horsepower: 577,
-      type: "SUV",
-    },
-  ];
-  res.json(dummyCars);
-});
-
-// Catch-all route för client-side routing
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT} to view the app`);
+serverProcess.on("close", (code) => {
+  console.log(`Server process exited with code ${code}`);
+  process.exit(code);
 });
