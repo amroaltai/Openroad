@@ -36,3 +36,4 @@ server/db/Cars.db
 # Uploaded files
 server/uploads/*
 !server/uploads/.gitkeep
+server/temp-uploads/

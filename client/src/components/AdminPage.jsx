@@ -1,14 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Plus,
-  Trash,
-  Edit,
-  Save,
-  X,
-  Upload,
-  Image,
-  LogOut,
-} from "lucide-react";
+import { Plus, Trash, Edit, Save, X, Upload, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
@@ -30,8 +21,14 @@ const AdminPage = () => {
     image3: { useFile: false, preview: null },
   });
   const [redirecting, setRedirecting] = useState(false);
+  // Add state for delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [carToDelete, setCarToDelete] = useState(null);
 
   const navigate = useNavigate();
+  const API_BASE_URL =
+    process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+  const CAR_TYPES = ["SUV", "Sport", "Luxury", "Convertible", "Economy"];
 
   const fileInputRefs = {
     image1: useRef(null),
@@ -71,9 +68,6 @@ const AdminPage = () => {
     type: "",
   });
 
-  const API_BASE_URL =
-    process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
-
   useEffect(() => {
     const checkAuth = async () => {
       const authStatus = sessionStorage.getItem("isAdminAuthenticated");
@@ -84,41 +78,155 @@ const AdminPage = () => {
         navigate("/");
       }
     };
-
     checkAuth();
   }, [navigate]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchCars();
-    }
+    if (isAuthenticated) fetchCars();
   }, [isAuthenticated]);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem("isAdminAuthenticated");
-    setIsAuthenticated(false);
-    navigate("/");
-  };
 
   const fetchCars = async () => {
     try {
       setLoading(true);
       const response = await fetch(`${API_BASE_URL}/api/cars`);
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setCars(data);
+      setCars(await response.json());
       setError(null);
     } catch (err) {
-      setError(
-        "Failed to load cars. Please check if the server is running on port 5000."
-      );
+      setError("Failed to load cars. Please check server connection.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const getCategoryIdFromType = (type) => {
+    switch (type) {
+      case "Economy":
+        return 1;
+      case "Sport":
+        return 2;
+      case "SUV":
+        return 3;
+      case "Convertible":
+        return 4;
+      default:
+        return 5;
+    }
+  };
+
+  const handleNewCarChange = (e) => {
+    const { name, value } = e.target;
+    setNewCar((prev) => ({
+      ...prev,
+      [name]: ["seats", "horsepower"].includes(name)
+        ? value === ""
+          ? 0
+          : parseInt(value, 10)
+        : value,
+    }));
+  };
+
+  const handleEditCarChange = (e) => {
+    const { name, value } = e.target;
+    setEditCar((prev) => ({
+      ...prev,
+      [name]: ["seats", "horsepower"].includes(name)
+        ? value === ""
+          ? 0
+          : parseInt(value, 10)
+        : value,
+    }));
+  };
+  const handleFileSelect =
+    (field, isEdit = false) =>
+    (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const setter = isEdit ? setEditImageFields : setImageFields;
+        setter((prev) => ({
+          ...prev,
+          [field]: { useFile: true, preview: reader.result },
+        }));
+      };
+      reader.readAsDataURL(file);
+    };
+
+  const toggleUploadType = (field, isEdit = false) => {
+    const setter = isEdit ? setEditImageFields : setImageFields;
+    const state = isEdit ? editImageFields : imageFields;
+
+    setter((prev) => ({
+      ...prev,
+      [field]: { ...prev[field], useFile: !prev[field].useFile },
+    }));
+
+    if (!state[field].useFile) {
+      const carSetter = isEdit ? setEditCar : setNewCar;
+      carSetter((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
+
+  const renderImageField = (field, isEdit = false) => {
+    const state = isEdit ? editImageFields : imageFields;
+    const refs = isEdit ? editFileInputRefs : fileInputRefs;
+    const carState = isEdit ? editCar : newCar;
+
+    return (
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <label className="block text-sm font-medium">
+            Image {field.slice(-1)}
+          </label>
+          <button
+            type="button"
+            onClick={() => toggleUploadType(field, isEdit)}
+            className="text-xs bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-md"
+          >
+            {state[field].useFile ? "Use URL" : "Upload File"}
+          </button>
+        </div>
+
+        {state[field].useFile ? (
+          <>
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                ref={refs[field]}
+                onChange={handleFileSelect(field, isEdit)}
+                className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
+              />
+              <Upload
+                size={16}
+                className="absolute right-3 top-3 text-gray-400"
+              />
+            </div>
+            {state[field].preview && (
+              <div className="relative w-full h-24 rounded-md overflow-hidden">
+                <img
+                  src={state[field].preview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <input
+            type="text"
+            name={field}
+            value={carState[field]}
+            onChange={isEdit ? handleEditCarChange : handleNewCarChange}
+            placeholder={`Image ${field.slice(-1)} URL`}
+            className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        )}
+      </div>
+    );
   };
 
   const addCar = async (e) => {
@@ -126,10 +234,8 @@ const AdminPage = () => {
     try {
       setLoading(true);
       setIsUploading(true);
-      setUploadProgress(0);
 
       const formData = new FormData();
-
       formData.append("brand", newCar.brand);
       formData.append("model", newCar.model);
       formData.append("year", newCar.year);
@@ -137,49 +243,32 @@ const AdminPage = () => {
       formData.append("seats", newCar.seats);
       formData.append("horsepower", newCar.horsepower);
       formData.append("type", newCar.type);
+      formData.append("category", getCategoryIdFromType(newCar.type));
 
-      if (
-        imageFields.image1.useFile &&
-        fileInputRefs.image1.current?.files[0]
-      ) {
-        formData.append("image1", fileInputRefs.image1.current.files[0]);
-      } else if (newCar.image1) {
-        formData.append("image1_url", newCar.image1);
-      }
+      const imageFiles = [];
+      ["image1", "image2", "image3"].forEach((field) => {
+        if (
+          imageFields[field].useFile &&
+          fileInputRefs[field].current?.files[0]
+        ) {
+          imageFiles.push(fileInputRefs[field].current.files[0]);
+        } else if (newCar[field]) {
+          formData.append(`${field}_url`, newCar[field]);
+        }
+      });
 
-      if (
-        imageFields.image2.useFile &&
-        fileInputRefs.image2.current?.files[0]
-      ) {
-        formData.append("image2", fileInputRefs.image2.current.files[0]);
-      } else if (newCar.image2) {
-        formData.append("image2_url", newCar.image2);
-      }
-
-      if (
-        imageFields.image3.useFile &&
-        fileInputRefs.image3.current?.files[0]
-      ) {
-        formData.append("image3", fileInputRefs.image3.current.files[0]);
-      } else if (newCar.image3) {
-        formData.append("image3_url", newCar.image3);
-      }
+      // Add image files using 'images' field
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
+      });
 
       const response = await fetch(`${API_BASE_URL}/api/cars/upload`, {
         method: "POST",
         body: formData,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `HTTP error! Status: ${response.status} - ${
-            errorData.error || "Unknown error"
-          }`
-        );
-      }
+      if (!response.ok) throw new Error(await response.text());
 
-      const data = await response.json();
       setNewCar({
         brand: "",
         model: "",
@@ -192,19 +281,11 @@ const AdminPage = () => {
         horsepower: 0,
         type: "Luxury",
       });
-
       setImageFields({
         image1: { useFile: false, preview: null },
         image2: { useFile: false, preview: null },
         image3: { useFile: false, preview: null },
       });
-
-      ["image1", "image2", "image3"].forEach((field) => {
-        if (fileInputRefs[field].current) {
-          fileInputRefs[field].current.value = "";
-        }
-      });
-
       fetchCars();
     } catch (err) {
       setError("Failed to add car: " + err.message);
@@ -214,6 +295,37 @@ const AdminPage = () => {
     }
   };
 
+  // Open delete confirmation modal
+  const openDeleteModal = (id) => {
+    setCarToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  // Close delete confirmation modal
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setCarToDelete(null);
+  };
+
+  // Confirm delete operation
+  const confirmDelete = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_BASE_URL}/api/cars/${carToDelete}`, {
+        method: "DELETE",
+      });
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      fetchCars();
+      closeDeleteModal();
+    } catch (err) {
+      setError("Failed to delete car: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Original delete function (for backwards compatibility)
   const deleteCar = async (id) => {
     if (!window.confirm("Are you sure you want to delete this car?")) return;
 
@@ -222,24 +334,22 @@ const AdminPage = () => {
       const response = await fetch(`${API_BASE_URL}/api/cars/${id}`, {
         method: "DELETE",
       });
-
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
-
       fetchCars();
     } catch (err) {
-      setError("Failed to delete car");
+      setError("Failed to delete car: " + err.message);
+    } finally {
       setLoading(false);
     }
   };
-
   const startEditing = (car) => {
     setEditingId(car.id);
     setEditCar({
       brand: car.brand,
       model: car.model,
       year: car.year,
-      image1: car.image1,
+      image1: car.image1 || "",
       image2: car.image2 || "",
       image3: car.image3 || "",
       color: car.color || "",
@@ -247,12 +357,71 @@ const AdminPage = () => {
       horsepower: car.horsepower || 0,
       type: car.type || "Luxury",
     });
-
     setEditImageFields({
       image1: { useFile: false, preview: car.image1 },
       image2: { useFile: false, preview: car.image2 },
       image3: { useFile: false, preview: car.image3 },
     });
+  };
+
+  const saveEdit = async (id) => {
+    try {
+      setLoading(true);
+      setIsUploading(true);
+
+      const formData = new FormData();
+      formData.append("brand", editCar.brand);
+      formData.append("model", editCar.model);
+      formData.append("year", editCar.year);
+      formData.append("color", editCar.color);
+      formData.append("seats", editCar.seats);
+      formData.append("horsepower", editCar.horsepower);
+      formData.append("type", editCar.type);
+      formData.append("category", getCategoryIdFromType(editCar.type));
+
+      const imageFiles = [];
+
+      // Alltid behåll befintliga bilder om vi inte specifikt laddar upp nya
+      formData.append("keepImage1", "true");
+      formData.append("keepImage2", "true");
+      formData.append("keepImage3", "true");
+
+      ["image1", "image2", "image3"].forEach((field, index) => {
+        const fieldNum = index + 1;
+
+        if (
+          editImageFields[field].useFile &&
+          editFileInputRefs[field].current?.files[0]
+        ) {
+          // Om vi laddar upp en ny fil, säg till servern att INTE behålla den gamla bilden
+          imageFiles.push(editFileInputRefs[field].current.files[0]);
+          formData.append(`keepImage${fieldNum}`, "false");
+        } else if (editCar[field]) {
+          // Om vi använder URL, skicka det explicit
+          formData.append(`${field}_url`, editCar[field]);
+          formData.append(`imageUrl${fieldNum}`, editCar[field]);
+        }
+      });
+
+      // Add image files using 'images' field
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
+      });
+      const response = await fetch(`${API_BASE_URL}/api/cars/${id}/upload`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error(await response.text());
+
+      setEditingId(null);
+      fetchCars();
+    } catch (err) {
+      setError("Failed to update car: " + err.message);
+    } finally {
+      setLoading(false);
+      setIsUploading(false);
+    }
   };
 
   const cancelEditing = () => {
@@ -269,7 +438,6 @@ const AdminPage = () => {
       horsepower: 0,
       type: "",
     });
-
     setEditImageFields({
       image1: { useFile: false, preview: null },
       image2: { useFile: false, preview: null },
@@ -277,164 +445,8 @@ const AdminPage = () => {
     });
   };
 
-  const saveEdit = async (id) => {
-    try {
-      setLoading(true);
-      setIsUploading(true);
-      setUploadProgress(0);
-
-      const hasImageChanges =
-        editImageFields.image1.useFile ||
-        editImageFields.image2.useFile ||
-        editImageFields.image3.useFile;
-
-      if (!hasImageChanges) {
-        const propertyData = {
-          brand: editCar.brand,
-          model: editCar.model,
-          year: parseInt(editCar.year),
-          color: editCar.color || null,
-          seats: parseInt(editCar.seats) || 0,
-          horsepower: parseInt(editCar.horsepower) || 0,
-          type: editCar.type || "Luxury",
-        };
-
-        const propertiesUrl = `${API_BASE_URL}/api/cars/${id}/properties`;
-        const response = await fetch(propertiesUrl, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(propertyData),
-        });
-
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
-      } else {
-        const formData = new FormData();
-        formData.append("brand", editCar.brand);
-        formData.append("model", editCar.model);
-        formData.append("year", editCar.year);
-        formData.append("color", editCar.color);
-        formData.append("seats", editCar.seats);
-        formData.append("horsepower", editCar.horsepower);
-        formData.append("type", editCar.type);
-
-        if (
-          editImageFields.image1.useFile &&
-          editFileInputRefs.image1.current?.files[0]
-        ) {
-          formData.append("image1", editFileInputRefs.image1.current.files[0]);
-        } else if (editCar.image1) {
-          formData.append("image1_url", editCar.image1);
-        }
-
-        if (
-          editImageFields.image2.useFile &&
-          editFileInputRefs.image2.current?.files[0]
-        ) {
-          formData.append("image2", editFileInputRefs.image2.current.files[0]);
-        } else if (editCar.image2) {
-          formData.append("image2_url", editCar.image2);
-        }
-
-        if (
-          editImageFields.image3.useFile &&
-          editFileInputRefs.image3.current?.files[0]
-        ) {
-          formData.append("image3", editFileInputRefs.image3.current.files[0]);
-        } else if (editCar.image3) {
-          formData.append("image3_url", editCar.image3);
-        }
-
-        const response = await fetch(`${API_BASE_URL}/api/cars/${id}/upload`, {
-          method: "PUT",
-          body: formData,
-        });
-
-        if (!response.ok)
-          throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      setEditingId(null);
-      fetchCars();
-    } catch (err) {
-      setError("Failed to update car: " + err.message);
-    } finally {
-      setLoading(false);
-      setIsUploading(false);
-    }
-  };
-
-  const handleNewCarChange = (e) => {
-    const { name, value } = e.target;
-    setNewCar((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleEditCarChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "seats" || name === "horsepower") {
-      setEditCar((prev) => ({
-        ...prev,
-        [name]: value === "" ? 0 : parseInt(value, 10),
-      }));
-    } else {
-      setEditCar((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleFileSelect = (field) => (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageFields((prev) => ({
-          ...prev,
-          [field]: { useFile: true, preview: reader.result },
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleEditFileSelect = (field) => (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditImageFields((prev) => ({
-          ...prev,
-          [field]: { useFile: true, preview: reader.result },
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const toggleImageUploadType = (field) => {
-    setImageFields((prev) => ({
-      ...prev,
-      [field]: { ...prev[field], useFile: !prev[field].useFile },
-    }));
-
-    if (!imageFields[field].useFile) {
-      setNewCar((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
-
-  const toggleEditImageUploadType = (field) => {
-    setEditImageFields((prev) => ({
-      ...prev,
-      [field]: { ...prev[field], useFile: !prev[field].useFile },
-    }));
-
-    if (!editImageFields[field].useFile) {
-      setEditCar((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
-
   const renderCarImage = (imageUrl) => {
     if (!imageUrl) return null;
-
     const fullImageUrl = imageUrl.startsWith("http")
       ? imageUrl
       : `${API_BASE_URL}${imageUrl}`;
@@ -451,6 +463,11 @@ const AdminPage = () => {
         />
       </div>
     );
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("isAdminAuthenticated");
+    navigate("/");
   };
 
   if (redirecting || !isAuthenticated) return null;
@@ -475,8 +492,7 @@ const AdminPage = () => {
             onClick={handleLogout}
             className="flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors"
           >
-            <LogOut size={18} className="mr-2" />
-            Logout
+            <LogOut size={18} className="mr-2" /> Logout
           </button>
         </div>
 
@@ -490,7 +506,6 @@ const AdminPage = () => {
           <h2 className="text-xl font-bold mb-4 flex items-center">
             <Plus size={20} className="mr-2" /> Add New Car
           </h2>
-
           <form onSubmit={addCar} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
@@ -540,7 +555,6 @@ const AdminPage = () => {
                   name="color"
                   value={newCar.color}
                   onChange={handleNewCarChange}
-                  placeholder="Enter car color"
                   className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
@@ -554,7 +568,6 @@ const AdminPage = () => {
                   onChange={handleNewCarChange}
                   min="0"
                   max="10"
-                  placeholder="Number of seats"
                   className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
@@ -569,7 +582,6 @@ const AdminPage = () => {
                   value={newCar.horsepower}
                   onChange={handleNewCarChange}
                   min="0"
-                  placeholder="Horsepower"
                   className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
@@ -582,196 +594,20 @@ const AdminPage = () => {
                   onChange={handleNewCarChange}
                   className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 >
-                  <option value="SUV">SUV</option>
-                  <option value="Sport">Sport</option>
-                  <option value="Luxury">Luxury</option>
-                  <option value="Convertible">Convertible</option>
-                  <option value="Economy">Economy</option>
+                  {CAR_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="block text-sm font-medium">
-                    Image 1 (Required)
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => toggleImageUploadType("image1")}
-                    className="text-xs bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-md"
-                  >
-                    {imageFields.image1.useFile
-                      ? "Use URL Instead"
-                      : "Upload File"}
-                  </button>
-                </div>
-
-                {imageFields.image1.useFile ? (
-                  <div className="space-y-2">
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRefs.image1}
-                        onChange={handleFileSelect("image1")}
-                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
-                      />
-                      <Upload
-                        size={16}
-                        className="absolute right-3 top-3 text-gray-400"
-                      />
-                    </div>
-                    {imageFields.image1.preview && (
-                      <div className="relative w-full h-24 rounded-md overflow-hidden">
-                        <img
-                          src={imageFields.image1.preview}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex items-center">
-                    <input
-                      type="text"
-                      name="image1"
-                      value={newCar.image1}
-                      onChange={handleNewCarChange}
-                      required={!imageFields.image1.useFile}
-                      placeholder="/images/car-1.jpg"
-                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="block text-sm font-medium">
-                    Image 2 (Optional)
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => toggleImageUploadType("image2")}
-                    className="text-xs bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-md"
-                  >
-                    {imageFields.image2.useFile
-                      ? "Use URL Instead"
-                      : "Upload File"}
-                  </button>
-                </div>
-
-                {imageFields.image2.useFile ? (
-                  <div className="space-y-2">
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRefs.image2}
-                        onChange={handleFileSelect("image2")}
-                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
-                      />
-                      <Upload
-                        size={16}
-                        className="absolute right-3 top-3 text-gray-400"
-                      />
-                    </div>
-                    {imageFields.image2.preview && (
-                      <div className="relative w-full h-24 rounded-md overflow-hidden">
-                        <img
-                          src={imageFields.image2.preview}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex items-center">
-                    <input
-                      type="text"
-                      name="image2"
-                      value={newCar.image2}
-                      onChange={handleNewCarChange}
-                      placeholder="/images/car-2.jpg"
-                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    />
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="block text-sm font-medium">
-                    Image 3 (Optional)
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => toggleImageUploadType("image3")}
-                    className="text-xs bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded-md"
-                  >
-                    {imageFields.image3.useFile
-                      ? "Use URL Instead"
-                      : "Upload File"}
-                  </button>
-                </div>
-
-                {imageFields.image3.useFile ? (
-                  <div className="space-y-2">
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRefs.image3}
-                        onChange={handleFileSelect("image3")}
-                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white"
-                      />
-                      <Upload
-                        size={16}
-                        className="absolute right-3 top-3 text-gray-400"
-                      />
-                    </div>
-                    {imageFields.image3.preview && (
-                      <div className="relative w-full h-24 rounded-md overflow-hidden">
-                        <img
-                          src={imageFields.image3.preview}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex items-center">
-                    <input
-                      type="text"
-                      name="image3"
-                      value={newCar.image3}
-                      onChange={handleNewCarChange}
-                      placeholder="/images/car-3.jpg"
-                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    />
-                  </div>
-                )}
-              </div>
+              {renderImageField("image1")}
+              {renderImageField("image2")}
+              {renderImageField("image3")}
             </div>
-
-            {isUploading && (
-              <div className="mt-2">
-                <div className="w-full bg-gray-700 rounded-full h-2.5">
-                  <div
-                    className="bg-orange-500 h-2.5 rounded-full"
-                    style={{ width: `${uploadProgress}%` }}
-                  ></div>
-                </div>
-                <p className="text-xs text-gray-400 mt-1">
-                  Uploading: {uploadProgress}%
-                </p>
-              </div>
-            )}
 
             <div>
               <button
@@ -821,326 +657,138 @@ const AdminPage = () => {
                     <tr key={car.id} className="hover:bg-gray-700/50">
                       {editingId === car.id ? (
                         <>
-                          <td className="p-2 md:p-4 align-top">
-                            <span className="block py-1">{car.id}</span>
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <input
-                              type="text"
-                              name="brand"
-                              value={editCar.brand}
-                              onChange={handleEditCarChange}
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[80px]"
-                            />
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <input
-                              type="text"
-                              name="model"
-                              value={editCar.model}
-                              onChange={handleEditCarChange}
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[80px]"
-                            />
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <input
-                              type="number"
-                              name="year"
-                              value={editCar.year}
-                              onChange={handleEditCarChange}
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[60px]"
-                            />
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <div className="grid gap-2">
-                              <div className="md:hidden">
-                                <details className="bg-gray-800 rounded-md">
-                                  <summary className="cursor-pointer p-2 rounded-md bg-gray-700 text-sm">
-                                    Edit Images
-                                  </summary>
-                                  <div className="mt-2 p-2 space-y-2 bg-gray-800 rounded-md">
-                                    <div className="flex items-center gap-1">
-                                      <span className="text-xs">1:</span>
-                                      <input
-                                        type="text"
-                                        name="image1"
-                                        value={editCar.image1}
-                                        onChange={handleEditCarChange}
-                                        className="flex-1 bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                      />
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          toggleEditImageUploadType("image1")
-                                        }
-                                        className="p-1 bg-gray-600 hover:bg-gray-500 rounded-md"
-                                      >
-                                        <Upload size={10} />
-                                      </button>
-                                    </div>
-
-                                    <div className="flex items-center gap-1">
-                                      <span className="text-xs">2:</span>
-                                      <input
-                                        type="text"
-                                        name="image2"
-                                        value={editCar.image2}
-                                        onChange={handleEditCarChange}
-                                        className="flex-1 bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                      />
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          toggleEditImageUploadType("image2")
-                                        }
-                                        className="p-1 bg-gray-600 hover:bg-gray-500 rounded-md"
-                                      >
-                                        <Upload size={10} />
-                                      </button>
-                                    </div>
-
-                                    <div className="flex items-center gap-1">
-                                      <span className="text-xs">3:</span>
-                                      <input
-                                        type="text"
-                                        name="image3"
-                                        value={editCar.image3}
-                                        onChange={handleEditCarChange}
-                                        className="flex-1 bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                      />
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          toggleEditImageUploadType("image3")
-                                        }
-                                        className="p-1 bg-gray-600 hover:bg-gray-500 rounded-md"
-                                      >
-                                        <Upload size={10} />
-                                      </button>
-                                    </div>
-                                  </div>
-                                </details>
+                          <td className="p-2 md:p-4">{car.id}</td>
+                          <td colSpan="8" className="p-2 md:p-4">
+                            <div className="bg-gray-750 p-4 rounded-lg">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Brand
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="brand"
+                                    value={editCar.brand}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Model
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="model"
+                                    value={editCar.model}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Year
+                                  </label>
+                                  <input
+                                    type="number"
+                                    name="year"
+                                    value={editCar.year}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Color
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="color"
+                                    value={editCar.color}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Seats
+                                  </label>
+                                  <input
+                                    type="number"
+                                    name="seats"
+                                    value={editCar.seats}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Horsepower
+                                  </label>
+                                  <input
+                                    type="number"
+                                    name="horsepower"
+                                    value={editCar.horsepower}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium mb-1">
+                                    Type
+                                  </label>
+                                  <select
+                                    name="type"
+                                    value={editCar.type}
+                                    onChange={handleEditCarChange}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                  >
+                                    {CAR_TYPES.map((type) => (
+                                      <option key={type} value={type}>
+                                        {type}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
                               </div>
 
-                              <div className="hidden md:grid gap-2">
-                                <div className="flex items-center">
-                                  {editImageFields.image1.useFile ? (
-                                    <div className="flex-grow relative">
-                                      <input
-                                        type="file"
-                                        accept="image/*"
-                                        ref={editFileInputRefs.image1}
-                                        onChange={handleEditFileSelect(
-                                          "image1"
-                                        )}
-                                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                      />
-                                      {editImageFields.image1.preview && (
-                                        <div className="absolute -right-8 top-0 w-7 h-7 rounded overflow-hidden">
-                                          <img
-                                            src={editImageFields.image1.preview}
-                                            alt="Preview"
-                                            className="w-full h-full object-cover"
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      name="image1"
-                                      value={editCar.image1}
-                                      onChange={handleEditCarChange}
-                                      placeholder="Image 1 URL"
-                                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      toggleEditImageUploadType("image1")
-                                    }
-                                    className="ml-1 p-1 bg-gray-600 hover:bg-gray-500 rounded-md"
-                                  >
-                                    {editImageFields.image1.useFile ? (
-                                      <Edit size={12} />
-                                    ) : (
-                                      <Upload size={12} />
-                                    )}
-                                  </button>
+                              <div className="mb-4">
+                                <h3 className="text-sm font-medium mb-2">
+                                  Images
+                                </h3>
+                                <div className="grid grid-cols-1 gap-4">
+                                  {renderImageField("image1", true)}
+                                  {renderImageField("image2", true)}
+                                  {renderImageField("image3", true)}
                                 </div>
+                              </div>
 
-                                <div className="flex items-center">
-                                  {editImageFields.image2.useFile ? (
-                                    <div className="flex-grow relative">
-                                      <input
-                                        type="file"
-                                        accept="image/*"
-                                        ref={editFileInputRefs.image2}
-                                        onChange={handleEditFileSelect(
-                                          "image2"
-                                        )}
-                                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                      />
-                                      {editImageFields.image2.preview && (
-                                        <div className="absolute -right-8 top-0 w-7 h-7 rounded overflow-hidden">
-                                          <img
-                                            src={editImageFields.image2.preview}
-                                            alt="Preview"
-                                            className="w-full h-full object-cover"
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      name="image2"
-                                      value={editCar.image2}
-                                      onChange={handleEditCarChange}
-                                      placeholder="Image 2 URL"
-                                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      toggleEditImageUploadType("image2")
-                                    }
-                                    className="ml-1 p-1 bg-gray-600 hover:bg-gray-500 rounded-md"
-                                  >
-                                    {editImageFields.image2.useFile ? (
-                                      <Edit size={12} />
-                                    ) : (
-                                      <Upload size={12} />
-                                    )}
-                                  </button>
-                                </div>
-
-                                <div className="flex items-center">
-                                  {editImageFields.image3.useFile ? (
-                                    <div className="flex-grow relative">
-                                      <input
-                                        type="file"
-                                        accept="image/*"
-                                        ref={editFileInputRefs.image3}
-                                        onChange={handleEditFileSelect(
-                                          "image3"
-                                        )}
-                                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                      />
-                                      {editImageFields.image3.preview && (
-                                        <div className="absolute -right-8 top-0 w-7 h-7 rounded overflow-hidden">
-                                          <img
-                                            src={editImageFields.image3.preview}
-                                            alt="Preview"
-                                            className="w-full h-full object-cover"
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      name="image3"
-                                      value={editCar.image3}
-                                      onChange={handleEditCarChange}
-                                      placeholder="Image 3 URL"
-                                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-xs"
-                                    />
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      toggleEditImageUploadType("image3")
-                                    }
-                                    className="ml-1 p-1 bg-gray-600 hover:bg-gray-500 rounded-md"
-                                  >
-                                    {editImageFields.image3.useFile ? (
-                                      <Edit size={12} />
-                                    ) : (
-                                      <Upload size={12} />
-                                    )}
-                                  </button>
-                                </div>
+                              <div className="flex justify-end space-x-2">
+                                <button
+                                  onClick={() => saveEdit(car.id)}
+                                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center justify-center"
+                                >
+                                  <Save size={16} className="mr-2" /> Save
+                                </button>
+                                <button
+                                  onClick={cancelEditing}
+                                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center justify-center"
+                                >
+                                  <X size={16} className="mr-2" /> Cancel
+                                </button>
                               </div>
                             </div>
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <input
-                              type="text"
-                              name="color"
-                              value={editCar.color}
-                              onChange={handleEditCarChange}
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[60px]"
-                            />
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <input
-                              type="number"
-                              name="seats"
-                              value={editCar.seats}
-                              onChange={handleEditCarChange}
-                              min="0"
-                              max="10"
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[50px]"
-                            />
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <input
-                              type="number"
-                              name="horsepower"
-                              value={editCar.horsepower}
-                              onChange={handleEditCarChange}
-                              min="0"
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[60px]"
-                            />
-                          </td>
-                          <td className="p-2 md:p-4">
-                            <select
-                              name="type"
-                              value={editCar.type}
-                              onChange={handleEditCarChange}
-                              className="w-full bg-gray-700 border border-gray-600 rounded-md py-1 px-2 text-white text-sm min-w-[90px]"
-                            >
-                              <option value="SUV">SUV</option>
-                              <option value="Sport">Sport</option>
-                              <option value="Luxury">Luxury</option>
-                              <option value="Convertible">Convertible</option>
-                              <option value="Economy">Economy</option>
-                            </select>
                           </td>
                           <td className="p-2 md:p-4 text-right">
-                            <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
-                              <button
-                                onClick={() => saveEdit(car.id)}
-                                className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md flex items-center justify-center"
-                              >
-                                <Save size={16} className="mr-1" /> Save
-                              </button>
-                              <button
-                                onClick={cancelEditing}
-                                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md flex items-center justify-center"
-                              >
-                                <X size={16} className="mr-1" /> Cancel
-                              </button>
-                            </div>
+                            {/* Mobile buttons moved to the form above */}
                           </td>
                         </>
                       ) : (
                         <>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.id}
-                          </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.brand}
-                          </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.model}
-                          </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.year}
-                          </td>
+                          <td className="p-2 md:p-4">{car.id}</td>
+                          <td className="p-2 md:p-4">{car.brand}</td>
+                          <td className="p-2 md:p-4">{car.model}</td>
+                          <td className="p-2 md:p-4">{car.year}</td>
                           <td className="p-2 md:p-4">
                             <div className="flex space-x-1 md:space-x-2">
                               {renderCarImage(car.image1)}
@@ -1150,18 +798,10 @@ const AdminPage = () => {
                               </div>
                             </div>
                           </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.color || "N/A"}
-                          </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.seats || 0}
-                          </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.horsepower || 0}
-                          </td>
-                          <td className="p-2 md:p-4 text-sm md:text-base">
-                            {car.type || "Luxury"}
-                          </td>
+                          <td className="p-2 md:p-4">{car.color || "N/A"}</td>
+                          <td className="p-2 md:p-4">{car.seats || 0}</td>
+                          <td className="p-2 md:p-4">{car.horsepower || 0}</td>
+                          <td className="p-2 md:p-4">{car.type || "Luxury"}</td>
                           <td className="p-2 md:p-4 text-right">
                             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
                               <button
@@ -1171,7 +811,7 @@ const AdminPage = () => {
                                 <Edit size={16} className="mr-1" /> Edit
                               </button>
                               <button
-                                onClick={() => deleteCar(car.id)}
+                                onClick={() => openDeleteModal(car.id)}
                                 className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md flex items-center justify-center"
                               >
                                 <Trash size={16} className="mr-1" /> Delete
@@ -1188,6 +828,34 @@ const AdminPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6 border border-gray-700">
+            <h3 className="text-xl font-bold mb-4">Confirm Delete</h3>
+            <p className="mb-6">
+              Are you sure you want to delete this car? This action cannot be
+              undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={closeDeleteModal}
+                className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center"
+              >
+                <Trash size={16} className="mr-2" />
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

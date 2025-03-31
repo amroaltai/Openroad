@@ -1,19 +1,24 @@
 {
-  "name": "openroad",
+  "name": "openroad-server",
   "version": "1.0.0",
-  "description": "Openroad car rental full stack app",
+  "description": "Server for OpenRoad car rental app",
   "type": "module",
-  "main": "server/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server/server.js",
-    "build": "cd client && npm install && npm run build",
-    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "concurrently": "^8.2.0"
+    "cloudinary": "^2.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.14.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

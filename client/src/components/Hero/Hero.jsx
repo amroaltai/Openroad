@@ -267,7 +267,7 @@ const CarSlide = memo(({ car, isActive, onBookClick }) => {
         <img
           src={car.image}
           alt={car.name}
-          className="w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl max-h-[60vh] md:max-h-[70vh] object-contain md:mt-10"
+          className="w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl max-h-[45vh] md:max-h-[70vh] object-contain md:mt-10"
           style={{ willChange: "transform" }}
           loading={isActive ? "eager" : "lazy"}
         />
@@ -386,20 +386,24 @@ function Hero() {
           <AnimatedTitle />
         </div>
 
-        {CARS.map((car, index) => (
-          <CarSlide
-            key={car.id}
-            car={car}
-            isActive={index === currentCarIndex}
-            onBookClick={handleBookClick}
-          />
-        ))}
+        {/* Car slides with adjusted height for mobile */}
+        <div className="h-[50vh] md:h-[70vh] relative">
+          {CARS.map((car, index) => (
+            <CarSlide
+              key={car.id}
+              car={car}
+              isActive={index === currentCarIndex}
+              onBookClick={handleBookClick}
+            />
+          ))}
+        </div>
 
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center px-4">
+        {/* Text and button moved to appear below car in mobile view */}
+        <div className="absolute bottom-10 left-0 right-0 z-30 flex flex-col items-center justify-center px-4">
           <div className="container mx-auto">
             <div className="max-w-lg mx-auto text-center">
               <div
-                className="mb-8 transition-all duration-1000 transform translate-y-0 mt-[40vh] md:mt-[50vh]"
+                className="mb-8 transition-all duration-1000 transform translate-y-0"
                 style={{ transitionDuration: "1000ms" }}
                 aria-live="polite"
               >
