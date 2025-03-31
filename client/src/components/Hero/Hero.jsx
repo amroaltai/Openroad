@@ -371,7 +371,7 @@ function Hero() {
   return (
     <div
       className="w-full"
-      style={{ marginTop: "40px", marginBottom: "-20px" }}
+      style={{ marginTop: "120px", marginBottom: "-20px" }}
     >
       <section
         className="w-full relative bg-transparent h-[90vh] md:h-screen"
@@ -382,12 +382,12 @@ function Hero() {
           aria-hidden="true"
         ></div>
 
-        <div className="absolute top-36 md:top-40 left-0 right-0 z-40">
+        <div className="absolute top-0 sm:top-4 md:top-8 left-0 right-0 z-40">
           <AnimatedTitle />
         </div>
 
-        {/* Car slides with adjusted height for mobile */}
-        <div className="h-[50vh] md:h-[70vh] relative">
+        {/* Car slides med paddingTop för att ge plats åt titeln */}
+        <div className="h-[50vh] md:h-[70vh] relative pt-36 sm:pt-40 md:pt-48">
           {CARS.map((car, index) => (
             <CarSlide
               key={car.id}
