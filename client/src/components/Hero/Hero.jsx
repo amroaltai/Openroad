@@ -371,7 +371,7 @@ function Hero() {
   return (
     <div
       className="w-full"
-      style={{ marginTop: "20px", marginBottom: "-20px" }}
+      style={{ marginTop: "40px", marginBottom: "-20px" }}
     >
       <section
         className="w-full relative bg-transparent h-[90vh] md:h-screen"
