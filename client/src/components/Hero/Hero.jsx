@@ -386,8 +386,8 @@ function Hero() {
           <AnimatedTitle />
         </div>
 
-        {/* Car slides med paddingTop för att ge plats åt titeln */}
-        <div className="h-[50vh] md:h-[70vh] relative pt-36 sm:pt-40 md:pt-48">
+        {/* Car slides med mindre paddingTop för att få bilen närmare texten under */}
+        <div className="h-[50vh] md:h-[70vh] relative pt-32 sm:pt-36 md:pt-40">
           {CARS.map((car, index) => (
             <CarSlide
               key={car.id}
@@ -398,19 +398,19 @@ function Hero() {
           ))}
         </div>
 
-        {/* Text and button moved to appear below car in mobile view */}
-        <div className="absolute bottom-10 left-0 right-0 z-30 flex flex-col items-center justify-center px-4">
+        {/* Text and button moved upp lite för att minska avståndet till bilen */}
+        <div className="absolute bottom-16 left-0 right-0 z-30 flex flex-col items-center justify-center px-4">
           <div className="container mx-auto">
             <div className="max-w-lg mx-auto text-center">
               <div
-                className="mb-8 transition-all duration-1000 transform translate-y-0"
+                className="mb-6 transition-all duration-1000 transform translate-y-0"
                 style={{ transitionDuration: "1000ms" }}
                 aria-live="polite"
               >
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-4 text-white animate-fadeIn">
                   {currentCar.name}
                 </h2>
-                <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-4 md:mb-8 animate-fadeIn animation-delay-300">
+                <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-4 md:mb-6 animate-fadeIn animation-delay-300">
                   {currentCar.description}
                 </p>
 
@@ -429,7 +429,7 @@ function Hero() {
               </div>
             </div>
 
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center mt-6">
               <div
                 className="flex space-x-2"
                 role="tablist"
