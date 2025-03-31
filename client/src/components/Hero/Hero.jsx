@@ -382,7 +382,7 @@ function Hero() {
           aria-hidden="true"
         ></div>
 
-        <div className="absolute top-32 md:top-40 left-0 right-0 z-40">
+        <div className="absolute top-48 md:top-56 left-0 right-0 z-40">
           <AnimatedTitle />
         </div>
 
