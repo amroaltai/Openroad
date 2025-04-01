@@ -12,8 +12,20 @@ import {
   ChevronRight,
   ChevronUp,
   ChevronDown,
+  ArrowDownAZ,
+  ArrowUpAZ,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+
+const formatPrice = (price) => {
+  if (price === null || price === undefined) return null;
+  const numPrice = typeof price === "string" ? parseFloat(price) : price;
+  if (Math.floor(numPrice) === numPrice) {
+    return Math.floor(numPrice);
+  } else {
+    return numPrice.toFixed(2).replace(/\.00$/, "");
+  }
+};
 
 const WhatsAppIcon = memo(() => (
   <svg
@@ -61,6 +73,24 @@ const SeatsIcon = memo(() => (
   </svg>
 ));
 SeatsIcon.displayName = "SeatsIcon";
+
+const PriceIcon = memo(() => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-5 w-5 mr-2 text-orange-400"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+    <path d="M12 18V6" />
+  </svg>
+));
+PriceIcon.displayName = "PriceIcon";
 
 const WhatsAppModal = memo(({ isOpen, onClose, car, onWhatsAppClick }) => {
   const { t } = useTranslation("vehicles");
@@ -225,18 +255,61 @@ const CarCard = memo(
     handleEnlargeImage,
     t,
   }) => {
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
     const carType = useMemo(
       () => car.type || t("carTypes.luxury"),
       [car.type, t]
     );
+
     const handlePrevImage = useCallback(
       (e) => navigateCarImage(e, car.id, "prev"),
       [navigateCarImage, car.id]
     );
+
     const handleNextImage = useCallback(
       (e) => navigateCarImage(e, car.id, "next"),
       [navigateCarImage, car.id]
     );
+
+    const handleTouchStart = useCallback((e) => {
+      setTouchEnd(null);
+      setTouchStart(e.targetTouches[0].clientX);
+    }, []);
+
+    const handleTouchMove = useCallback((e) => {
+      setTouchEnd(e.targetTouches[0].clientX);
+    }, []);
+
+    const handleTouchEnd = useCallback(
+      (e) => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > 50;
+        const isRightSwipe = distance < -50;
+
+        if (isLeftSwipe) {
+          navigateCarImage(e, car.id, "next");
+        } else if (isRightSwipe) {
+          navigateCarImage(e, car.id, "prev");
+        }
+      },
+      [touchStart, touchEnd, car.id, navigateCarImage]
+    );
+
+    const formattedPricePerDay = car.price_per_day
+      ? formatPrice(car.price_per_day)
+      : null;
+    const formattedPricePerWeek = car.price_per_week
+      ? formatPrice(car.price_per_week)
+      : null;
+    const formattedPricePerMonth = car.price_per_month
+      ? formatPrice(car.price_per_month)
+      : null;
+
+    const hasPrice =
+      formattedPricePerDay || formattedPricePerWeek || formattedPricePerMonth;
+
     return (
       <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px]">
         <div
@@ -245,6 +318,9 @@ const CarCard = memo(
             window.innerWidth >= 768 &&
             handleEnlargeImage(car.id, currentImageIndex)
           }
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <ImageNavButton
             direction="prev"
@@ -274,6 +350,14 @@ const CarCard = memo(
           <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full z-20">
             <span className="text-white text-sm font-medium">{carType}</span>
           </div>
+
+          {formattedPricePerDay > 0 && (
+            <div className="absolute bottom-3 right-3 bg-gradient-to-r from-orange-500/90 to-amber-500/90 backdrop-blur-sm px-3 py-1 rounded-full z-20 shadow-lg border border-orange-300/30 animate-pulse md:hidden">
+              <span className="text-white text-sm font-bold">
+                {t("startingFrom", "From")} {formattedPricePerDay} AED
+              </span>
+            </div>
+          )}
         </div>
         <div className="p-6">
           <h3 className="text-2xl font-bold text-white transition-colors duration-300 hover:text-orange-400">
@@ -299,6 +383,49 @@ const CarCard = memo(
                 {car.seats || 0} {t("seats", "Seats")}
               </span>
             </div>
+
+            {hasPrice && (
+              <div className="mt-3 bg-gradient-to-r from-gray-800/60 to-gray-700/60 p-4 rounded-lg border border-orange-500/20 shadow-inner">
+                <div className="flex items-center mb-2">
+                  <PriceIcon />
+                  <h4 className="text-sm font-medium text-orange-400">
+                    {t("pricingStartingFrom", "Pricing Starting From")}
+                  </h4>
+                </div>
+                <div className="grid grid-cols-1 gap-2 text-sm">
+                  {formattedPricePerDay && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">
+                        {t("daily", "Daily")}:
+                      </span>
+                      <span className="text-white font-medium">
+                        {formattedPricePerDay} AED
+                      </span>
+                    </div>
+                  )}
+                  {formattedPricePerWeek && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">
+                        {t("weekly", "Weekly")}:
+                      </span>
+                      <span className="text-white font-medium">
+                        {formattedPricePerWeek} AED
+                      </span>
+                    </div>
+                  )}
+                  {formattedPricePerMonth && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">
+                        {t("monthly", "Monthly")}:
+                      </span>
+                      <span className="text-white font-medium">
+                        {formattedPricePerMonth} AED
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           <button
             onClick={() => handleBookClick(car)}
@@ -312,6 +439,93 @@ const CarCard = memo(
   }
 );
 CarCard.displayName = "CarCard";
+
+const SORT_OPTIONS = [
+  { value: "default", label: "Price Sorting" },
+  { value: "price_low", label: "Price (Low to High)" },
+  { value: "price_high", label: "Price (High to Low)" },
+];
+
+const PriceSortDropdown = memo(
+  ({ selectedSort, setSelectedSort, sortMenuOpen, setSortMenuOpen, t }) => {
+    const toggleDropdown = useCallback(
+      (e) => {
+        e.stopPropagation();
+        setSortMenuOpen(!sortMenuOpen);
+      },
+      [sortMenuOpen, setSortMenuOpen]
+    );
+
+    const selectSort = useCallback(
+      (sortValue) => {
+        setSelectedSort(sortValue);
+        setTimeout(() => setSortMenuOpen(false), 50);
+      },
+      [setSelectedSort, setSortMenuOpen]
+    );
+
+    const currentSortLabel = useMemo(() => {
+      const option = SORT_OPTIONS.find((opt) => opt.value === selectedSort);
+      return t(`sortOptions.${selectedSort}`, option?.label || "Sort By");
+    }, [selectedSort, t]);
+
+    return (
+      <div className="w-full md:w-auto relative z-[110]">
+        <button
+          onClick={toggleDropdown}
+          className="w-full md:w-auto bg-gray-900 text-white border border-orange-500/30 rounded-md px-6 py-3 pr-12 flex justify-between items-center cursor-pointer"
+          aria-haspopup="listbox"
+          aria-expanded={sortMenuOpen}
+        >
+          <span className="flex items-center">
+            {selectedSort === "price_low" ? (
+              <ArrowUpAZ size={18} className="mr-2 text-orange-400" />
+            ) : selectedSort === "price_high" ? (
+              <ArrowDownAZ size={18} className="mr-2 text-orange-400" />
+            ) : null}
+            {currentSortLabel}
+          </span>
+          <ChevronDown
+            className={`h-5 w-5 text-orange-500 transition-transform ${
+              sortMenuOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+        {sortMenuOpen && (
+          <div
+            className="absolute mt-1 w-full bg-gray-900 border border-orange-500/30 rounded-md shadow-lg py-1 max-h-60 overflow-auto"
+            role="listbox"
+            onClick={(e) => e.stopPropagation()}
+            style={{ zIndex: 120 }}
+          >
+            {SORT_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => selectSort(option.value)}
+                className={`w-full text-left px-4 py-2 flex items-center cursor-pointer ${
+                  selectedSort === option.value
+                    ? "bg-orange-500/20 text-orange-400"
+                    : "text-white hover:bg-gray-800"
+                }`}
+                role="option"
+                aria-selected={selectedSort === option.value}
+              >
+                {option.value === "price_low" && (
+                  <ArrowUpAZ size={18} className="mr-2" />
+                )}
+                {option.value === "price_high" && (
+                  <ArrowDownAZ size={18} className="mr-2" />
+                )}
+                {t(`sortOptions.${option.value}`, option.label)}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+PriceSortDropdown.displayName = "PriceSortDropdown";
 
 const TypeFilterButton = memo(({ type, selectedType, onClick, t }) => {
   const translatedType = useMemo(
@@ -365,7 +579,7 @@ const BrandDropdown = memo(
       <div className="w-full md:w-auto relative z-[100]">
         <button
           onClick={toggleDropdown}
-          className="w-full md:w-auto bg-gray-900/60 text-white border border-orange-500/30 rounded-md px-6 py-3 pr-12 flex justify-between items-center cursor-pointer"
+          className="w-full md:w-auto bg-gray-900 text-white border border-orange-500/30 rounded-md px-6 py-3 pr-12 flex justify-between items-center cursor-pointer"
           aria-haspopup="listbox"
           aria-expanded={filterMenuOpen}
         >
@@ -382,7 +596,7 @@ const BrandDropdown = memo(
         </button>
         {filterMenuOpen && (
           <div
-            className="absolute mt-1 w-full bg-gray-900/90 border border-orange-500/30 rounded-md shadow-lg py-1 max-h-60 overflow-auto"
+            className="absolute mt-1 w-full bg-gray-900 border border-orange-500/30 rounded-md shadow-lg py-1 max-h-60 overflow-auto"
             role="listbox"
             onClick={(e) => e.stopPropagation()}
           >
@@ -430,14 +644,42 @@ const EnlargedImageModal = memo(
     const [currentIndex, setCurrentIndex] = useState(
       Math.min(initialImageIndex, images.length - 1)
     );
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
     useEffect(
       () => setCurrentIndex(Math.min(initialImageIndex, images.length - 1)),
       [initialImageIndex, images.length]
     );
+
     const handlePrev = () =>
       setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+
     const handleNext = () =>
       setCurrentIndex((prev) => (prev + 1) % images.length);
+
+    const handleTouchStart = useCallback((e) => {
+      setTouchEnd(null);
+      setTouchStart(e.targetTouches[0].clientX);
+    }, []);
+
+    const handleTouchMove = useCallback((e) => {
+      setTouchEnd(e.targetTouches[0].clientX);
+    }, []);
+
+    const handleTouchEnd = useCallback(() => {
+      if (!touchStart || !touchEnd) return;
+      const distance = touchStart - touchEnd;
+      const isLeftSwipe = distance > 50;
+      const isRightSwipe = distance < -50;
+
+      if (isLeftSwipe) {
+        handleNext();
+      } else if (isRightSwipe) {
+        handlePrev();
+      }
+    }, [touchStart, touchEnd, handleNext, handlePrev]);
+
     if (!car) return null;
     return (
       <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[1300]">
@@ -447,7 +689,12 @@ const EnlargedImageModal = memo(
         >
           &times;
         </button>
-        <div className="relative max-w-90vw max-h-90vh flex items-center justify-center">
+        <div
+          className="relative max-w-90vw max-h-90vh flex items-center justify-center"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <img
             src={getImageUrl(images[currentIndex])}
             alt={`Enlarged ${car.brand} ${car.model}`}
@@ -484,10 +731,12 @@ const Vehicles = memo(() => {
   const [error, setError] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState("all");
   const [selectedType, setSelectedType] = useState("all");
+  const [selectedSort, setSelectedSort] = useState("default");
   const [brands, setBrands] = useState([]);
   const [currentImages, setCurrentImages] = useState({});
   const [selectedCar, setSelectedCar] = useState(null);
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+  const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [enlargedImage, setEnlargedImage] = useState(null);
   const itemsPerPage = 20;
@@ -497,6 +746,7 @@ const Vehicles = memo(() => {
     []
   );
   const dropdownRef = useRef(null);
+  const sortDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -507,11 +757,19 @@ const Vehicles = memo(() => {
       ) {
         setFilterMenuOpen(false);
       }
+
+      if (
+        sortMenuOpen &&
+        sortDropdownRef.current &&
+        !sortDropdownRef.current.contains(event.target)
+      ) {
+        setSortMenuOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside, true);
     return () =>
       document.removeEventListener("mousedown", handleClickOutside, true);
-  }, [filterMenuOpen]);
+  }, [filterMenuOpen, sortMenuOpen]);
 
   const fetchCars = useCallback(async () => {
     try {
@@ -539,15 +797,32 @@ const Vehicles = memo(() => {
 
   useEffect(() => {
     let filtered = [...cars];
+
     if (selectedBrand !== "all")
       filtered = filtered.filter((car) => car.brand === selectedBrand);
+
     if (selectedType !== "all")
       filtered = filtered.filter(
         (car) => car.type?.toLowerCase() === selectedType.toLowerCase()
       );
+
+    if (selectedSort === "price_low") {
+      filtered = filtered.sort((a, b) => {
+        const priceA = a.price_per_day || Infinity;
+        const priceB = b.price_per_day || Infinity;
+        return priceA - priceB;
+      });
+    } else if (selectedSort === "price_high") {
+      filtered = filtered.sort((a, b) => {
+        const priceA = a.price_per_day || -1;
+        const priceB = b.price_per_day || -1;
+        return priceB - priceA;
+      });
+    }
+
     setFilteredCars(filtered);
     setCurrentPage(1);
-  }, [selectedBrand, selectedType, cars]);
+  }, [selectedBrand, selectedType, selectedSort, cars]);
 
   const currentCars = useMemo(
     () =>
@@ -606,8 +881,15 @@ const Vehicles = memo(() => {
       text += ` (${t("filteredBy", "filtered by")} ${t(
         `carTypes.${selectedType.toLowerCase()}`
       )})`;
+    if (selectedSort !== "default")
+      text += ` (${t("sortedBy", "sorted by")} ${t(
+        `sortOptions.${selectedSort}`,
+        selectedSort === "price_low"
+          ? "Price: Low to High"
+          : "Price: High to Low"
+      )})`;
     return text;
-  }, [selectedBrand, selectedType, t]);
+  }, [selectedBrand, selectedType, selectedSort, t]);
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
@@ -615,21 +897,35 @@ const Vehicles = memo(() => {
       <main className="flex-grow pt-48 pb-16">
         <div className="container mx-auto px-4">
           <div className="mb-8 space-y-4">
-            <div className="flex flex-wrap gap-4 justify-between items-start">
+            <div className="flex flex-col md:flex-row flex-wrap gap-4 justify-between items-start">
               <h1 className="text-4xl font-bold">
                 {t("title", "Our Vehicles")}
               </h1>
-              <div ref={dropdownRef}>
-                <BrandDropdown
-                  selectedBrand={selectedBrand}
-                  brands={brands}
-                  setSelectedBrand={setSelectedBrand}
-                  filterMenuOpen={filterMenuOpen}
-                  setFilterMenuOpen={setFilterMenuOpen}
-                  t={t}
-                />
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                <div ref={sortDropdownRef} className="w-full sm:w-auto">
+                  <PriceSortDropdown
+                    selectedSort={selectedSort}
+                    setSelectedSort={setSelectedSort}
+                    sortMenuOpen={sortMenuOpen}
+                    setSortMenuOpen={setSortMenuOpen}
+                    t={t}
+                  />
+                </div>
+
+                <div ref={dropdownRef} className="w-full sm:w-auto">
+                  <BrandDropdown
+                    selectedBrand={selectedBrand}
+                    brands={brands}
+                    setSelectedBrand={setSelectedBrand}
+                    filterMenuOpen={filterMenuOpen}
+                    setFilterMenuOpen={setFilterMenuOpen}
+                    t={t}
+                  />
+                </div>
               </div>
             </div>
+
             <div className="overflow-x-auto pb-2 z-[90]">
               <div className="flex gap-2 min-w-max vehicle-filters-area">
                 {CAR_TYPES.map((type) => (

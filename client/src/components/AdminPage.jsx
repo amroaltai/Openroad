@@ -53,6 +53,9 @@ const AdminPage = () => {
     seats: 0,
     horsepower: 0,
     type: "Luxury",
+    price_per_day: 0,
+    price_per_week: 0,
+    price_per_month: 0,
   });
 
   const [editCar, setEditCar] = useState({
@@ -66,6 +69,9 @@ const AdminPage = () => {
     seats: 0,
     horsepower: 0,
     type: "",
+    price_per_day: 0,
+    price_per_week: 0,
+    price_per_month: 0,
   });
 
   useEffect(() => {
@@ -119,10 +125,16 @@ const AdminPage = () => {
     const { name, value } = e.target;
     setNewCar((prev) => ({
       ...prev,
-      [name]: ["seats", "horsepower"].includes(name)
+      [name]: [
+        "seats",
+        "horsepower",
+        "price_per_day",
+        "price_per_week",
+        "price_per_month",
+      ].includes(name)
         ? value === ""
           ? 0
-          : parseInt(value, 10)
+          : parseFloat(value)
         : value,
     }));
   };
@@ -131,10 +143,16 @@ const AdminPage = () => {
     const { name, value } = e.target;
     setEditCar((prev) => ({
       ...prev,
-      [name]: ["seats", "horsepower"].includes(name)
+      [name]: [
+        "seats",
+        "horsepower",
+        "price_per_day",
+        "price_per_week",
+        "price_per_month",
+      ].includes(name)
         ? value === ""
           ? 0
-          : parseInt(value, 10)
+          : parseFloat(value)
         : value,
     }));
   };
@@ -245,6 +263,11 @@ const AdminPage = () => {
       formData.append("type", newCar.type);
       formData.append("category", getCategoryIdFromType(newCar.type));
 
+      // Add the new price fields
+      formData.append("price_per_day", newCar.price_per_day);
+      formData.append("price_per_week", newCar.price_per_week);
+      formData.append("price_per_month", newCar.price_per_month);
+
       const imageFiles = [];
       ["image1", "image2", "image3"].forEach((field) => {
         if (
@@ -280,6 +303,9 @@ const AdminPage = () => {
         seats: 0,
         horsepower: 0,
         type: "Luxury",
+        price_per_day: 0,
+        price_per_week: 0,
+        price_per_month: 0,
       });
       setImageFields({
         image1: { useFile: false, preview: null },
@@ -356,6 +382,9 @@ const AdminPage = () => {
       seats: car.seats || 0,
       horsepower: car.horsepower || 0,
       type: car.type || "Luxury",
+      price_per_day: car.price_per_day || 0,
+      price_per_week: car.price_per_week || 0,
+      price_per_month: car.price_per_month || 0,
     });
     setEditImageFields({
       image1: { useFile: false, preview: car.image1 },
@@ -378,6 +407,11 @@ const AdminPage = () => {
       formData.append("horsepower", editCar.horsepower);
       formData.append("type", editCar.type);
       formData.append("category", getCategoryIdFromType(editCar.type));
+
+      // Add the price fields
+      formData.append("price_per_day", editCar.price_per_day);
+      formData.append("price_per_week", editCar.price_per_week);
+      formData.append("price_per_month", editCar.price_per_month);
 
       const imageFiles = [];
 
@@ -437,6 +471,9 @@ const AdminPage = () => {
       seats: 0,
       horsepower: 0,
       type: "",
+      price_per_day: 0,
+      price_per_week: 0,
+      price_per_month: 0,
     });
     setEditImageFields({
       image1: { useFile: false, preview: null },
@@ -603,6 +640,57 @@ const AdminPage = () => {
               </div>
             </div>
 
+            {/* New pricing section */}
+            <div className="bg-gray-750 p-4 rounded-lg border border-gray-700">
+              <h3 className="text-lg font-medium mb-3">
+                Pricing Information (AED)
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Price Per Day (AED)
+                  </label>
+                  <input
+                    type="number"
+                    name="price_per_day"
+                    value={newCar.price_per_day}
+                    onChange={handleNewCarChange}
+                    min="0"
+                    step="0.01"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Price Per Week (AED)
+                  </label>
+                  <input
+                    type="number"
+                    name="price_per_week"
+                    value={newCar.price_per_week}
+                    onChange={handleNewCarChange}
+                    min="0"
+                    step="0.01"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Price Per Month (AED)
+                  </label>
+                  <input
+                    type="number"
+                    name="price_per_month"
+                    value={newCar.price_per_month}
+                    onChange={handleNewCarChange}
+                    min="0"
+                    step="0.01"
+                    className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {renderImageField("image1")}
               {renderImageField("image2")}
@@ -639,6 +727,7 @@ const AdminPage = () => {
                   <th className="text-left p-2 md:p-4 w-20 md:w-auto">Color</th>
                   <th className="text-left p-2 md:p-4 w-16 md:w-auto">Seats</th>
                   <th className="text-left p-2 md:p-4 w-16 md:w-auto">HP</th>
+                  <th className="text-left p-2 md:p-4 w-16 md:w-auto">Price</th>
                   <th className="text-left p-2 md:p-4 w-24 md:w-auto">Type</th>
                   <th className="text-right p-2 md:p-4 w-24 md:w-auto">
                     Actions
@@ -648,7 +737,7 @@ const AdminPage = () => {
               <tbody className="divide-y divide-gray-700">
                 {cars.length === 0 ? (
                   <tr>
-                    <td colSpan="10" className="text-center p-4">
+                    <td colSpan="11" className="text-center p-4">
                       No cars found. Add your first car above.
                     </td>
                   </tr>
@@ -658,7 +747,7 @@ const AdminPage = () => {
                       {editingId === car.id ? (
                         <>
                           <td className="p-2 md:p-4">{car.id}</td>
-                          <td colSpan="8" className="p-2 md:p-4">
+                          <td colSpan="9" className="p-2 md:p-4">
                             <div className="bg-gray-750 p-4 rounded-lg">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div>
@@ -752,6 +841,57 @@ const AdminPage = () => {
                                 </div>
                               </div>
 
+                              {/* Edit pricing fields */}
+                              <div className="mb-4 bg-gray-800 p-3 rounded-md border border-gray-700">
+                                <h4 className="text-sm font-medium mb-2">
+                                  Pricing (AED)
+                                </h4>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                  <div>
+                                    <label className="block text-xs font-medium mb-1">
+                                      Price Per Day
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="price_per_day"
+                                      value={editCar.price_per_day}
+                                      onChange={handleEditCarChange}
+                                      min="0"
+                                      step="0.01"
+                                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-medium mb-1">
+                                      Price Per Week
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="price_per_week"
+                                      value={editCar.price_per_week}
+                                      onChange={handleEditCarChange}
+                                      min="0"
+                                      step="0.01"
+                                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs font-medium mb-1">
+                                      Price Per Month
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="price_per_month"
+                                      value={editCar.price_per_month}
+                                      onChange={handleEditCarChange}
+                                      min="0"
+                                      step="0.01"
+                                      className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white text-sm"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
                               <div className="mb-4">
                                 <h3 className="text-sm font-medium mb-2">
                                   Images
@@ -801,6 +941,11 @@ const AdminPage = () => {
                           <td className="p-2 md:p-4">{car.color || "N/A"}</td>
                           <td className="p-2 md:p-4">{car.seats || 0}</td>
                           <td className="p-2 md:p-4">{car.horsepower || 0}</td>
+                          <td className="p-2 md:p-4">
+                            {car.price_per_day
+                              ? `${car.price_per_day} AED`
+                              : "N/A"}
+                          </td>
                           <td className="p-2 md:p-4">{car.type || "Luxury"}</td>
                           <td className="p-2 md:p-4 text-right">
                             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">

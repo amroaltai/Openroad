@@ -12,17 +12,29 @@
   "filters": {
     "allBrands": "Все Марки"
   },
+  "sortOptions": {
+    "default": "Сортировка по цене",
+    "price_low": "Цена (по возрастанию)",
+    "price_high": "Цена (по убыванию)"
+  },
   "seats": "Мест",
   "showingVehicles": "Показано {{count}} из {{total}} автомобилей",
-  "filteredBy": "отфильтровано по",
-  "noVehiclesAvailable": "Нет доступных автомобилей по выбранным критериям.",
+  "filteredBy": "с фильтром",
+  "noVehiclesAvailable": "По выбранным критериям автомобили не найдены.",
   "errors": {
     "fetchFailed": "Не удалось загрузить автомобили"
   },
   "whatsappModal": {
-    "title": "Свяжитесь с нами через WhatsApp",
+    "title": "Связаться через WhatsApp",
     "message": "Хотите узнать больше о",
     "startChat": "Начать чат в WhatsApp"
   },
-  "whatsappMessage": "Здравствуйте! Меня интересует {{brand}} {{model}}"
+  "whatsappMessage": "Здравствуйте! Меня интересует {{brand}} {{model}}",
+  "pricing": "Цены",
+  "daily": "День",
+  "weekly": "Неделя",
+  "monthly": "Месяц",
+  "startingFrom": "От",
+  "pricingStartingFrom": "Цены начинаются от",
+  "day": "день"
 }

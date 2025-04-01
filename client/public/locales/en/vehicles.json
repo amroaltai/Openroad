@@ -12,6 +12,11 @@
   "filters": {
     "allBrands": "All Brands"
   },
+  "sortOptions": {
+    "default": "Price Sorting",
+    "price_low": "Price (Low to High)",
+    "price_high": "Price (High to Low)"
+  },
   "seats": "Seats",
   "showingVehicles": "Showing {{count}} of {{total}} vehicles",
   "filteredBy": "filtered by",
@@ -24,5 +29,12 @@
     "message": "Would you like to inquire about the",
     "startChat": "Start WhatsApp Chat"
   },
-  "whatsappMessage": "Hello! I'm interested in the {{brand}} {{model}}"
+  "whatsappMessage": "Hello! I'm interested in the {{brand}} {{model}}",
+  "pricing": "Pricing",
+  "daily": "Daily",
+  "weekly": "Weekly",
+  "monthly": "Monthly",
+  "startingFrom": "From",
+  "pricingStartingFrom": "Pricing Starting From",
+  "day": "day"
 }

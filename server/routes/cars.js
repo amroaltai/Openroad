@@ -75,12 +75,31 @@ const processCarData = async (req) => {
     imageUrl1,
     imageUrl2,
     imageUrl3,
+    price_per_day,
+    price_per_week,
+    price_per_month,
   } = req.body;
 
   // Validate required fields
   if (!brand || !model || !year) {
     throw new Error("Brand, model, and year are required");
   }
+
+  // Process pricing data (log it for debugging)
+  const processedPricePerDay = price_per_day ? parseFloat(price_per_day) : null;
+  const processedPricePerWeek = price_per_week
+    ? parseFloat(price_per_week)
+    : null;
+  const processedPricePerMonth = price_per_month
+    ? parseFloat(price_per_month)
+    : null;
+
+  // Log pricing info for debugging
+  console.log("Processing price data:", {
+    price_per_day: processedPricePerDay,
+    price_per_week: processedPricePerWeek,
+    price_per_month: processedPricePerMonth,
+  });
 
   // Initialize image URLs
   let image1 = null;
@@ -137,6 +156,9 @@ const processCarData = async (req) => {
     horsepower: horsepower ? parseInt(horsepower) : null,
     type: type || "Luxury",
     category: category ? parseInt(category) : 5, // Default to Luxury (5) if not specified
+    price_per_day: processedPricePerDay,
+    price_per_week: processedPricePerWeek,
+    price_per_month: processedPricePerMonth,
   };
 };
 
@@ -150,8 +172,11 @@ router.post("/", upload.array("images", 3), async (req, res) => {
 
     // Insert car into database
     const result = await db.query(
-      `INSERT INTO cars (brand, model, year, image1, image2, image3, color, seats, horsepower, type, category) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
+      `INSERT INTO cars (
+        brand, model, year, image1, image2, image3, color, seats, horsepower, type, category,
+        price_per_day, price_per_week, price_per_month
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
       [
         carData.brand,
         carData.model,
@@ -164,6 +189,9 @@ router.post("/", upload.array("images", 3), async (req, res) => {
         carData.horsepower,
         carData.type,
         carData.category,
+        carData.price_per_day,
+        carData.price_per_week,
+        carData.price_per_month,
       ]
     );
 
@@ -208,6 +236,9 @@ router.put("/:id", upload.array("images", 3), async (req, res) => {
       keepImage1,
       keepImage2,
       keepImage3,
+      price_per_day,
+      price_per_week,
+      price_per_month,
     } = req.body;
 
     if (!brand || !model || !year) {
@@ -295,12 +326,30 @@ router.put("/:id", upload.array("images", 3), async (req, res) => {
       });
     }
 
+    // Process pricing data
+    const processedPricePerDay = price_per_day
+      ? parseFloat(price_per_day)
+      : null;
+    const processedPricePerWeek = price_per_week
+      ? parseFloat(price_per_week)
+      : null;
+    const processedPricePerMonth = price_per_month
+      ? parseFloat(price_per_month)
+      : null;
+
+    console.log("Updating with price data:", {
+      price_per_day: processedPricePerDay,
+      price_per_week: processedPricePerWeek,
+      price_per_month: processedPricePerMonth,
+    });
+
     // Now update the car in the database
     const result = await db.query(
       `UPDATE cars 
        SET brand = $1, model = $2, year = $3, image1 = $4, image2 = $5, image3 = $6, 
-           color = $7, seats = $8, horsepower = $9, type = $10, category = $11
-       WHERE id = $12 
+           color = $7, seats = $8, horsepower = $9, type = $10, category = $11,
+           price_per_day = $12, price_per_week = $13, price_per_month = $14
+       WHERE id = $15 
        RETURNING *`,
       [
         brand,
@@ -314,6 +363,9 @@ router.put("/:id", upload.array("images", 3), async (req, res) => {
         horsepower ? parseInt(horsepower) : null,
         type || "Luxury",
         category ? parseInt(category) : 5,
+        processedPricePerDay,
+        processedPricePerWeek,
+        processedPricePerMonth,
         id,
       ]
     );
@@ -397,8 +449,11 @@ router.post("/upload", upload.array("images", 3), async (req, res) => {
 
     // Insert car into database
     const result = await db.query(
-      `INSERT INTO cars (brand, model, year, image1, image2, image3, color, seats, horsepower, type, category) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
+      `INSERT INTO cars (
+        brand, model, year, image1, image2, image3, color, seats, horsepower, type, category,
+        price_per_day, price_per_week, price_per_month
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
       [
         carData.brand,
         carData.model,
@@ -411,6 +466,9 @@ router.post("/upload", upload.array("images", 3), async (req, res) => {
         carData.horsepower,
         carData.type,
         carData.category,
+        carData.price_per_day,
+        carData.price_per_week,
+        carData.price_per_month,
       ]
     );
 
@@ -473,7 +531,16 @@ router.put("/:id/upload", upload.array("images", 3), async (req, res) => {
       keepImage1,
       keepImage2,
       keepImage3,
+      price_per_day,
+      price_per_week,
+      price_per_month,
     } = req.body;
+
+    console.log("Legacy upload price data:", {
+      price_per_day,
+      price_per_week,
+      price_per_month,
+    });
 
     if (!brand || !model || !year) {
       return res.status(400).json({
@@ -560,12 +627,43 @@ router.put("/:id/upload", upload.array("images", 3), async (req, res) => {
       });
     }
 
+    // Process pricing data with enhanced error handling
+    let processedPricePerDay = null;
+    let processedPricePerWeek = null;
+    let processedPricePerMonth = null;
+
+    try {
+      processedPricePerDay = price_per_day ? parseFloat(price_per_day) : null;
+      processedPricePerWeek = price_per_week
+        ? parseFloat(price_per_week)
+        : null;
+      processedPricePerMonth = price_per_month
+        ? parseFloat(price_per_month)
+        : null;
+    } catch (parseError) {
+      console.error("Error parsing price values:", parseError);
+      // Continue with null values if parsing fails
+    }
+
+    // Check for database compatibility
+    const columnCheck = await db.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_schema = 'public'
+      AND table_name = 'cars'
+      AND column_name IN ('price_per_day', 'price_per_week', 'price_per_month')
+    `);
+
+    const columns = columnCheck.rows.map((row) => row.column_name);
+    console.log("Available price columns:", columns);
+
     // Now update the car in the database
     const result = await db.query(
       `UPDATE cars 
        SET brand = $1, model = $2, year = $3, image1 = $4, image2 = $5, image3 = $6, 
-           color = $7, seats = $8, horsepower = $9, type = $10, category = $11
-       WHERE id = $12 
+           color = $7, seats = $8, horsepower = $9, type = $10, category = $11,
+           price_per_day = $12, price_per_week = $13, price_per_month = $14
+       WHERE id = $15 
        RETURNING *`,
       [
         brand,
@@ -579,6 +677,9 @@ router.put("/:id/upload", upload.array("images", 3), async (req, res) => {
         horsepower ? parseInt(horsepower) : null,
         type || "Luxury",
         category ? parseInt(category) : 5,
+        processedPricePerDay,
+        processedPricePerWeek,
+        processedPricePerMonth,
         id,
       ]
     );
@@ -608,8 +709,19 @@ router.put("/:id/properties", async (req, res) => {
     );
 
     const { id } = req.params;
-    const { brand, model, year, color, seats, horsepower, type, category } =
-      req.body;
+    const {
+      brand,
+      model,
+      year,
+      color,
+      seats,
+      horsepower,
+      type,
+      category,
+      price_per_day,
+      price_per_week,
+      price_per_month,
+    } = req.body;
 
     if (!brand || !model || !year) {
       return res
@@ -626,11 +738,23 @@ router.put("/:id/properties", async (req, res) => {
 
     const car = currentCar.rows[0];
 
+    // Process pricing data
+    const processedPricePerDay = price_per_day
+      ? parseFloat(price_per_day)
+      : null;
+    const processedPricePerWeek = price_per_week
+      ? parseFloat(price_per_week)
+      : null;
+    const processedPricePerMonth = price_per_month
+      ? parseFloat(price_per_month)
+      : null;
+
     // Uppdatera bilen men behåll bilderna
     const result = await db.query(
       `UPDATE cars 
-       SET brand = $1, model = $2, year = $3, color = $4, seats = $5, horsepower = $6, type = $7, category = $8
-       WHERE id = $9 
+       SET brand = $1, model = $2, year = $3, color = $4, seats = $5, horsepower = $6, type = $7, category = $8,
+           price_per_day = $9, price_per_week = $10, price_per_month = $11
+       WHERE id = $12 
        RETURNING *`,
       [
         brand,
@@ -641,6 +765,9 @@ router.put("/:id/properties", async (req, res) => {
         horsepower ? parseInt(horsepower) : null,
         type || "Luxury",
         category ? parseInt(category) : 5,
+        processedPricePerDay,
+        processedPricePerWeek,
+        processedPricePerMonth,
         id,
       ]
     );

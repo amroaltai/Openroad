@@ -12,17 +12,29 @@
   "filters": {
     "allBrands": "جميع العلامات التجارية"
   },
+  "sortOptions": {
+    "default": "فرز حسب السعر",
+    "price_low": "السعر (من الأقل إلى الأعلى)",
+    "price_high": "السعر (من الأعلى إلى الأقل)"
+  },
   "seats": "مقاعد",
   "showingVehicles": "عرض {{count}} من {{total}} سيارة",
   "filteredBy": "تمت التصفية حسب",
   "noVehiclesAvailable": "لا توجد سيارات متاحة بالمعايير المحددة.",
   "errors": {
-    "fetchFailed": "فشل تحميل السيارات"
+    "fetchFailed": "فشل في تحميل السيارات"
   },
   "whatsappModal": {
     "title": "تواصل معنا عبر واتساب",
     "message": "هل ترغب في الاستفسار عن",
     "startChat": "بدء محادثة واتساب"
   },
-  "whatsappMessage": "مرحبًا! أنا مهتم بسيارة {{brand}} {{model}}"
+  "whatsappMessage": "مرحبًا! أنا مهتم بسيارة {{brand}} {{model}}",
+  "pricing": "الأسعار",
+  "daily": "يومي",
+  "weekly": "أسبوعي",
+  "monthly": "شهري",
+  "startingFrom": "من",
+  "pricingStartingFrom": "الأسعار تبدأ من",
+  "day": "يوم"
 }

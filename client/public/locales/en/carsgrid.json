@@ -10,5 +10,14 @@
     "message": "Would you like to inquire about the",
     "startChat": "Start WhatsApp Chat"
   },
-  "whatsappMessage": "Hello! I'm interested in the {{brand}} {{model}} from your fleet."
+  "whatsappMessage": "Hello! I'm interested in the {{brand}} {{model}} from your fleet.",
+  "pricing": "Pricing",
+  "daily": "Daily",
+  "weekly": "Weekly",
+  "monthly": "Monthly",
+  "startingFrom": "From",
+  "pricingStartingFrom": "Pricing Starting From",
+  "day": "day",
+  "viewMore": "View More",
+  "error": "Failed to load cars"
 }

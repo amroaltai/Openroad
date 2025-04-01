@@ -1,14 +1,23 @@
 {
-  "fleetTitle": "Notre Flotte",
-  "fleetDescription": "Explorez notre sélection premium de véhicules. Des berlines de luxe aux voitures de sport haute performance, nous avons le véhicule parfait pour votre expérience à Dubaï.",
-  "loading": "Chargement des véhicules...",
-  "allCars": "Tous les Véhicules",
-  "book": "Réserver",
-  "seats": "Sièges",
+  "fleetTitle": "Nuestra Flota",
+  "fleetDescription": "Explore nuestra selección premium de vehículos. Desde sedanes de lujo hasta autos deportivos de alto rendimiento, tenemos el vehículo perfecto para su experiencia en Dubái.",
+  "loading": "Cargando vehículos...",
+  "allCars": "Todos los Vehículos",
+  "book": "Reservar",
+  "seats": "Asientos",
   "whatsappModal": {
-    "title": "Contactez-nous via WhatsApp",
-    "message": "Souhaitez-vous vous renseigner sur la",
-    "startChat": "Démarrer une discussion WhatsApp"
+    "title": "Contáctenos vía WhatsApp",
+    "message": "¿Le gustaría consultar sobre el",
+    "startChat": "Iniciar chat de WhatsApp"
   },
-  "whatsappMessage": "Bonjour! Je suis intéressé(e) par la {{brand}} {{model}} de votre flotte."
+  "whatsappMessage": "¡Hola! Estoy interesado/a en el {{brand}} {{model}} de su flota.",
+  "pricing": "Precios",
+  "daily": "Diario",
+  "weekly": "Semanal",
+  "monthly": "Mensual",
+  "startingFrom": "Desde",
+  "pricingStartingFrom": "Precios desde",
+  "day": "día",
+  "viewMore": "Ver más",
+  "error": "Error al cargar los vehículos"
 }

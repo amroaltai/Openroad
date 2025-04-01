@@ -1,4 +1,4 @@
-// server/scripts/migrate-data.js (uppdaterad för att hantera tidigare uppladdningar)
+// server/scripts/migrate-data.js (uppdaterad för att hantera tidigare uppladdningar och prisdata)
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import pg from "pg";
@@ -89,12 +89,36 @@ async function migrateData() {
           seats INTEGER,
           horsepower INTEGER,
           type TEXT,
-          category INTEGER
+          category INTEGER,
+          price_per_day DECIMAL(10, 2),
+          price_per_week DECIMAL(10, 2),
+          price_per_month DECIMAL(10, 2)
         )
       `);
       console.log("Tabellen skapad!");
     } else {
       console.log("Tabellen cars existerar redan.");
+
+      // Kontrollera om priskolumnerna finns, lägg till om de saknas
+      console.log("Kontrollerar om priskolumner finns...");
+      const columnsCheck = await pgPool.query(`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'cars' AND column_name = 'price_per_day'
+      `);
+
+      if (columnsCheck.rows.length === 0) {
+        console.log("Priskolumner saknas. Lägger till dem...");
+        await pgPool.query(`
+          ALTER TABLE cars 
+          ADD COLUMN price_per_day DECIMAL(10, 2),
+          ADD COLUMN price_per_week DECIMAL(10, 2),
+          ADD COLUMN price_per_month DECIMAL(10, 2)
+        `);
+        console.log("Priskolumner tillagda!");
+      } else {
+        console.log("Priskolumner finns redan.");
+      }
     }
 
     // Öppna SQLite-databasen
@@ -189,12 +213,18 @@ async function migrateData() {
         // Konvertera typ till kategorinummer
         const category = getTypeCategory(car.type);
 
-        // Infoga bil i PostgreSQL
+        // Sätt default-värden för priser (null)
+        const price_per_day = null;
+        const price_per_week = null;
+        const price_per_month = null;
+
+        // Infoga bil i PostgreSQL med priskolumner
         const result = await pgPool.query(
           `INSERT INTO cars (
             id, brand, model, year, image1, image2, image3, 
-            color, seats, horsepower, type, category
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
+            color, seats, horsepower, type, category,
+            price_per_day, price_per_week, price_per_month
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id`,
           [
             car.id, // Använd original ID för att matcha
             car.brand,
@@ -208,6 +238,9 @@ async function migrateData() {
             car.horsepower,
             car.type || "Luxury",
             category,
+            price_per_day,
+            price_per_week,
+            price_per_month,
           ]
         );
 

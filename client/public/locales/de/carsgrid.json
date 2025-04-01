@@ -10,5 +10,14 @@
     "message": "Möchten Sie Informationen über den",
     "startChat": "WhatsApp-Chat starten"
   },
-  "whatsappMessage": "Hallo! Ich interessiere mich für den {{brand}} {{model}} aus Ihrer Flotte."
+  "whatsappMessage": "Hallo! Ich interessiere mich für den {{brand}} {{model}} aus Ihrer Flotte.",
+  "pricing": "Preise",
+  "daily": "Täglich",
+  "weekly": "Wöchentlich",
+  "monthly": "Monatlich",
+  "startingFrom": "Ab",
+  "pricingStartingFrom": "Preise beginnen ab",
+  "day": "Tag",
+  "viewMore": "Mehr anzeigen",
+  "error": "Fehler beim Laden der Fahrzeuge"
 }

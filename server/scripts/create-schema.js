@@ -39,7 +39,10 @@ async function createSchema() {
         seats INTEGER,
         horsepower INTEGER,
         type TEXT,
-        category INTEGER
+        category INTEGER,
+        price_per_day DECIMAL(10, 2) DEFAULT NULL,
+        price_per_week DECIMAL(10, 2) DEFAULT NULL,
+        price_per_month DECIMAL(10, 2) DEFAULT NULL
       )
     `);
 

@@ -25,7 +25,6 @@ const shuffleArray = (array) => {
   }
   return newArray;
 };
-
 const WhatsAppIcon = memo(() => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -76,13 +75,45 @@ const SeatsIcon = memo(() => (
 ));
 SeatsIcon.displayName = "SeatsIcon";
 
-const ImageNavigationButton = memo(({ direction, onClick, ariaLabel }) => (
+const PriceIcon = memo(() => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-5 w-5 mr-2 text-orange-400"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+    <path d="M12 18V6" />
+  </svg>
+));
+PriceIcon.displayName = "PriceIcon";
+
+const formatPrice = (price) => {
+  if (price === null || price === undefined) return null;
+  const numPrice = typeof price === "string" ? parseFloat(price) : price;
+  if (Math.floor(numPrice) === numPrice) {
+    return Math.floor(numPrice);
+  } else {
+    return numPrice.toFixed(2).replace(/\.00$/, "");
+  }
+};
+
+const ImageNavButton = memo(({ direction, onClick, ariaLabel }) => (
   <button
-    onClick={onClick}
+    onClick={(e) => {
+      e.stopPropagation();
+      onClick(e);
+    }}
+    aria-label={ariaLabel}
     className={`absolute ${
       direction === "prev" ? "left-2" : "right-2"
     } top-1/2 transform -translate-y-1/2 z-30 bg-black/50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-    aria-label={ariaLabel}
   >
     {direction === "prev" ? (
       <ChevronLeft className="text-white w-6 h-6" />
@@ -91,45 +122,30 @@ const ImageNavigationButton = memo(({ direction, onClick, ariaLabel }) => (
     )}
   </button>
 ));
-ImageNavigationButton.displayName = "ImageNavigationButton";
+ImageNavButton.displayName = "ImageNavButton";
 
 const WhatsAppModal = memo(({ isOpen, onClose, car, onWhatsAppClick }) => {
   const { t } = useTranslation("carsgrid");
-
   if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="whatsapp-modal-title"
-    >
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1200]">
       <div className="bg-gray-900 rounded-lg p-8 max-w-md w-full mx-4 text-center relative">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-400 hover:text-white"
-          aria-label="Close modal"
         >
           ✕
         </button>
-
         <div className="flex justify-center mb-6">
           <WhatsAppIcon />
         </div>
-
-        <h2
-          id="whatsapp-modal-title"
-          className="text-2xl font-bold text-white mb-4"
-        >
+        <h2 className="text-2xl font-bold text-white mb-4">
           {t("whatsappModal.title", "Contact Us via WhatsApp")}
         </h2>
-
         <p className="text-gray-400 mb-6">
           {t("whatsappModal.message", "Would you like to inquire about the")}{" "}
           {car.brand} {car.model}?
         </p>
-
         <button
           onClick={onWhatsAppClick}
           className="w-full bg-green-600 text-white py-3 rounded-md font-bold hover:bg-green-700 transition-colors"
@@ -144,152 +160,184 @@ WhatsAppModal.displayName = "WhatsAppModal";
 
 const AnimatedCarCard = memo(
   ({ car, currentImageIndex, onNavigateImage, onBookClick, index, t }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    const cardRef = useRef(null);
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
 
-    const { brand, model, year, color, horsepower, seats } = car;
-
-    const imageProps = useMemo(() => ["image1", "image2", "image3"], []);
-    const currentImageProp = useMemo(
-      () => imageProps[currentImageIndex || 0],
-      [imageProps, currentImageIndex]
-    );
-    const currentImage = useMemo(
-      () => car[currentImageProp] || car.image1,
-      [car, currentImageProp]
+    const carType = useMemo(
+      () => car.type || t("carTypes.luxury"),
+      [car.type, t]
     );
 
     const handlePrevImage = useCallback(
-      (e) => {
-        e.stopPropagation();
-        onNavigateImage(car.id, "prev");
-      },
+      (e) => onNavigateImage(car.id, "prev"),
       [car.id, onNavigateImage]
     );
 
     const handleNextImage = useCallback(
-      (e) => {
-        e.stopPropagation();
-        onNavigateImage(car.id, "next");
-      },
+      (e) => onNavigateImage(car.id, "next"),
       [car.id, onNavigateImage]
     );
 
-    const handleBookClick = useCallback(
-      () => onBookClick(car),
-      [car, onBookClick]
+    const handleTouchStart = useCallback((e) => {
+      setTouchEnd(null);
+      setTouchStart(e.targetTouches[0].clientX);
+    }, []);
+
+    const handleTouchMove = useCallback((e) => {
+      setTouchEnd(e.targetTouches[0].clientX);
+    }, []);
+
+    const handleTouchEnd = useCallback(
+      (e) => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > 50;
+        const isRightSwipe = distance < -50;
+
+        if (isLeftSwipe) {
+          onNavigateImage(car.id, "next");
+        } else if (isRightSwipe) {
+          onNavigateImage(car.id, "prev");
+        }
+      },
+      [touchStart, touchEnd, car.id, onNavigateImage]
     );
 
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            const timer = setTimeout(() => {
-              setIsVisible(true);
-            }, index * 150);
+    const formattedPricePerDay = car.price_per_day
+      ? formatPrice(car.price_per_day)
+      : null;
+    const formattedPricePerWeek = car.price_per_week
+      ? formatPrice(car.price_per_week)
+      : null;
+    const formattedPricePerMonth = car.price_per_month
+      ? formatPrice(car.price_per_month)
+      : null;
 
-            observer.unobserve(cardRef.current);
-
-            return () => clearTimeout(timer);
-          }
-        },
-        { threshold: 0.1 }
-      );
-
-      if (cardRef.current) {
-        observer.observe(cardRef.current);
-      }
-
-      return () => {
-        if (cardRef.current) {
-          observer.unobserve(cardRef.current);
-        }
-      };
-    }, [index]);
+    const hasPrice =
+      formattedPricePerDay || formattedPricePerWeek || formattedPricePerMonth;
 
     return (
-      <div
-        ref={cardRef}
-        className={`bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-700 ${
-          isVisible
-            ? "opacity-100 transform translate-y-0"
-            : "opacity-0 transform translate-y-16"
-        }`}
-      >
-        <div className="relative w-full h-60 bg-gray-800 overflow-hidden group">
-          <ImageNavigationButton
+      <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px]">
+        <div
+          className="relative w-full h-60 bg-gray-800 overflow-hidden group cursor-pointer"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <ImageNavButton
             direction="prev"
             onClick={handlePrevImage}
-            ariaLabel={`Previous image of ${brand} ${model}`}
+            ariaLabel={`Previous image of ${car.brand} ${car.model}`}
           />
-          <ImageNavigationButton
+          <ImageNavButton
             direction="next"
             onClick={handleNextImage}
-            ariaLabel={`Next image of ${brand} ${model}`}
+            ariaLabel={`Next image of ${car.brand} ${car.model}`}
           />
-
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 z-10"></div>
-
           <img
-            src={currentImage}
-            alt={`${brand} ${model}`}
+            src={
+              car[["image1", "image2", "image3"][currentImageIndex || 0]] ||
+              car.image1
+            }
+            alt={`${car.brand} ${car.model}`}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             loading="lazy"
-            onError={(e) => {
-              e.target.src = "/images/placeholder.jpg";
-            }}
+            onError={(e) => (e.target.src = "/images/placeholder.jpg")}
           />
-
           <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-20 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
             <span className="text-white text-sm">
               {(currentImageIndex || 0) + 1} / 3
             </span>
           </div>
-
           <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full z-20">
-            <span className="text-white text-sm font-bold">{brand}</span>
+            <span className="text-white text-sm font-bold">{car.brand}</span>
           </div>
-        </div>
+          <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full z-20">
+            <span className="text-white text-sm font-medium">{carType}</span>
+          </div>
 
+          {formattedPricePerDay > 0 && (
+            <div className="absolute bottom-3 right-3 bg-gradient-to-r from-orange-500/90 to-amber-500/90 backdrop-blur-sm px-3 py-1 rounded-full z-20 shadow-lg border border-orange-300/30 animate-pulse md:hidden">
+              <span className="text-white text-sm font-bold">
+                {t("startingFrom", "From")} {formattedPricePerDay} AED
+              </span>
+            </div>
+          )}
+        </div>
         <div className="p-6">
           <h3 className="text-2xl font-bold text-white transition-colors duration-300 hover:text-orange-400">
-            {brand} {model}
+            {car.brand} {car.model}
           </h3>
-          <p className="text-gray-400">{year}</p>
-
+          <p className="text-gray-400">{car.year}</p>
           <div className="mt-4 space-y-2">
             <div className="flex items-center text-gray-300">
               <div
                 className="w-4 h-4 rounded-full mr-2"
-                style={{
-                  backgroundColor: color ? color.toLowerCase() : "#888",
-                }}
+                style={{ backgroundColor: car.color?.toLowerCase() || "#888" }}
                 aria-hidden="true"
-              ></div>
-              <span>{color || "N/A"}</span>
+              />
+              <span>{car.color || "N/A"}</span>
             </div>
-
             <div className="flex items-center text-gray-300">
               <HorsepowerIcon />
-              <span>{horsepower || 0} HP</span>
+              <span>{car.horsepower || 0} HP</span>
             </div>
-
             <div className="flex items-center text-gray-300">
               <SeatsIcon />
               <span>
-                {seats || 0} {t("seats", "Seats")}
+                {car.seats || 0} {t("seats", "Seats")}
               </span>
             </div>
-          </div>
 
-          <div className="mt-4">
-            <button
-              onClick={handleBookClick}
-              className="block w-full bg-gradient-to-r from-orange-400/60 to-amber-500/60 hover:from-orange-500/80 hover:to-amber-600/80 text-white text-center py-3 px-4 rounded-md font-bold transition-all duration-300 border border-orange-300/30 hover:shadow-lg hover:shadow-orange-500/30 hover:translate-y-[-2px] active:translate-y-[1px] active:shadow-inner backdrop-blur-sm"
-            >
-              {t("book", "Book")}
-            </button>
+            {hasPrice && (
+              <div className="mt-3 bg-gradient-to-r from-gray-800/60 to-gray-700/60 p-4 rounded-lg border border-orange-500/20 shadow-inner">
+                <div className="flex items-center mb-2">
+                  <PriceIcon />
+                  <h4 className="text-sm font-medium text-orange-400">
+                    {t("pricingStartingFrom", "Pricing Starting From")}
+                  </h4>
+                </div>
+                <div className="grid grid-cols-1 gap-2 text-sm">
+                  {formattedPricePerDay && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">
+                        {t("daily", "Daily")}:
+                      </span>
+                      <span className="text-white font-medium">
+                        {formattedPricePerDay} AED
+                      </span>
+                    </div>
+                  )}
+                  {formattedPricePerWeek && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">
+                        {t("weekly", "Weekly")}:
+                      </span>
+                      <span className="text-white font-medium">
+                        {formattedPricePerWeek} AED
+                      </span>
+                    </div>
+                  )}
+                  {formattedPricePerMonth && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">
+                        {t("monthly", "Monthly")}:
+                      </span>
+                      <span className="text-white font-medium">
+                        {formattedPricePerMonth} AED
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
+          <button
+            onClick={() => onBookClick(car)}
+            className="mt-4 w-full bg-gradient-to-r from-orange-400/60 to-amber-500/60 hover:from-orange-500/80 hover:to-amber-600/80 text-white py-3 px-4 rounded-md font-bold transition-all duration-300 border border-orange-300/30 hover:shadow-lg hover:shadow-orange-500/30"
+          >
+            {t("book", "Book")}
+          </button>
         </div>
       </div>
     );

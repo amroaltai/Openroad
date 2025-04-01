@@ -1,7 +1,7 @@
 {
   "title": "Nos Véhicules",
   "carTypes": {
-    "allTypes": "Tous les Types",
+    "allTypes": "Tous Types",
     "suv": "SUV",
     "sport": "Sport",
     "luxury": "Luxe",
@@ -10,7 +10,12 @@
   },
   "book": "Réserver",
   "filters": {
-    "allBrands": "Toutes les Marques"
+    "allBrands": "Toutes Marques"
+  },
+  "sortOptions": {
+    "default": "Tri par prix",
+    "price_low": "Prix (croissant)",
+    "price_high": "Prix (décroissant)"
   },
   "seats": "Sièges",
   "showingVehicles": "Affichage de {{count}} sur {{total}} véhicules",
@@ -21,8 +26,15 @@
   },
   "whatsappModal": {
     "title": "Contactez-nous via WhatsApp",
-    "message": "Souhaitez-vous vous renseigner sur la",
+    "message": "Souhaitez-vous vous renseigner sur le",
     "startChat": "Démarrer une discussion WhatsApp"
   },
-  "whatsappMessage": "Bonjour! Je suis intéressé(e) par la {{brand}} {{model}}"
+  "whatsappMessage": "Bonjour ! Je suis intéressé(e) par la {{brand}} {{model}}",
+  "pricing": "Tarifs",
+  "daily": "Journalier",
+  "weekly": "Hebdomadaire",
+  "monthly": "Mensuel",
+  "startingFrom": "À partir de",
+  "pricingStartingFrom": "Tarifs à partir de",
+  "day": "jour"
 }

@@ -1,6 +1,24 @@
 {
-  "fleetTitle": "Notre Flotte Premium",
-  "fleetDescription": "Découvrez le luxe et la performance avec nos véhicules soigneusement sélectionnés",
-  "loading": "Chargement des voitures...",
-  "allCars": "Toutes les Voitures"
+  "fleetTitle": "Notre Flotte",
+  "fleetDescription": "Découvrez notre sélection premium de véhicules. Des voitures de luxe aux SUV, nous avons le véhicule parfait pour votre expérience à Dubaï.",
+  "loading": "Chargement des véhicules...",
+  "errorMessage": "Échec du chargement des voitures. Veuillez réessayer plus tard.",
+  "book": "Réserver",
+  "seats": "Sièges",
+  "allCars": "Toutes les voitures",
+  "whatsappModal": {
+    "title": "Contactez-nous via WhatsApp",
+    "message": "Souhaitez-vous vous renseigner sur la",
+    "startChat": "Démarrer le chat WhatsApp"
+  },
+  "whatsappMessage": "Bonjour ! Je suis intéressé(e) par la {{brand}} {{model}} de votre flotte.",
+  "pricing": "Tarification",
+  "daily": "Quotidien",
+  "weekly": "Hebdomadaire",
+  "monthly": "Mensuel",
+  "startingFrom": "À partir de",
+  "pricingStartingFrom": "Tarifs à partir de",
+  "day": "jour",
+  "viewMore": "Voir plus",
+  "error": "Échec du chargement des voitures"
 }
