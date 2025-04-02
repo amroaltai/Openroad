@@ -37,14 +37,19 @@ export const initDatabase = async () => {
     await pool.query(schemaSQL);
     console.log("Database schema initialized successfully");
 
+    // Sync primary key sequence with existing data
+    await syncPrimaryKeySequence();
+
     // Check if we need to seed the database with sample data
     const carCount = await pool.query("SELECT COUNT(*) FROM cars");
 
     if (parseInt(carCount.rows[0].count) === 0) {
       console.log("No cars found in database, adding sample data...");
       await seedSampleData();
+      await syncPrimaryKeySequence();
     } else {
       console.log(`Database already contains ${carCount.rows[0].count} cars`);
+      await syncPrimaryKeySequence();
     }
 
     return true;
@@ -53,6 +58,21 @@ export const initDatabase = async () => {
     return false;
   }
 };
+
+// Function to synchronize primary key sequence
+async function syncPrimaryKeySequence() {
+  try {
+    const result = await pool.query(`
+      SELECT setval('cars_id_seq', (SELECT MAX(id) FROM cars), true)
+    `);
+    console.log(
+      `Primary key sequence synchronized to ${result.rows[0].setval}`
+    );
+  } catch (error) {
+    console.error("Error syncing primary key sequence:", error.message);
+    throw error;
+  }
+}
 
 // Function to seed the database with sample data
 async function seedSampleData() {
@@ -72,7 +92,7 @@ async function seedSampleData() {
         seats: 2,
         horsepower: 640,
         type: "Sport",
-        category: 2, // Sport
+        category: 2,
       },
       {
         brand: "Mercedes-Benz",
@@ -88,7 +108,7 @@ async function seedSampleData() {
         seats: 5,
         horsepower: 577,
         type: "SUV",
-        category: 3, // SUV
+        category: 3,
       },
       {
         brand: "Rolls-Royce",
@@ -104,7 +124,7 @@ async function seedSampleData() {
         seats: 5,
         horsepower: 563,
         type: "Luxury",
-        category: 5, // Luxury
+        category: 5,
       },
     ];
 
@@ -131,6 +151,7 @@ async function seedSampleData() {
 
     console.log("Sample car data inserted successfully");
   } catch (error) {
-    console.error("Error seeding database:", error);
+    console.error("Error seeding database:", error.message);
+    throw error;
   }
 }
