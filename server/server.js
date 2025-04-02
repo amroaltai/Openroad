@@ -18,6 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.set("trust proxy", true); // Lägg till denna rad för Render-kompatibilitet
 const PORT = process.env.PORT || 5000;
 
 // CORS configuration - behåller dina befintliga inställningar
