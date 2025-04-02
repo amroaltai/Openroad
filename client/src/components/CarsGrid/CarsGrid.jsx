@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const WHATSAPP_NUMBER = "+971563995002";
-const MAX_CARS_TO_DISPLAY = 6;
+const MAX_CARS_TO_DISPLAY = 4; // Begränsat till 4 bilar
 
 const shuffleArray = (array) => {
   const newArray = [...array];
@@ -25,6 +25,7 @@ const shuffleArray = (array) => {
   }
   return newArray;
 };
+
 const WhatsAppIcon = memo(() => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -114,6 +115,7 @@ const ImageNavButton = memo(({ direction, onClick, ariaLabel }) => (
     className={`absolute ${
       direction === "prev" ? "left-2" : "right-2"
     } top-1/2 transform -translate-y-1/2 z-30 bg-black/50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+    type="button"
   >
     {direction === "prev" ? (
       <ChevronLeft className="text-white w-6 h-6" />
@@ -126,20 +128,33 @@ ImageNavButton.displayName = "ImageNavButton";
 
 const WhatsAppModal = memo(({ isOpen, onClose, car, onWhatsAppClick }) => {
   const { t } = useTranslation("carsgrid");
+
+  // Om inte öppen, rendera ingenting för att spara resurser
   if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1200]">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1200]"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="whatsapp-modal-title"
+    >
       <div className="bg-gray-900 rounded-lg p-8 max-w-md w-full mx-4 text-center relative">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-400 hover:text-white"
+          aria-label="Close dialog"
+          type="button"
         >
           ✕
         </button>
         <div className="flex justify-center mb-6">
           <WhatsAppIcon />
         </div>
-        <h2 className="text-2xl font-bold text-white mb-4">
+        <h2
+          id="whatsapp-modal-title"
+          className="text-2xl font-bold text-white mb-4"
+        >
           {t("whatsappModal.title", "Contact Us via WhatsApp")}
         </h2>
         <p className="text-gray-400 mb-6">
@@ -149,6 +164,7 @@ const WhatsAppModal = memo(({ isOpen, onClose, car, onWhatsAppClick }) => {
         <button
           onClick={onWhatsAppClick}
           className="w-full bg-green-600 text-white py-3 rounded-md font-bold hover:bg-green-700 transition-colors"
+          type="button"
         >
           {t("whatsappModal.startChat", "Start WhatsApp Chat")}
         </button>
@@ -158,10 +174,131 @@ const WhatsAppModal = memo(({ isOpen, onClose, car, onWhatsAppClick }) => {
 });
 WhatsAppModal.displayName = "WhatsAppModal";
 
+// Förbättrad och optimerad bildkomponent
+const OptimizedCarImage = memo(({ src, alt, onError }) => {
+  const [loaded, setLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef(null);
+
+  // Optimera bilden med Cloudinary eller andra URL
+  const optimizedSrc = useMemo(() => {
+    if (!src) return null;
+
+    // Förbättrad Cloudinary-optimering
+    if (src.includes("cloudinary.com")) {
+      return src.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto:good,c_fill,w_800,h_480/"
+      );
+    }
+
+    return src;
+  }, [src]);
+
+  // Använd intersection observer för att ladda bilden endast när den är nära viewport
+  useEffect(() => {
+    if (!imgRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(imgRef.current);
+        }
+      },
+      {
+        rootMargin: "200px", // Förladda bilder när de är 200px från viewport
+        threshold: 0.01, // Trigga även med minimal synlighet
+      }
+    );
+
+    observer.observe(imgRef.current);
+
+    return () => {
+      if (imgRef.current) {
+        observer.unobserve(imgRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      {!loaded && (
+        <div
+          className="w-full h-full bg-gray-800 animate-pulse absolute inset-0 z-10 flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      {optimizedSrc && (
+        <img
+          ref={imgRef}
+          src={isInView ? optimizedSrc : null} // Använd null istället för tom sträng
+          alt={alt || "Luxury car image"}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setLoaded(true)}
+          onError={onError}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+    </>
+  );
+});
+OptimizedCarImage.displayName = "OptimizedCarImage";
+
+// Förbättrad InView hook med bättre prestanda
+const useImprovedInView = (options = {}) => {
+  const [inView, setInView] = useState(false);
+  const elementRef = useRef(null);
+  const observerRef = useRef(null);
+
+  useEffect(() => {
+    // Skapa en IntersectionObserver endast en gång
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            // Sluta observera när elementet har visats en gång
+            if (elementRef.current && observerRef.current) {
+              observerRef.current.unobserve(elementRef.current);
+            }
+          }
+        },
+        {
+          threshold: 0.15, // Sätt en lägre tröskel för tidigare trigger
+          rootMargin: "50px 0px", // Aktivera något tidigare än viewport
+          ...options,
+        }
+      );
+    }
+
+    const currentElement = elementRef.current;
+    const currentObserver = observerRef.current;
+
+    if (currentElement && currentObserver) {
+      currentObserver.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement && currentObserver) {
+        currentObserver.unobserve(currentElement);
+      }
+    };
+  }, []); // Töm dependencies för att skapa observer endast en gång
+
+  return [elementRef, inView];
+};
+
 const AnimatedCarCard = memo(
   ({ car, currentImageIndex, onNavigateImage, onBookClick, index, t }) => {
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
+    const [ref, inView] = useImprovedInView();
 
     const carType = useMemo(
       () => car.type || t("carTypes.luxury"),
@@ -216,8 +353,23 @@ const AnimatedCarCard = memo(
     const hasPrice =
       formattedPricePerDay || formattedPricePerWeek || formattedPricePerMonth;
 
+    // Förenkla animationen med tidsfördröjningar baserat på index
+    const animationDelay = `${Math.min(index * 100, 500)}ms`;
+
+    // Förbättrade bildtitlar för SEO
+    const carFullName = `${car.brand} ${car.model} ${car.year}`;
+    const imageSrc =
+      car[["image1", "image2", "image3"][currentImageIndex || 0]] || car.image1;
+    const imageAlt = `${carFullName} - ${car.color} - Available for rent in Dubai`;
+
     return (
-      <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px]">
+      <article
+        ref={ref}
+        className={`bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px] opacity-0 ${
+          inView ? "animate-fade-up" : ""
+        }`}
+        style={{ animationDelay }}
+      >
         <div
           className="relative w-full h-60 bg-gray-800 overflow-hidden group cursor-pointer"
           onTouchStart={handleTouchStart}
@@ -227,24 +379,22 @@ const AnimatedCarCard = memo(
           <ImageNavButton
             direction="prev"
             onClick={handlePrevImage}
-            ariaLabel={`Previous image of ${car.brand} ${car.model}`}
+            ariaLabel={`Previous image of ${carFullName}`}
           />
           <ImageNavButton
             direction="next"
             onClick={handleNextImage}
-            ariaLabel={`Next image of ${car.brand} ${car.model}`}
+            ariaLabel={`Next image of ${carFullName}`}
           />
-          <img
-            src={
-              car[["image1", "image2", "image3"][currentImageIndex || 0]] ||
-              car.image1
-            }
-            alt={`${car.brand} ${car.model}`}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            loading="lazy"
+          <OptimizedCarImage
+            src={imageSrc}
+            alt={imageAlt}
             onError={(e) => (e.target.src = "/images/placeholder.jpg")}
           />
-          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-20 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
+          <div
+            className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-20 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full"
+            aria-hidden="true"
+          >
             <span className="text-white text-sm">
               {(currentImageIndex || 0) + 1} / 3
             </span>
@@ -269,6 +419,7 @@ const AnimatedCarCard = memo(
             {car.brand} {car.model}
           </h3>
           <p className="text-gray-400">{car.year}</p>
+
           <div className="mt-4 space-y-2">
             <div className="flex items-center text-gray-300">
               <div
@@ -335,11 +486,12 @@ const AnimatedCarCard = memo(
           <button
             onClick={() => onBookClick(car)}
             className="mt-4 w-full bg-gradient-to-r from-orange-400/60 to-amber-500/60 hover:from-orange-500/80 hover:to-amber-600/80 text-white py-3 px-4 rounded-md font-bold transition-all duration-300 border border-orange-300/30 hover:shadow-lg hover:shadow-orange-500/30"
+            type="button"
           >
             {t("book", "Book")}
           </button>
         </div>
-      </div>
+      </article>
     );
   }
 );
@@ -364,7 +516,11 @@ const ViewMoreButton = memo(({ text }) => {
 ViewMoreButton.displayName = "ViewMoreButton";
 
 const Loader = memo(({ loadingText }) => (
-  <div className="flex justify-center items-center h-64">
+  <div
+    className="flex justify-center items-center h-64"
+    role="status"
+    aria-live="polite"
+  >
     <div className="flex flex-col items-center">
       <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-500 mb-4"></div>
       <div className="text-white">{loadingText}</div>
@@ -374,7 +530,7 @@ const Loader = memo(({ loadingText }) => (
 Loader.displayName = "Loader";
 
 const ErrorMessage = memo(({ message }) => (
-  <div className="flex justify-center items-center h-64">
+  <div className="flex justify-center items-center h-64" role="alert">
     <div className="bg-red-500/20 border border-red-500 text-white px-8 py-6 rounded-lg max-w-md">
       <div className="text-red-500 text-lg font-medium">{message}</div>
     </div>
@@ -389,17 +545,55 @@ function CarsGrid() {
   const [error, setError] = useState(null);
   const [currentImages, setCurrentImages] = useState({});
   const [selectedCar, setSelectedCar] = useState(null);
+  const controllerRef = useRef(null);
 
   const { t } = useTranslation("carsgrid");
 
+  // Förbättrad fetch-funktion med bättre cache-strategi och avbrytshantering
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+    // Rensa tidigare controller
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+
+    controllerRef.current = new AbortController();
+    const signal = controllerRef.current.signal;
 
     const fetchCars = async () => {
       try {
         setLoading(true);
 
+        // Försök använda cache först
+        const cacheKey = "carsCache";
+        const cacheTimestamp = sessionStorage.getItem("carsCacheTimestamp");
+        const cacheData = sessionStorage.getItem(cacheKey);
+
+        // Kontrollera att cache finns och är färsk (mindre än 10 min)
+        if (
+          cacheData &&
+          cacheTimestamp &&
+          Date.now() - parseInt(cacheTimestamp) < 600000
+        ) {
+          const parsedData = JSON.parse(cacheData);
+          if (Array.isArray(parsedData) && parsedData.length > 0) {
+            const shuffledCars = shuffleArray(parsedData);
+            const limitedCars = shuffledCars.slice(0, MAX_CARS_TO_DISPLAY);
+
+            const initialImageIndices = limitedCars.reduce((acc, car) => {
+              acc[car.id] = 0;
+              return acc;
+            }, {});
+
+            setCars(parsedData);
+            setDisplayedCars(limitedCars);
+            setCurrentImages(initialImageIndices);
+            setError(null);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Annars hämta från API med förbättrade fetch-inställningar
         const response = await fetch("/api/cars", {
           headers: {
             "Cache-Control": "max-age=3600",
@@ -413,13 +607,18 @@ function CarsGrid() {
 
         const data = await response.json();
 
+        // Spara i cache
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        sessionStorage.setItem("carsCacheTimestamp", Date.now().toString());
+
+        // Förberedd data för optimerad renderings prestanda
         const shuffledCars = shuffleArray(data);
         const limitedCars = shuffledCars.slice(0, MAX_CARS_TO_DISPLAY);
 
-        const initialImageIndices = limitedCars.reduce((acc, car) => {
-          acc[car.id] = 0;
-          return acc;
-        }, {});
+        // Förberäkna bildindexar för att undvika rerendering senare
+        const initialImageIndices = Object.fromEntries(
+          limitedCars.map((car) => [car.id, 0])
+        );
 
         setCars(data);
         setDisplayedCars(limitedCars);
@@ -440,7 +639,9 @@ function CarsGrid() {
     fetchCars();
 
     return () => {
-      controller.abort();
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
     };
   }, [t]);
 
@@ -451,6 +652,9 @@ function CarsGrid() {
         direction === "next"
           ? (currentIndex + 1) % 3
           : (currentIndex - 1 + 3) % 3;
+
+      // Bara uppdatera om index faktiskt ändras för att minska rerenders
+      if (currentIndex === newIndex) return prev;
 
       return {
         ...prev,
@@ -488,6 +692,7 @@ function CarsGrid() {
     setSelectedCar(null);
   }, []);
 
+  // Om laddar, visa laddningsindikator med semantisk struktur
   if (loading) {
     return (
       <section className="w-full bg-black py-12 px-4 mt-8">
@@ -501,6 +706,7 @@ function CarsGrid() {
     );
   }
 
+  // Vid fel, visa felmeddelande med semantisk struktur
   if (error) {
     return (
       <section className="w-full bg-black py-8 px-4 mt-8">
@@ -516,9 +722,15 @@ function CarsGrid() {
 
   return (
     <>
-      <section className="w-full bg-black py-12 px-4">
+      <section
+        className="w-full bg-black py-12 px-4"
+        aria-labelledby="fleet-title"
+      >
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-3 text-center">
+          <h2
+            id="fleet-title"
+            className="text-4xl font-bold text-white mb-3 text-center"
+          >
             {t("fleetTitle", "Our Fleet")}
           </h2>
           <p className="text-gray-400 mb-10 text-center max-w-2xl mx-auto">
@@ -528,21 +740,30 @@ function CarsGrid() {
             )}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-8"
+            role="list"
+            aria-label="Available cars for rent"
+          >
             {displayedCars.map((car, index) => (
-              <AnimatedCarCard
+              <div
                 key={car.id}
-                car={car}
-                currentImageIndex={currentImages[car.id]}
-                onNavigateImage={navigateCarImage}
-                onBookClick={handleBookClick}
-                index={index}
-                t={t}
-              />
+                role="listitem"
+                aria-label={`${car.brand} ${car.model}`}
+              >
+                <AnimatedCarCard
+                  car={car}
+                  currentImageIndex={currentImages[car.id]}
+                  onNavigateImage={navigateCarImage}
+                  onBookClick={handleBookClick}
+                  index={index}
+                  t={t}
+                />
+              </div>
             ))}
           </div>
 
-          <ViewMoreButton text={t("allCars", "All Cars")} />
+          <ViewMoreButton text={t("allCars", "View All Cars")} />
         </div>
       </section>
 

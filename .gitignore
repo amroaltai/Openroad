@@ -37,3 +37,6 @@ server/db/Cars.db
 server/uploads/*
 !server/uploads/.gitkeep
 server/temp-uploads/
+
+# Password hash generator script
+generate-password-hash.js

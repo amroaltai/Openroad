@@ -5,6 +5,7 @@ const AdminLoginModal = memo(({ isOpen, onClose }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const modalRef = useRef(null);
@@ -22,13 +23,35 @@ const AdminLoginModal = memo(({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const handleLogin = useCallback(() => {
-    if (username === "admin" && password === "password123") {
-      sessionStorage.setItem("isAdminAuthenticated", "true");
-      onClose();
-      navigate("/admin");
-    } else {
-      setError("Incorrect username or password");
-    }
+    setIsLoading(true);
+    setError("");
+
+    // Secure authentication using server-side validation
+    fetch("/api/auth/admin/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        if (data.success) {
+          sessionStorage.setItem("isAdminAuthenticated", "true");
+          sessionStorage.setItem("adminToken", data.token);
+          onClose();
+          navigate("/admin");
+        } else {
+          setError(data.message || "Incorrect username or password");
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.error("Login error:", err);
+        setError("Ett fel uppstod vid inloggning. Försök igen senare.");
+      });
   }, [username, password, onClose, navigate]);
 
   const handleSubmit = useCallback(
@@ -164,8 +187,9 @@ const AdminLoginModal = memo(({ isOpen, onClose }) => {
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-orange-400 to-amber-500 text-white py-3 rounded-md font-bold hover:from-orange-500 hover:to-amber-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Loggar in..." : "Login"}
           </button>
         </form>
       </div>

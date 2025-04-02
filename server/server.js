@@ -4,8 +4,10 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser"; // Nytt
 import { initDatabase } from "./db/database.js";
 import carsRoutes from "./routes/cars.js";
+import authRoutes from "./routes/auth.js"; // Nytt
 import fs from "fs";
 
 // Load environment variables
@@ -18,7 +20,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration - keep your existing settings
+// CORS configuration - behåller dina befintliga inställningar
 app.use(
   cors({
     origin: [
@@ -35,6 +37,7 @@ app.use(
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // VIKTIGT: För att hantera form data
+app.use(cookieParser()); // Nytt: för att hantera cookies
 
 // Serve static files from client/dist
 app.use(express.static(path.join(__dirname, "..", "client", "dist")));
@@ -51,6 +54,7 @@ if (!fs.existsSync(tempUploadsDir)) {
 
 // API routes
 app.use("/api/cars", carsRoutes);
+app.use("/api/auth", authRoutes); // Nytt: route för autentisering
 
 // Health check endpoint for Render
 app.get("/health", (req, res) => {

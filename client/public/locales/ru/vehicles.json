@@ -1,7 +1,10 @@
 {
-  "title": "Наши Автомобили",
+  "title": "Наши автомобили",
+  "search": {
+    "placeholder": "Поиск автомобилей..."
+  },
   "carTypes": {
-    "allTypes": "Все Типы",
+    "allTypes": "Все типы",
     "suv": "Внедорожник",
     "sport": "Спортивный",
     "luxury": "Люкс",
@@ -10,30 +13,30 @@
   },
   "book": "Забронировать",
   "filters": {
-    "allBrands": "Все Марки"
+    "allBrands": "Все марки"
   },
   "sortOptions": {
     "default": "Сортировка по цене",
     "price_low": "Цена (по возрастанию)",
     "price_high": "Цена (по убыванию)"
   },
-  "seats": "Мест",
+  "seats": "Места",
   "showingVehicles": "Показано {{count}} из {{total}} автомобилей",
-  "filteredBy": "с фильтром",
-  "noVehiclesAvailable": "По выбранным критериям автомобили не найдены.",
+  "filteredBy": "отфильтровано по",
+  "noVehiclesAvailable": "Нет доступных автомобилей с выбранными критериями.",
   "errors": {
     "fetchFailed": "Не удалось загрузить автомобили"
   },
   "whatsappModal": {
-    "title": "Связаться через WhatsApp",
-    "message": "Хотите узнать больше о",
+    "title": "Свяжитесь с нами через WhatsApp",
+    "message": "Хотите узнать подробнее о",
     "startChat": "Начать чат в WhatsApp"
   },
   "whatsappMessage": "Здравствуйте! Меня интересует {{brand}} {{model}}",
-  "pricing": "Цены",
-  "daily": "День",
-  "weekly": "Неделя",
-  "monthly": "Месяц",
+  "pricing": "Стоимость",
+  "daily": "Посуточно",
+  "weekly": "Понедельно",
+  "monthly": "Помесячно",
   "startingFrom": "От",
   "pricingStartingFrom": "Цены начинаются от",
   "day": "день"

@@ -14,6 +14,7 @@ import {
   ChevronDown,
   ArrowDownAZ,
   ArrowUpAZ,
+  Search,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -244,6 +245,114 @@ const ImageNavButton = memo(({ direction, onClick, ariaLabel }) => (
 ));
 ImageNavButton.displayName = "ImageNavButton";
 
+const OptimizedCarImage = memo(({ src, alt, onError }) => {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  // Optimized image with Cloudinary or other URL
+  const optimizedSrc = useMemo(() => {
+    if (src?.includes("cloudinary.com")) {
+      return src.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto:good,c_fill,w_800,h_480/"
+      );
+    }
+    return src;
+  }, [src]);
+
+  // Use a placeholder if no src is provided
+  const safeSrc = optimizedSrc || "/images/placeholder.jpg";
+
+  // Use intersection observer to load the image only when it's near viewport
+  useEffect(() => {
+    if (!imgRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Set data-src as src when the image is near the viewport
+          const imgElement = imgRef.current;
+          if (imgElement) {
+            observer.unobserve(imgElement);
+          }
+        }
+      },
+      { rootMargin: "200px" } // Preload images when they are 200px from viewport
+    );
+
+    observer.observe(imgRef.current);
+
+    return () => {
+      if (imgRef.current) {
+        observer.unobserve(imgRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      {!loaded && (
+        <div className="w-full h-full bg-gray-800 animate-pulse absolute inset-0 z-10flex items-center justify-center">
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      <img
+        ref={imgRef}
+        src={safeSrc}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+        onLoad={() => setLoaded(true)}
+        onError={(e) => {
+          e.target.src = "/images/placeholder.jpg";
+          onError && onError(e);
+        }}
+        loading="lazy"
+      />
+    </>
+  );
+});
+OptimizedCarImage.displayName = "OptimizedCarImage";
+
+// Improved InView hook
+const useImprovedInView = (options = {}) => {
+  const [inView, setInView] = useState(false);
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          // Stop observing once the element has been shown
+          if (elementRef.current) {
+            observer.unobserve(elementRef.current);
+          }
+        }
+      },
+      {
+        threshold: 0.15, // Set a lower threshold for earlier trigger
+        rootMargin: "50px 0px", // Activate slightly earlier than viewport
+        ...options,
+      }
+    );
+
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
+    }
+
+    return () => {
+      if (currentElement) {
+        observer.unobserve(currentElement);
+      }
+    };
+  }, [options]);
+
+  return [elementRef, inView];
+};
+
 const CarCard = memo(
   ({
     car,
@@ -254,9 +363,12 @@ const CarCard = memo(
     handleBookClick,
     handleEnlargeImage,
     t,
+    index,
   }) => {
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
+    const [ref, inView] = useImprovedInView();
+
     const carType = useMemo(
       () => car.type || t("carTypes.luxury"),
       [car.type, t]
@@ -310,8 +422,17 @@ const CarCard = memo(
     const hasPrice =
       formattedPricePerDay || formattedPricePerWeek || formattedPricePerMonth;
 
+    // Simplify animation with time delays based on index
+    const animationDelay = `${Math.min(index * 60, 300)}ms`;
+
     return (
-      <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px]">
+      <div
+        ref={ref}
+        className={`bg-gray-900/80 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:translate-y-[-5px] opacity-0 ${
+          inView ? "animate-fade-up" : ""
+        }`}
+        style={{ animationDelay }}
+      >
         <div
           className="relative w-full h-60 bg-gray-800 overflow-hidden group cursor-pointer"
           onClick={() =>
@@ -332,11 +453,9 @@ const CarCard = memo(
             onClick={handleNextImage}
             ariaLabel={`Next image of ${car.brand} ${car.model}`}
           />
-          <img
+          <OptimizedCarImage
             src={getImageUrl(getCurrentCarImage(car))}
             alt={`${car.brand} ${car.model}`}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            loading="lazy"
             onError={(e) => (e.target.src = "/images/placeholder.jpg")}
           />
           <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-20 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
@@ -470,23 +589,29 @@ const PriceSortDropdown = memo(
     }, [selectedSort, t]);
 
     return (
-      <div className="w-full md:w-auto relative z-[110]">
+      <div className="relative z-[110]">
         <button
           onClick={toggleDropdown}
-          className="w-full md:w-auto bg-gray-900 text-white border border-orange-500/30 rounded-md px-6 py-3 pr-12 flex justify-between items-center cursor-pointer"
+          className="w-full bg-gray-900 text-white border border-orange-500/30 rounded-md px-4 py-3 pr-10 flex justify-between items-center cursor-pointer hover:border-orange-500/50"
           aria-haspopup="listbox"
           aria-expanded={sortMenuOpen}
         >
-          <span className="flex items-center">
+          <span className="flex items-center truncate">
             {selectedSort === "price_low" ? (
-              <ArrowUpAZ size={18} className="mr-2 text-orange-400" />
+              <ArrowUpAZ
+                size={18}
+                className="mr-2 text-orange-400 flex-shrink-0"
+              />
             ) : selectedSort === "price_high" ? (
-              <ArrowDownAZ size={18} className="mr-2 text-orange-400" />
+              <ArrowDownAZ
+                size={18}
+                className="mr-2 text-orange-400 flex-shrink-0"
+              />
             ) : null}
             {currentSortLabel}
           </span>
           <ChevronDown
-            className={`h-5 w-5 text-orange-500 transition-transform ${
+            className={`h-5 w-5 text-orange-500 transition-transform absolute right-3 ${
               sortMenuOpen ? "rotate-180" : ""
             }`}
           />
@@ -511,10 +636,10 @@ const PriceSortDropdown = memo(
                 aria-selected={selectedSort === option.value}
               >
                 {option.value === "price_low" && (
-                  <ArrowUpAZ size={18} className="mr-2" />
+                  <ArrowUpAZ size={18} className="mr-2 flex-shrink-0" />
                 )}
                 {option.value === "price_high" && (
-                  <ArrowDownAZ size={18} className="mr-2" />
+                  <ArrowDownAZ size={18} className="mr-2 flex-shrink-0" />
                 )}
                 {t(`sortOptions.${option.value}`, option.label)}
               </button>
@@ -576,20 +701,20 @@ const BrandDropdown = memo(
       [setSelectedBrand, setFilterMenuOpen]
     );
     return (
-      <div className="w-full md:w-auto relative z-[100]">
+      <div className="relative z-[100]">
         <button
           onClick={toggleDropdown}
-          className="w-full md:w-auto bg-gray-900 text-white border border-orange-500/30 rounded-md px-6 py-3 pr-12 flex justify-between items-center cursor-pointer"
+          className="w-full bg-gray-900 text-white border border-orange-500/30 rounded-md px-4 py-3 pr-10 flex justify-between items-center cursor-pointer hover:border-orange-500/50"
           aria-haspopup="listbox"
           aria-expanded={filterMenuOpen}
         >
-          <span>
+          <span className="truncate">
             {selectedBrand === "all"
               ? t("filters.allBrands", "All Brands")
               : selectedBrand}
           </span>
           <ChevronDown
-            className={`h-5 w-5 text-orange-500 transition-transform ${
+            className={`h-5 w-5 text-orange-500 transition-transform absolute right-3 ${
               filterMenuOpen ? "rotate-180" : ""
             }`}
           />
@@ -739,7 +864,12 @@ const Vehicles = memo(() => {
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [enlargedImage, setEnlargedImage] = useState(null);
-  const itemsPerPage = 20;
+  const [isMobile, setIsMobile] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Adjust number of cars per page based on mobile or not
+  const itemsPerPage = isMobile ? 10 : 20;
+
   const API_BASE_URL = useMemo(
     () =>
       process.env.NODE_ENV === "production" ? "" : "http://localhost:5000",
@@ -747,6 +877,18 @@ const Vehicles = memo(() => {
   );
   const dropdownRef = useRef(null);
   const sortDropdownRef = useRef(null);
+
+  // Detect if device is mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -774,9 +916,36 @@ const Vehicles = memo(() => {
   const fetchCars = useCallback(async () => {
     try {
       setLoading(true);
+
+      // Try using cache first
+      const cacheKey = "vehiclesCarsCache";
+      const cacheTimestamp = sessionStorage.getItem("vehiclesCarsTimestamp");
+      const cacheData = sessionStorage.getItem(cacheKey);
+
+      if (
+        cacheData &&
+        cacheTimestamp &&
+        Date.now() - parseInt(cacheTimestamp) < 600000
+      ) {
+        const parsedData = JSON.parse(cacheData);
+        setCars(parsedData);
+        setFilteredCars(parsedData);
+        setBrands([...new Set(parsedData.map((car) => car.brand))].sort());
+        setCurrentImages(
+          parsedData.reduce((acc, car) => ({ ...acc, [car.id]: 0 }), {})
+        );
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(`${API_BASE_URL}/api/cars`);
       if (!response.ok) throw new Error("Failed to fetch cars");
       const data = await response.json();
+
+      // Save in cache
+      sessionStorage.setItem(cacheKey, JSON.stringify(data));
+      sessionStorage.setItem("vehiclesCarsTimestamp", Date.now().toString());
+
       setCars(data);
       setFilteredCars(data);
       setBrands([...new Set(data.map((car) => car.brand))].sort());
@@ -798,14 +967,29 @@ const Vehicles = memo(() => {
   useEffect(() => {
     let filtered = [...cars];
 
+    // Search filter
+    if (searchQuery) {
+      const lowercaseQuery = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(
+        (car) =>
+          car.brand.toLowerCase().includes(lowercaseQuery) ||
+          car.model.toLowerCase().includes(lowercaseQuery) ||
+          car.year.toString().includes(lowercaseQuery) ||
+          car.type?.toLowerCase().includes(lowercaseQuery)
+      );
+    }
+
+    // Brand filter
     if (selectedBrand !== "all")
       filtered = filtered.filter((car) => car.brand === selectedBrand);
 
+    // Type filter
     if (selectedType !== "all")
       filtered = filtered.filter(
         (car) => car.type?.toLowerCase() === selectedType.toLowerCase()
       );
 
+    // Sort filter
     if (selectedSort === "price_low") {
       filtered = filtered.sort((a, b) => {
         const priceA = a.price_per_day || Infinity;
@@ -822,7 +1006,7 @@ const Vehicles = memo(() => {
 
     setFilteredCars(filtered);
     setCurrentPage(1);
-  }, [selectedBrand, selectedType, selectedSort, cars]);
+  }, [selectedBrand, selectedType, selectedSort, cars, searchQuery]);
 
   const currentCars = useMemo(
     () =>
@@ -902,8 +1086,32 @@ const Vehicles = memo(() => {
                 {t("title", "Our Vehicles")}
               </h1>
 
-              <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                <div ref={sortDropdownRef} className="w-full sm:w-auto">
+              {/* Improved responsive filter bar */}
+              <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto md:max-w-3xl lg:max-w-4xl">
+                {/* Search input */}
+                <div className="relative md:flex-grow md:flex-1 min-w-0">
+                  <input
+                    type="text"
+                    placeholder={t("search.placeholder", "Search vehicles...")}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-gray-900 text-white border border-orange-500/30 rounded-md px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200 hover:border-orange-500/50"
+                  />
+                  <Search
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400"
+                    size={20}
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div ref={sortDropdownRef} className="md:min-w-40 md:w-40">
                   <PriceSortDropdown
                     selectedSort={selectedSort}
                     setSelectedSort={setSelectedSort}
@@ -913,7 +1121,7 @@ const Vehicles = memo(() => {
                   />
                 </div>
 
-                <div ref={dropdownRef} className="w-full sm:w-auto">
+                <div ref={dropdownRef} className="md:min-w-40 md:w-40">
                   <BrandDropdown
                     selectedBrand={selectedBrand}
                     brands={brands}
@@ -977,7 +1185,7 @@ const Vehicles = memo(() => {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 aria-live="polite"
               >
-                {currentCars.map((car) => (
+                {currentCars.map((car, index) => (
                   <CarCard
                     key={car.id}
                     car={car}
@@ -988,6 +1196,7 @@ const Vehicles = memo(() => {
                     handleBookClick={handleBookClick}
                     handleEnlargeImage={handleEnlargeImage}
                     t={t}
+                    index={index}
                   />
                 ))}
               </div>

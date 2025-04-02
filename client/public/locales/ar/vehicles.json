@@ -1,8 +1,11 @@
 {
   "title": "سياراتنا",
+  "search": {
+    "placeholder": "البحث عن السيارات..."
+  },
   "carTypes": {
     "allTypes": "جميع الأنواع",
-    "suv": "دفع رباعي",
+    "suv": "سيارات الدفع الرباعي",
     "sport": "رياضية",
     "luxury": "فاخرة",
     "convertible": "مكشوفة",
@@ -22,15 +25,15 @@
   "filteredBy": "تمت التصفية حسب",
   "noVehiclesAvailable": "لا توجد سيارات متاحة بالمعايير المحددة.",
   "errors": {
-    "fetchFailed": "فشل في تحميل السيارات"
+    "fetchFailed": "فشل تحميل السيارات"
   },
   "whatsappModal": {
     "title": "تواصل معنا عبر واتساب",
     "message": "هل ترغب في الاستفسار عن",
     "startChat": "بدء محادثة واتساب"
   },
-  "whatsappMessage": "مرحبًا! أنا مهتم بسيارة {{brand}} {{model}}",
-  "pricing": "الأسعار",
+  "whatsappMessage": "مرحبًا! أنا مهتم بـ {{brand}} {{model}}",
+  "pricing": "التسعير",
   "daily": "يومي",
   "weekly": "أسبوعي",
   "monthly": "شهري",

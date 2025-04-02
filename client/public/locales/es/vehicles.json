@@ -1,21 +1,24 @@
 {
-  "title": "Nuestros Vehículos",
+  "title": "Nuestros vehículos",
+  "search": {
+    "placeholder": "Buscar vehículos..."
+  },
   "carTypes": {
-    "allTypes": "Todos los Tipos",
+    "allTypes": "Todos los tipos",
     "suv": "SUV",
     "sport": "Deportivo",
     "luxury": "Lujo",
-    "convertible": "Convertible",
+    "convertible": "Descapotable",
     "economy": "Económico"
   },
   "book": "Reservar",
   "filters": {
-    "allBrands": "Todas las Marcas"
+    "allBrands": "Todas las marcas"
   },
   "sortOptions": {
     "default": "Ordenar por precio",
-    "price_low": "Precio (menor a mayor)",
-    "price_high": "Precio (mayor a menor)"
+    "price_low": "Precio (de menor a mayor)",
+    "price_high": "Precio (de mayor a menor)"
   },
   "seats": "Asientos",
   "showingVehicles": "Mostrando {{count}} de {{total}} vehículos",
@@ -25,16 +28,16 @@
     "fetchFailed": "Error al cargar los coches"
   },
   "whatsappModal": {
-    "title": "Contáctenos vía WhatsApp",
+    "title": "Contáctenos por WhatsApp",
     "message": "¿Le gustaría consultar sobre el",
     "startChat": "Iniciar chat de WhatsApp"
   },
-  "whatsappMessage": "¡Hola! Estoy interesado/a en el {{brand}} {{model}}",
+  "whatsappMessage": "¡Hola! Estoy interesado en el {{brand}} {{model}}",
   "pricing": "Precios",
   "daily": "Diario",
   "weekly": "Semanal",
   "monthly": "Mensual",
   "startingFrom": "Desde",
-  "pricingStartingFrom": "Precios desde",
+  "pricingStartingFrom": "Precios a partir de",
   "day": "día"
 }

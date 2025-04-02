@@ -86,3 +86,107 @@ body::after {
 .to-amber-500\/30 {
   opacity: 0.3 !important;
 }
+
+/* Optimerade animationer */
+.animate-fade-up,
+.animate-fade-down,
+.animate-fade-left,
+.animate-fade-right {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fade-down {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -30px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fade-left {
+  0% {
+    opacity: 0;
+    transform: translate3d(30px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fade-right {
+  0% {
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-down {
+  animation: fade-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-left {
+  animation: fade-left 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-right {
+  animation: fade-right 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-delay-100 {
+  animation-delay: 60ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 120ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 180ms;
+}
+
+.animate-delay-400 {
+  animation-delay: 240ms;
+}
+
+.animate-delay-500 {
+  animation-delay: 300ms;
+}
+
+.animate-delay-600 {
+  animation-delay: 360ms;
+}
+
+.animate-duration-\[800ms\] {
+  animation-duration: 800ms;
+}
+
+img {
+  content-visibility: auto;
+}

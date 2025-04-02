@@ -1,5 +1,8 @@
 {
   "title": "Our Vehicles",
+  "search": {
+    "placeholder": "Search vehicles..."
+  },
   "carTypes": {
     "allTypes": "All Types",
     "suv": "SUV",

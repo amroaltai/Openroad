@@ -1,12 +1,15 @@
 {
   "title": "Unsere Fahrzeuge",
+  "search": {
+    "placeholder": "Fahrzeuge suchen..."
+  },
   "carTypes": {
     "allTypes": "Alle Typen",
     "suv": "SUV",
     "sport": "Sport",
     "luxury": "Luxus",
-    "convertible": "Cabriolet",
-    "economy": "Economy"
+    "convertible": "Cabrio",
+    "economy": "Wirtschaft"
   },
   "book": "Buchen",
   "filters": {
@@ -26,11 +29,11 @@
   },
   "whatsappModal": {
     "title": "Kontaktieren Sie uns über WhatsApp",
-    "message": "Möchten Sie Informationen über",
-    "startChat": "WhatsApp Chat starten"
+    "message": "Möchten Sie Informationen zum",
+    "startChat": "WhatsApp-Chat starten"
   },
   "whatsappMessage": "Hallo! Ich interessiere mich für den {{brand}} {{model}}",
-  "pricing": "Preise",
+  "pricing": "Preisgestaltung",
   "daily": "Täglich",
   "weekly": "Wöchentlich",
   "monthly": "Monatlich",
