@@ -866,6 +866,7 @@ const Vehicles = memo(() => {
   const [enlargedImage, setEnlargedImage] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [lastUpdateCheck, setLastUpdateCheck] = useState(Date.now());
 
   // Adjust number of cars per page based on mobile or not
   const itemsPerPage = isMobile ? 10 : 20;
@@ -938,7 +939,7 @@ const Vehicles = memo(() => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/api/cars`);
+      const response = await fetch(`${API_BASE_URL}/api/cars?t=${Date.now()}`);
       if (!response.ok) throw new Error("Failed to fetch cars");
       const data = await response.json();
 
@@ -962,7 +963,14 @@ const Vehicles = memo(() => {
 
   useEffect(() => {
     fetchCars();
-  }, [fetchCars]);
+
+    // Set up polling to check for updates every 10 seconds
+    const intervalId = setInterval(() => {
+      setLastUpdateCheck(Date.now());
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [fetchCars, lastUpdateCheck]);
 
   useEffect(() => {
     let filtered = [...cars];
@@ -1074,6 +1082,39 @@ const Vehicles = memo(() => {
       )})`;
     return text;
   }, [selectedBrand, selectedType, selectedSort, t]);
+
+  // Add this effect to listen for data update events
+  useEffect(() => {
+    const handleDataUpdate = () => {
+      console.log("Cars data updated, refreshing...");
+      // Trigger a refresh by changing lastUpdateCheck
+      setLastUpdateCheck(Date.now());
+    };
+
+    // Listen for the custom event
+    window.addEventListener("carsDataUpdated", handleDataUpdate);
+
+    // Check if there's been an update while this component wasn't mounted
+    const lastUpdated = sessionStorage.getItem("carsLastUpdated");
+    if (lastUpdated) {
+      const lastUpdateTime = parseInt(lastUpdated, 10);
+      const ourLastCheck = parseInt(
+        sessionStorage.getItem("ourLastCheck") || "0",
+        10
+      );
+
+      if (lastUpdateTime > ourLastCheck) {
+        // Data was updated elsewhere, refresh
+        handleDataUpdate();
+      }
+    }
+
+    // Clean up
+    return () => {
+      window.removeEventListener("carsDataUpdated", handleDataUpdate);
+      sessionStorage.setItem("ourLastCheck", Date.now().toString());
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">

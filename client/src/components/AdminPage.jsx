@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Plus, Trash, Edit, Save, X, Upload, LogOut } from "lucide-react";
+import {
+  Plus,
+  Trash,
+  Edit,
+  Save,
+  X,
+  Upload,
+  LogOut,
+  RefreshCw,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
@@ -94,11 +103,24 @@ const AdminPage = () => {
   const fetchCars = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/cars`);
+      // Lägg till timestamp för att förhindra caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(`${API_BASE_URL}/api/cars?t=${timestamp}`);
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       setCars(await response.json());
       setError(null);
+
+      // Invalidera cachen för hemsidan
+      try {
+        // Rensa cache för att tvinga uppdatering på hemsidan
+        sessionStorage.removeItem("vehiclesCarsCache");
+        sessionStorage.removeItem("vehiclesCarsTimestamp");
+        sessionStorage.removeItem("carsCache");
+        sessionStorage.removeItem("carsCacheTimestamp");
+      } catch (e) {
+        // Ignorera fel här, inte kritiskt
+      }
     } catch (err) {
       setError("Failed to load cars. Please check server connection.");
     } finally {
@@ -156,6 +178,7 @@ const AdminPage = () => {
         : value,
     }));
   };
+
   const handleFileSelect =
     (field, isEdit = false) =>
     (e) => {
@@ -285,10 +308,15 @@ const AdminPage = () => {
         formData.append("images", file);
       });
 
-      const response = await fetch(`${API_BASE_URL}/api/cars/upload`, {
-        method: "POST",
-        body: formData,
-      });
+      // Lägg till timestamp för att förhindra caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(
+        `${API_BASE_URL}/api/cars/upload?t=${timestamp}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) throw new Error(await response.text());
 
@@ -337,9 +365,14 @@ const AdminPage = () => {
   const confirmDelete = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/cars/${carToDelete}`, {
-        method: "DELETE",
-      });
+      // Lägg till timestamp för att förhindra caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(
+        `${API_BASE_URL}/api/cars/${carToDelete}?t=${timestamp}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       fetchCars();
@@ -357,9 +390,14 @@ const AdminPage = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/cars/${id}`, {
-        method: "DELETE",
-      });
+      // Lägg till timestamp för att förhindra caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(
+        `${API_BASE_URL}/api/cars/${id}?t=${timestamp}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       fetchCars();
@@ -369,6 +407,7 @@ const AdminPage = () => {
       setLoading(false);
     }
   };
+
   const startEditing = (car) => {
     setEditingId(car.id);
     setEditCar({
@@ -441,10 +480,16 @@ const AdminPage = () => {
       imageFiles.forEach((file) => {
         formData.append("images", file);
       });
-      const response = await fetch(`${API_BASE_URL}/api/cars/${id}/upload`, {
-        method: "PUT",
-        body: formData,
-      });
+
+      // Lägg till timestamp för att förhindra caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(
+        `${API_BASE_URL}/api/cars/${id}/upload?t=${timestamp}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       if (!response.ok) throw new Error(await response.text());
 
@@ -525,12 +570,26 @@ const AdminPage = () => {
       <div className="container mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Car Admin Panel</h1>
-          <button
-            onClick={handleLogout}
-            className="flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors"
-          >
-            <LogOut size={18} className="mr-2" /> Logout
-          </button>
+          <div className="flex items-center space-x-4">
+            {/* Uppdateringsknapp */}
+            <button
+              onClick={fetchCars}
+              className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
+              disabled={loading}
+            >
+              <RefreshCw
+                size={18}
+                className={`mr-2 ${loading ? "animate-spin" : ""}`}
+              />
+              {loading ? "Uppdaterar..." : "Uppdatera billista"}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors"
+            >
+              <LogOut size={18} className="mr-2" /> Logout
+            </button>
+          </div>
         </div>
 
         {error && (
