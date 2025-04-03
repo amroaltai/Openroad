@@ -408,14 +408,29 @@ router.delete("/:id", async (req, res) => {
     for (const imageUrl of images) {
       if (imageUrl && imageUrl.includes("cloudinary.com")) {
         try {
-          // Extract public_id from Cloudinary URL
+          // Korrekt extrahering av public_id från Cloudinary URL
+          // Exempel URL: https://res.cloudinary.com/dxxgkf6qr/image/upload/v1650123456/car-images/abcd1234.jpg
           const urlParts = imageUrl.split("/");
-          const fileNameWithExtension = urlParts[urlParts.length - 1];
-          const publicId = fileNameWithExtension.split(".")[0];
 
-          // Delete from Cloudinary
-          await cloudinary.uploader.destroy(`car-images/${publicId}`);
-          console.log(`Deleted image from Cloudinary: ${publicId}`);
+          // Hitta 'upload' index, som markerar var versionen börjar
+          const uploadIndex = urlParts.findIndex((part) => part === "upload");
+
+          if (uploadIndex !== -1 && uploadIndex + 2 < urlParts.length) {
+            // Hoppa över versionen (v1234567) och ta resten som public_id
+            // Detta inkluderar både 'car-images' och filnamnet
+            const publicIdParts = urlParts.slice(uploadIndex + 2);
+            const publicId = publicIdParts.join("/").split(".")[0]; // Ta bort filändelsen
+
+            console.log(
+              `Attempting to delete image with public_id: ${publicId}`
+            );
+
+            // Radera från Cloudinary
+            const result = await cloudinary.uploader.destroy(publicId);
+            console.log(`Deleted image from Cloudinary: ${publicId}`, result);
+          } else {
+            console.error(`Could not parse Cloudinary URL format: ${imageUrl}`);
+          }
         } catch (deleteError) {
           console.error("Error deleting image from Cloudinary:", deleteError);
           // Continue with deletion even if image deletion fails
