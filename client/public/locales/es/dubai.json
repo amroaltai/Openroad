@@ -1,0 +1,47 @@
+{
+  "title": "Servicio Premier de Alquiler de Coches en Dubái",
+  "subtitle": "Experimente el servicio definitivo de alquiler de coches de lujo y económicos en Dubái con entrega gratuita 24/7",
+  "luxurySection": {
+    "title": "Alquiler de Coches de Lujo y Económicos en Dubái",
+    "paragraph1": "En Open Road Car Rental Dubai, ofrecemos una flota excepcional de vehículos que se adaptan a todas las preferencias y presupuestos. Ya sea que esté buscando un prestigioso coche de lujo para una ocasión especial o un vehículo económico confiable para desplazamientos diarios, nuestra diversa selección garantiza que tengamos el coche perfecto para su aventura en Dubái.",
+    "paragraph2": "Nuestra flota premium incluye las mejores marcas como Mercedes-Benz, BMW, Range Rover y Lamborghini, todas mantenidas según los más altos estándares. Para los viajeros conscientes de su presupuesto, proporcionamos opciones económicas sin comprometer la calidad o el confort.",
+    "benefits": {
+      "insurance": "Seguro integral incluido en todos los alquileres",
+      "rates": "Tarifas competitivas diarias, semanales y mensuales",
+      "noFees": "Sin cargos ocultos ni sorpresas"
+    }
+  },
+  "deliverySection": {
+    "title": "Entrega Gratuita en Cualquier Lugar de Dubái, 24/7",
+    "paragraph1": "Entendemos la importancia de la comodidad al alquilar un coche en Dubái. Por eso ofrecemos servicios gratuitos de entrega y recogida de vehículos en cualquier lugar de Dubái, disponibles 24 horas al día, 7 días a la semana.",
+    "paragraph2": "Ya sea que necesite un coche entregado en el Aeropuerto Internacional de Dubái a su llegada, en su hotel, residencia o cualquier otro lugar de la ciudad, nuestro equipo profesional le asegurará una experiencia de entrega fluida y puntual sin costo adicional.",
+    "benefits": {
+      "airport": "Entregas en los aeropuertos DXB y Al Maktoum",
+      "hotels": "Entregas en hoteles y residencias en toda Dubái",
+      "service": "Servicio puntual con mínimo papeleo"
+    }
+  },
+  "features": {
+    "service": {
+      "title": "Servicio Altamente Valorado",
+      "description": "Altamente calificado en Google con comentarios excepcionales de clientes"
+    },
+    "insurance": {
+      "title": "Seguro Completo",
+      "description": "Cobertura integral incluida con todos los alquileres"
+    },
+    "terms": {
+      "title": "Términos Flexibles",
+      "description": "Opciones de alquiler diario, semanal y mensual disponibles"
+    },
+    "location": {
+      "title": "Ubicación Central",
+      "description": "Convenientemente ubicado en Al Jaddaf, Dubái"
+    }
+  },
+  "exploreSection": {
+    "title": "Explore Dubái con Estilo y Confort",
+    "paragraph1": "Dubái es una ciudad de maravillas, desde el imponente Burj Khalifa hasta las prístinas playas de Jumeirah, desde el encanto histórico de Al Fahidi hasta el atractivo futurista de Dubai Marina. La mejor manera de experimentar todas estas atracciones a su propio ritmo es con un coche de alquiler de calidad de Open Road Car Rental.",
+    "paragraph2": "Nuestros vehículos son perfectos para navegar por las bien mantenidas carreteras de Dubái, permitiéndole disfrutar de los lugares emblemáticos, destinos de compras y experiencias culinarias de la ciudad con la máxima comodidad. Ya sea que visite por negocios o por placer, nuestra flota tiene el vehículo perfecto para mejorar su experiencia en Dubái."
+  }
+}

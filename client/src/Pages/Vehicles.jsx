@@ -17,6 +17,7 @@ import {
   Search,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import VehiclesSchema from "../components/VehiclesSchema";
 
 const formatPrice = (price) => {
   if (price === null || price === undefined) return null;
@@ -1118,6 +1119,11 @@ const Vehicles = memo(() => {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
+      {/* Add VehiclesSchema for SEO */}
+      {!loading && !error && cars.length > 0 && (
+        <VehiclesSchema vehicles={cars} />
+      )}
+
       <Header />
       <main className="flex-grow pt-48 pb-16">
         <div className="container mx-auto px-4">

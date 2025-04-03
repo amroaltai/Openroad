@@ -1,0 +1,40 @@
+{
+  "title": "Häufig gestellte Fragen zur Autovermietung",
+  "subtitle": "Häufige Fragen zur Autovermietung in Dubai",
+  "contactText": "Haben Sie weitere Fragen? Kontaktieren Sie unser Team direkt unter",
+  "orVia": "oder über",
+  "questions": {
+    "documents": {
+      "question": "Welche Dokumente benötige ich, um ein Auto in Dubai zu mieten?",
+      "answer": "Um ein Auto bei Open Road Car Rental in Dubai zu mieten, benötigen Sie einen gültigen Führerschein (entweder einen VAE-Führerschein oder einen Internationalen Führerschein zusammen mit dem Führerschein Ihres Heimatlandes), einen Reisepass oder eine Emirates ID und eine Kreditkarte für die Kaution. Für Touristen ist ein Internationaler Führerschein (IDP) erforderlich, wenn Ihr Führerschein nicht auf Englisch oder Arabisch ist. Das Mindestalter beträgt 21 Jahre, obwohl für einige Luxusfahrzeuge Fahrer 25 Jahre oder älter sein müssen."
+    },
+    "airport": {
+      "question": "Bieten Sie eine kostenlose Lieferung zum Dubai International Airport (DXB) an?",
+      "answer": "Ja, wir bieten einen kostenlosen 24/7 Liefer- und Abholservice zum Dubai International Airport (DXB) und zu allen anderen Orten in ganz Dubai an. Unser Lieferservice ist jederzeit, Tag und Nacht, ohne zusätzliche Kosten verfügbar. Wir treffen Sie an Ihrem Terminal mit Ihrem ausgewählten Fahrzeug, erledigen alle Formalitäten effizient und bringen Sie nach Ankunft Ihres Fluges schnell auf den Weg."
+    },
+    "prices": {
+      "question": "Was ist in Ihren Autovermietungspreisen enthalten?",
+      "answer": "Unsere Mietpreise beinhalten umfassenden Versicherungsschutz, unbegrenzte Kilometerzahl für die meisten Fahrzeuge, 24/7 Pannenhilfe, kostenlose Lieferung und Abholung überall in Dubai, Wartung und Mehrwertsteuer. Es gibt keine versteckten Gebühren oder Überraschungen. Optionale Extras wie zusätzliche Fahrer, Kindersitze oder GPS-Navigationssysteme können gegen einen kleinen Aufpreis erhältlich sein. Wir sind stolz auf transparente Preise ohne unerwartete Kosten."
+    },
+    "luxury": {
+      "question": "Kann ich ein Luxusauto in Dubai bei Open Road Car Rental mieten?",
+      "answer": "Auf jeden Fall! Open Road Car Rental Dubai ist spezialisiert auf Luxusautovermietungen einschließlich renommierter Marken wie Mercedes-Benz, BMW, Range Rover, Porsche und viele mehr. Unsere Luxusflotte wird regelmäßig mit den neuesten Modellen aktualisiert, alle sorgfältig gewartet, um ein außergewöhnliches Fahrerlebnis zu gewährleisten. Ob Sie eine Luxuslimousine, einen SUV oder einen Sportwagen benötigen, wir bieten wettbewerbsfähige Raten für Luxusautovermietungen sowohl für kurz- als auch für langfristige Mieten in Dubai."
+    },
+    "delivery": {
+      "question": "Wie funktioniert Ihr Fahrzeuglieferservice?",
+      "answer": "Unser kostenloser Fahrzeuglieferservice ist einfach und bequem. Nach Ihrer Buchung online oder per Telefon teilen Sie uns einfach Ihren bevorzugten Lieferort und -zeit mit. Unser Vertreter wird an dem von Ihnen angegebenen Ort (Hotel, Wohnort, Flughafen usw.) mit Ihrem ausgewählten Fahrzeug ankommen. Wir erledigen die notwendigen Formalitäten, erklären die Funktionen des Fahrzeugs und übergeben die Schlüssel. Der gleiche Prozess gilt für die Abholung - teilen Sie uns einfach mit, wo und wann das Auto abgeholt werden soll, und wir werden pünktlich da sein."
+    },
+    "rates": {
+      "question": "Wie sind Ihre Mietperioden und -tarife?",
+      "answer": "Wir bieten flexible Mietperioden einschließlich täglicher, wöchentlicher und monatlicher Optionen mit erheblichen Rabatten für längere Mieten. Unsere Tagestarife beginnen bei 150 AED für Wirtschaftswagen und ab 500 AED für Luxusfahrzeuge. Wöchentliche Vermietungen bieten in der Regel einen Rabatt von 10-15% im Vergleich zu Tagespreisen, während monatliche Vermietungen noch größere Einsparungen bieten, oft 25-30% weniger als der entsprechende Tagestarif. Kontaktieren Sie uns für ein individuelles Angebot basierend auf Ihren spezifischen Anforderungen an die Mietdauer."
+    },
+    "mileage": {
+      "question": "Gibt es ein Kilometerlimit für Ihre Autovermietungen in Dubai?",
+      "answer": "Die meisten unserer Mietpakete kommen mit unbegrenzter Kilometerzahl, so dass Sie Dubai und die VAE ohne Sorgen um zusätzliche Kosten erkunden können. Für bestimmte Hochleistungs- oder Exotenfahrzeuge kann eine tägliche Kilometerbegrenzung gelten (typischerweise 250-300 km pro Tag). Wenn Ihre Miete ein Kilometerlimit hat, wird dies deutlich in Ihrem Mietvertrag angegeben, und alle überschüssigen Kilometer werden zu einem vordefinierten Satz berechnet, den wir Ihnen vor Beginn Ihrer Miete erklären werden."
+    },
+    "emirates": {
+      "question": "Kann ich mit meinem Mietwagen nach Abu Dhabi oder in andere Emirate fahren?",
+      "answer": "Ja, Sie können mit unseren Mietwagen in alle sieben Emirate innerhalb der VAE fahren, einschließlich Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah und Umm Al Quwain. Unsere umfassende Versicherung deckt Reisen durch die gesamten VAE ab. Für Reisen in Nachbarländer wie Oman können zusätzliche Dokumente und Versicherungen erforderlich sein - bitte informieren Sie uns im Voraus, wenn Sie planen, internationale Grenzen zu überqueren, damit wir die notwendigen Unterlagen und Anleitungen bereitstellen können."
+    }
+  }
+}

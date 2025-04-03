@@ -1,0 +1,29 @@
+# robots.txt for www.openroadcarrental.ae
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
+Disallow: */login
+Disallow: */logout
+
+# Prevent search engines from crawling duplicate content
+Disallow: */sort=*
+Disallow: *?*&
+Allow: */vehicles?type=*
+Allow: */vehicles?brand=*
+Allow: */vehicles?sort=price_low
+Allow: */vehicles?sort=price_high
+
+# Specify crawl delay for main search engines
+User-agent: Googlebot
+Crawl-delay: 1
+
+User-agent: bingbot
+Crawl-delay: 2
+
+User-agent: Slurp
+Crawl-delay: 3
+
+# Sitemap location
+Sitemap: https://www.openroadcarrental.ae/sitemap.xml

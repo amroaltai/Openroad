@@ -1,0 +1,40 @@
+{
+  "title": "Car Rental FAQ",
+  "subtitle": "Common questions about renting a car in Dubai",
+  "contactText": "Have more questions? Contact our team directly at",
+  "orVia": "or via",
+  "questions": {
+    "documents": {
+      "question": "What documents do I need to rent a car in Dubai?",
+      "answer": "To rent a car from Open Road Car Rental in Dubai, you'll need a valid driving license (either a UAE license or an International Driving Permit alongside your home country license), a passport or Emirates ID, and a credit card for the security deposit. For tourists, an International Driving Permit (IDP) is required if your license is not in English or Arabic. The minimum age requirement is 21 years, though some luxury vehicles may require drivers to be 25 or older."
+    },
+    "airport": {
+      "question": "Do you provide free delivery to Dubai International Airport (DXB)?",
+      "answer": "Yes, we offer complimentary 24/7 delivery and collection service to Dubai International Airport (DXB) and all other locations across Dubai. Our delivery service is available at any time, day or night, with no additional charges. We'll meet you at your terminal with your selected vehicle, handle all paperwork efficiently, and get you on your way quickly after your flight arrives."
+    },
+    "prices": {
+      "question": "What is included in your car rental prices?",
+      "answer": "Our rental prices include comprehensive insurance coverage, unlimited mileage for most vehicles, 24/7 roadside assistance, free delivery and collection anywhere in Dubai, maintenance, and VAT. There are no hidden fees or surprise charges. Optional extras like additional drivers, child seats, or GPS navigation systems may be available at a small additional cost. We pride ourselves on transparent pricing with no unexpected charges."
+    },
+    "luxury": {
+      "question": "Can I rent a luxury car in Dubai with Open Road Car Rental?",
+      "answer": "Absolutely! Open Road Car Rental Dubai specializes in luxury car rentals including prestigious brands like Mercedes-Benz, BMW, Range Rover, Porsche, and many more. Our luxury fleet is regularly updated with the latest models, all meticulously maintained to ensure an exceptional driving experience. Whether you need a luxury sedan, SUV, or sports car, we offer competitive rates for both short-term and long-term luxury car rentals in Dubai."
+    },
+    "delivery": {
+      "question": "How does your car delivery service work?",
+      "answer": "Our free car delivery service is simple and convenient. After making your booking online or by phone, just let us know your preferred delivery location and time. Our representative will arrive at your specified location (hotel, residence, airport, etc.) with your chosen vehicle. We'll complete the necessary paperwork, explain the vehicle features, and hand over the keys. The same process applies for collection – just tell us where and when to collect the car, and we'll be there on time."
+    },
+    "rates": {
+      "question": "What are your rental periods and rates?",
+      "answer": "We offer flexible rental periods including daily, weekly, and monthly options with significant discounts for longer rentals. Our daily rates start from AED 150 for economy cars and from AED 500 for luxury vehicles. Weekly rentals typically offer a 10-15% discount compared to daily rates, while monthly rentals provide even greater savings, often 25-30% less than the equivalent daily rate. Contact us for a custom quote based on your specific rental period requirements."
+    },
+    "mileage": {
+      "question": "Is there a mileage limit on your car rentals in Dubai?",
+      "answer": "Most of our rental packages come with unlimited mileage, allowing you to explore Dubai and the UAE without worrying about extra charges. For certain high-performance or exotic vehicles, a daily mileage allowance may apply (typically 250-300 km per day). If your rental has a mileage limit, this will be clearly stated in your rental agreement, and any excess kilometers will be charged at a predefined rate, which we'll explain before your rental begins."
+    },
+    "emirates": {
+      "question": "Can I drive my rental car to Abu Dhabi or other Emirates?",
+      "answer": "Yes, you can drive our rental cars to all seven Emirates within the UAE, including Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, and Umm Al Quwain. Our comprehensive insurance covers travel throughout the UAE. For trips to neighboring countries like Oman, additional documentation and insurance may be required - please inform us in advance if you plan to cross any international borders so we can provide the necessary paperwork and guidance."
+    }
+  }
+}

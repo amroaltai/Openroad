@@ -1,0 +1,47 @@
+{
+  "title": "Service Premier de Location de Voitures à Dubaï",
+  "subtitle": "Découvrez le service ultime de location de voitures de luxe et économiques à Dubaï avec livraison gratuite 24h/24 et 7j/7",
+  "luxurySection": {
+    "title": "Location de Voitures de Luxe et Économiques à Dubaï",
+    "paragraph1": "Chez Open Road Car Rental Dubaï, nous offrons une flotte exceptionnelle de véhicules répondant à toutes les préférences et tous les budgets. Que vous recherchiez une voiture de luxe prestigieuse pour une occasion spéciale ou un véhicule économique fiable pour les déplacements quotidiens, notre sélection diversifiée vous garantit la voiture parfaite pour votre aventure à Dubaï.",
+    "paragraph2": "Notre flotte premium comprend des marques haut de gamme comme Mercedes-Benz, BMW, Range Rover et Lamborghini, toutes entretenues selon les standards les plus élevés. Pour les voyageurs soucieux de leur budget, nous proposons des options économiques sans compromettre la qualité ou le confort.",
+    "benefits": {
+      "insurance": "Assurance complète incluse dans toutes les locations",
+      "rates": "Tarifs compétitifs quotidiens, hebdomadaires et mensuels",
+      "noFees": "Aucuns frais cachés ou surprises"
+    }
+  },
+  "deliverySection": {
+    "title": "Livraison Gratuite Partout à Dubaï, 24h/24 et 7j/7",
+    "paragraph1": "Nous comprenons l'importance de la commodité lors de la location d'une voiture à Dubaï. C'est pourquoi nous offrons des services gratuits de livraison et de récupération de véhicules à n'importe quel endroit de Dubaï, disponibles 24 heures sur 24, 7 jours sur 7.",
+    "paragraph2": "Que vous ayez besoin d'une voiture livrée à l'aéroport international de Dubaï à votre arrivée, à votre hôtel, résidence, ou tout autre endroit dans la ville, notre équipe professionnelle vous assurera une expérience de livraison fluide et ponctuelle sans frais supplémentaires.",
+    "benefits": {
+      "airport": "Livraisons aux aéroports DXB et Al Maktoum",
+      "hotels": "Livraisons aux hôtels et résidences dans tout Dubaï",
+      "service": "Service ponctuel avec un minimum de paperasse"
+    }
+  },
+  "features": {
+    "service": {
+      "title": "Service Hautement Noté",
+      "description": "Très bien noté sur Google avec des retours clients exceptionnels"
+    },
+    "insurance": {
+      "title": "Assurance Complète",
+      "description": "Couverture complète incluse avec toutes les locations"
+    },
+    "terms": {
+      "title": "Conditions Flexibles",
+      "description": "Options de location quotidiennes, hebdomadaires et mensuelles disponibles"
+    },
+    "location": {
+      "title": "Emplacement Central",
+      "description": "Idéalement situé à Al Jaddaf, Dubaï"
+    }
+  },
+  "exploreSection": {
+    "title": "Explorez Dubaï avec Style et Confort",
+    "paragraph1": "Dubaï est une ville de merveilles, de l'imposante Burj Khalifa aux plages immaculées de Jumeirah, du charme historique d'Al Fahidi à l'attrait futuriste de Dubai Marina. La meilleure façon de découvrir toutes ces attractions à votre propre rythme est avec une voiture de location de qualité d'Open Road Car Rental.",
+    "paragraph2": "Nos véhicules sont parfaits pour naviguer sur les routes bien entretenues de Dubaï, vous permettant de profiter des sites emblématiques de la ville, des destinations de shopping et des expériences culinaires avec un maximum de commodité et de confort. Que vous visitiez pour affaires ou pour les loisirs, notre flotte dispose du véhicule parfait pour améliorer votre expérience à Dubaï."
+  }
+}

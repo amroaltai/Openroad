@@ -1,0 +1,40 @@
+{
+  "title": "Preguntas Frecuentes sobre Alquiler de Coches",
+  "subtitle": "Preguntas comunes sobre alquilar un coche en Dubái",
+  "contactText": "¿Tienes más preguntas? Contacta a nuestro equipo directamente al",
+  "orVia": "o vía",
+  "questions": {
+    "documents": {
+      "question": "¿Qué documentos necesito para alquilar un coche en Dubái?",
+      "answer": "Para alquilar un coche en Open Road Car Rental en Dubái, necesitará una licencia de conducir válida (ya sea una licencia de EAU o un Permiso Internacional de Conducir junto con la licencia de su país de origen), un pasaporte o ID de Emiratos, y una tarjeta de crédito para el depósito de seguridad. Para turistas, se requiere un Permiso Internacional de Conducir (IDP) si su licencia no está en inglés o árabe. La edad mínima requerida es de 21 años, aunque algunos vehículos de lujo pueden requerir que los conductores tengan 25 años o más."
+    },
+    "airport": {
+      "question": "¿Proporcionan entrega gratuita al Aeropuerto Internacional de Dubái (DXB)?",
+      "answer": "Sí, ofrecemos servicio gratuito de entrega y recogida las 24 horas del día, 7 días a la semana, al Aeropuerto Internacional de Dubái (DXB) y a todas las demás ubicaciones en Dubái. Nuestro servicio de entrega está disponible en cualquier momento, día o noche, sin cargos adicionales. Nos reuniremos con usted en su terminal con el vehículo seleccionado, manejaremos todo el papeleo de manera eficiente y le ayudaremos a ponerse en marcha rápidamente después de la llegada de su vuelo."
+    },
+    "prices": {
+      "question": "¿Qué incluyen sus precios de alquiler de coches?",
+      "answer": "Nuestros precios de alquiler incluyen cobertura de seguro completa, kilometraje ilimitado para la mayoría de los vehículos, asistencia en carretera 24/7, entrega y recogida gratuita en cualquier lugar de Dubái, mantenimiento e IVA. No hay tarifas ocultas ni cargos sorpresa. Extras opcionales como conductores adicionales, asientos para niños o sistemas de navegación GPS pueden estar disponibles por un pequeño costo adicional. Nos enorgullecemos de ofrecer precios transparentes sin cargos inesperados."
+    },
+    "luxury": {
+      "question": "¿Puedo alquilar un coche de lujo en Dubái con Open Road Car Rental?",
+      "answer": "¡Absolutamente! Open Road Car Rental Dubái se especializa en alquileres de coches de lujo incluyendo marcas prestigiosas como Mercedes-Benz, BMW, Range Rover, Porsche y muchas más. Nuestra flota de lujo se actualiza regularmente con los últimos modelos, todos meticulosamente mantenidos para garantizar una experiencia de conducción excepcional. Ya sea que necesite un sedán de lujo, un SUV o un coche deportivo, ofrecemos tarifas competitivas para alquileres de coches de lujo tanto a corto como a largo plazo en Dubái."
+    },
+    "delivery": {
+      "question": "¿Cómo funciona su servicio de entrega de coches?",
+      "answer": "Nuestro servicio de entrega de coches gratuito es simple y conveniente. Después de hacer su reserva en línea o por teléfono, solo déjenos saber su ubicación y hora de entrega preferida. Nuestro representante llegará a su ubicación especificada (hotel, residencia, aeropuerto, etc.) con su vehículo elegido. Completaremos el papeleo necesario, explicaremos las características del vehículo y le entregaremos las llaves. El mismo proceso se aplica para la recogida – solo díganos dónde y cuándo recoger el coche, y estaremos allí puntualmente."
+    },
+    "rates": {
+      "question": "¿Cuáles son sus períodos y tarifas de alquiler?",
+      "answer": "Ofrecemos períodos de alquiler flexibles que incluyen opciones diarias, semanales y mensuales con descuentos significativos para alquileres más largos. Nuestras tarifas diarias comienzan desde 150 AED para coches económicos y desde 500 AED para vehículos de lujo. Los alquileres semanales generalmente ofrecen un descuento de 10-15% en comparación con las tarifas diarias, mientras que los alquileres mensuales proporcionan aún mayores ahorros, a menudo 25-30% menos que la tarifa diaria equivalente. Contáctenos para una cotización personalizada basada en sus requisitos específicos de período de alquiler."
+    },
+    "mileage": {
+      "question": "¿Hay un límite de kilometraje en sus alquileres de coches en Dubái?",
+      "answer": "La mayoría de nuestros paquetes de alquiler vienen con kilometraje ilimitado, permitiéndole explorar Dubái y los EAU sin preocuparse por cargos adicionales. Para ciertos vehículos de alto rendimiento o exóticos, puede aplicarse una asignación diaria de kilometraje (típicamente 250-300 km por día). Si su alquiler tiene un límite de kilometraje, esto se indicará claramente en su contrato de alquiler, y cualquier kilómetro excesivo se cobrará a una tarifa predefinida, que le explicaremos antes de que comience su alquiler."
+    },
+    "emirates": {
+      "question": "¿Puedo conducir mi coche de alquiler a Abu Dhabi u otros Emiratos?",
+      "answer": "Sí, puede conducir nuestros coches de alquiler a los siete Emiratos dentro de los EAU, incluidos Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah y Umm Al Quwain. Nuestro seguro integral cubre viajes por todo los EAU. Para viajes a países vecinos como Omán, puede ser necesaria documentación y seguro adicionales - por favor infórmenos con anticipación si planea cruzar cualquier frontera internacional para que podamos proporcionar el papeleo y la orientación necesarios."
+    }
+  }
+}

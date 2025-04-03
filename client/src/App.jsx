@@ -20,6 +20,12 @@ import "./index.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AdminLoginModal from "./components/AdminLoginModal";
+import DubaiSeoSection from "./components/DubaiSeoSection";
+import RichFAQSection from "./components/RichFAQSection.jsx";
+import LocationSchema from "./components/LocationSchema";
+// Note: VehiclesSchema should ideally be imported and used directly in the Vehicles component
+// where vehicle data is available, but we're importing it here for reference
+import VehiclesSchema from "./components/VehiclesSchema";
 
 const Hero = lazy(() => import("./components/Hero/Hero"));
 const InfoGrid = lazy(() => import("./components/Hero/InfoGrid1"));
@@ -135,12 +141,15 @@ ScrollToTopButton.displayName = "ScrollToTopButton";
 
 const HomePage = memo(({ setIsAdminModalOpen }) => (
   <div>
+    <LocationSchema />
     <Header setIsAdminModalOpen={setIsAdminModalOpen} />
     <ErrorBoundary>
       <Suspense fallback={<LoadingSpinner />}>
         <Hero />
         <CarsGrid />
         <InfoGrid />
+        <DubaiSeoSection />
+        <RichFAQSection />
       </Suspense>
     </ErrorBoundary>
     <Footer setIsAdminModalOpen={setIsAdminModalOpen} />

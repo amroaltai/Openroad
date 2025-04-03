@@ -1,0 +1,40 @@
+{
+  "title": "FAQ sur la Location de Voitures",
+  "subtitle": "Questions courantes sur la location de voiture à Dubaï",
+  "contactText": "Vous avez d'autres questions? Contactez notre équipe directement au",
+  "orVia": "ou via",
+  "questions": {
+    "documents": {
+      "question": "Quels documents me faut-il pour louer une voiture à Dubaï?",
+      "answer": "Pour louer une voiture chez Open Road Car Rental à Dubaï, vous aurez besoin d'un permis de conduire valide (soit un permis des EAU, soit un Permis de Conduire International avec le permis de votre pays d'origine), d'un passeport ou d'une carte d'identité des Émirats, et d'une carte de crédit pour la caution. Pour les touristes, un Permis de Conduire International (PCI) est requis si votre permis n'est pas en anglais ou en arabe. L'âge minimum requis est de 21 ans, bien que certains véhicules de luxe puissent exiger que les conducteurs aient 25 ans ou plus."
+    },
+    "airport": {
+      "question": "Proposez-vous une livraison gratuite à l'Aéroport International de Dubaï (DXB)?",
+      "answer": "Oui, nous offrons un service de livraison et de récupération gratuit 24h/24 et 7j/7 à l'Aéroport International de Dubaï (DXB) et dans tous les autres endroits de Dubaï. Notre service de livraison est disponible à tout moment, jour et nuit, sans frais supplémentaires. Nous vous rencontrerons à votre terminal avec le véhicule que vous avez sélectionné, nous traiterons efficacement toutes les formalités et vous aiderons à prendre la route rapidement après l'arrivée de votre vol."
+    },
+    "prices": {
+      "question": "Qu'est-ce qui est inclus dans vos prix de location de voiture?",
+      "answer": "Nos tarifs de location comprennent une couverture d'assurance complète, un kilométrage illimité pour la plupart des véhicules, une assistance routière 24h/24, une livraison et une récupération gratuites n'importe où à Dubaï, l'entretien et la TVA. Il n'y a pas de frais cachés ou de surprises. Des extras optionnels comme des conducteurs supplémentaires, des sièges enfants ou des systèmes de navigation GPS peuvent être disponibles moyennant un petit coût supplémentaire. Nous sommes fiers d'offrir des prix transparents sans frais inattendus."
+    },
+    "luxury": {
+      "question": "Puis-je louer une voiture de luxe à Dubaï avec Open Road Car Rental?",
+      "answer": "Absolument! Open Road Car Rental Dubaï se spécialise dans la location de voitures de luxe comprenant des marques prestigieuses comme Mercedes-Benz, BMW, Range Rover, Porsche et bien d'autres. Notre flotte de luxe est régulièrement mise à jour avec les derniers modèles, tous méticuleusement entretenus pour garantir une expérience de conduite exceptionnelle. Que vous ayez besoin d'une berline de luxe, d'un SUV ou d'une voiture de sport, nous offrons des tarifs compétitifs pour les locations de voitures de luxe à court et à long terme à Dubaï."
+    },
+    "delivery": {
+      "question": "Comment fonctionne votre service de livraison de voitures?",
+      "answer": "Notre service de livraison de voitures gratuit est simple et pratique. Après avoir effectué votre réservation en ligne ou par téléphone, indiquez-nous simplement votre lieu et heure de livraison préférés. Notre représentant arrivera à l'endroit spécifié (hôtel, résidence, aéroport, etc.) avec le véhicule que vous avez choisi. Nous remplirons les documents nécessaires, expliquerons les caractéristiques du véhicule et vous remettrons les clés. Le même processus s'applique pour la récupération – dites-nous simplement où et quand récupérer la voiture, et nous serons là à l'heure."
+    },
+    "rates": {
+      "question": "Quelles sont vos périodes et tarifs de location?",
+      "answer": "Nous offrons des périodes de location flexibles comprenant des options quotidiennes, hebdomadaires et mensuelles avec des remises significatives pour les locations plus longues. Nos tarifs journaliers commencent à partir de 150 AED pour les voitures économiques et à partir de 500 AED pour les véhicules de luxe. Les locations hebdomadaires offrent généralement une réduction de 10 à 15% par rapport aux tarifs journaliers, tandis que les locations mensuelles offrent des économies encore plus importantes, souvent 25 à 30% de moins que le tarif journalier équivalent. Contactez-nous pour un devis personnalisé basé sur vos besoins spécifiques de période de location."
+    },
+    "mileage": {
+      "question": "Y a-t-il une limite de kilométrage sur vos locations de voitures à Dubaï?",
+      "answer": "La plupart de nos forfaits de location incluent un kilométrage illimité, vous permettant d'explorer Dubaï et les EAU sans vous soucier des frais supplémentaires. Pour certains véhicules hautes performances ou exotiques, une allocation journalière de kilométrage peut s'appliquer (généralement 250-300 km par jour). Si votre location a une limite de kilométrage, cela sera clairement indiqué dans votre contrat de location, et tout kilomètre excédentaire sera facturé à un taux prédéfini, que nous vous expliquerons avant le début de votre location."
+    },
+    "emirates": {
+      "question": "Puis-je conduire ma voiture de location à Abu Dhabi ou dans d'autres Émirats?",
+      "answer": "Oui, vous pouvez conduire nos voitures de location dans les sept Émirats des EAU, y compris Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah et Umm Al Quwain. Notre assurance complète couvre les voyages dans tous les EAU. Pour les voyages vers les pays voisins comme Oman, une documentation et une assurance supplémentaires peuvent être nécessaires - veuillez nous informer à l'avance si vous prévoyez de traverser des frontières internationales afin que nous puissions fournir les documents et conseils nécessaires."
+    }
+  }
+}

@@ -2,17 +2,184 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/logga.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon and Apple Touch Icon -->
+    <link rel="icon" type="image/png" href="/logga.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Primary Meta Tags -->
     <title>
       Open Road Car Rental - Cheapest Luxury Car Rental In Dubai - Free delivery
       24/7
     </title>
+    <meta
+      name="title"
+      content="Open Road Car Rental - Cheapest Luxury Car Rental In Dubai - Free delivery 24/7"
+    />
+    <meta
+      name="description"
+      content="Rent luxury and economy cars in Dubai at unbeatable prices. Choose from Mercedes, BMW, Range Rover and more. 24/7 free delivery service. Daily, weekly and monthly rates available."
+    />
+    <meta
+      name="keywords"
+      content="car rental Dubai, luxury car rental, cheap car rental Dubai, economy car rental, Mercedes rental, Range Rover rental, free delivery car rental Dubai, car hire Dubai, rent a car Dubai, 24/7 car rental Dubai"
+    />
+    <meta name="author" content="Open Road Car Rental" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.openroadcarrental.ae/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.openroadcarrental.ae/" />
+    <meta
+      property="og:title"
+      content="Open Road Car Rental - Cheapest Luxury Car Rental In Dubai"
+    />
+    <meta
+      property="og:description"
+      content="Rent luxury and economy cars in Dubai at unbeatable prices. Choose from Mercedes, BMW, Range Rover and more. 24/7 free delivery."
+    />
+    <meta
+      property="og:image"
+      content="https://www.openroadcarrental.ae/og-image.jpg"
+    />
+    <meta property="og:site_name" content="Open Road Car Rental Dubai" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.openroadcarrental.ae/" />
+    <meta
+      property="twitter:title"
+      content="Open Road Car Rental - Cheapest Luxury Car Rental In Dubai"
+    />
+    <meta
+      property="twitter:description"
+      content="Rent luxury and economy cars in Dubai at unbeatable prices. 24/7 free delivery, daily, weekly & monthly rates."
+    />
+    <meta
+      property="twitter:image"
+      content="https://www.openroadcarrental.ae/twitter-card.jpg"
+    />
+
+    <!-- Theme Color and More -->
     <meta name="theme-color" content="#000000" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="format-detection" content="telephone=yes" />
+
+    <!-- Preconnect to CDNs -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Structured Data for Car Rental Business -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "AutoRental",
+        "name": "Open Road Car Rental Dubai",
+        "@id": "https://www.openroadcarrental.ae",
+        "url": "https://www.openroadcarrental.ae",
+        "logo": "https://www.openroadcarrental.ae/logga.png",
+        "image": "https://www.openroadcarrental.ae/storefront.jpg",
+        "telephone": "+971563995002",
+        "email": "info@openroadcarrental.ae",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ibn Al Zahrawi Street, Al Jaddaf Dubai, Azurite Tower, Shop 16",
+          "addressLocality": "Dubai",
+          "addressRegion": "Dubai",
+          "addressCountry": "AE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "25.2285",
+          "longitude": "55.3273"
+        },
+        "priceRange": "$$-$$$",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        },
+        "description": "Open Road Car Rental Dubai offers 24/7 service with free delivery anywhere in Dubai. We provide a wide selection of luxury and economy cars at competitive rates.",
+        "sameAs": [
+          "https://instagram.com/openroad.cars",
+          "https://tiktok.com/@openroad.carrental",
+          "https://snapchat.com/add/openroadcars"
+        ],
+        "potentialAction": {
+          "@type": "RentAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://www.openroadcarrental.ae/vehicles",
+            "inLanguage": "en-US",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform"
+            ]
+          },
+          "result": {
+            "@type": "RentActionResult",
+            "name": "Car Rental Booking"
+          }
+        }
+      }
+    </script>
+
+    <!-- Local Business Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Open Road Car Rental Dubai",
+        "image": "https://www.openroadcarrental.ae/storefront.jpg",
+        "telephone": "+971563995002",
+        "priceRange": "$$-$$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ibn Al Zahrawi Street, Al Jaddaf Dubai, Azurite Tower, Shop 16",
+          "addressLocality": "Dubai",
+          "addressRegion": "Dubai",
+          "addressCountry": "AE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "25.2285",
+          "longitude": "55.3273"
+        },
+        "url": "https://www.openroadcarrental.ae",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        },
+        "description": "24/7 car rental service in Dubai offering luxury and economy vehicles with free delivery. Affordable rates for daily, weekly, and monthly rentals."
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
