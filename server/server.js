@@ -62,6 +62,11 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Server is running" });
 });
 
+// Explicit route for robots.txt
+app.get("/robots.txt", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "dist", "robots.txt"));
+});
+
 // Explicit route for sitemap.xml
 app.get("/sitemap.xml", (req, res) => {
   res.contentType("application/xml");
