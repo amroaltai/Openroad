@@ -62,6 +62,12 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Server is running" });
 });
 
+// Explicit route for sitemap.xml
+app.get("/sitemap.xml", (req, res) => {
+  res.contentType("application/xml");
+  res.sendFile(path.join(__dirname, "..", "client", "dist", "sitemap.xml"));
+});
+
 // Serve React app for all other routes
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
