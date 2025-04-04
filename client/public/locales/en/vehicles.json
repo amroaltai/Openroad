@@ -39,5 +39,10 @@
   "monthly": "Monthly",
   "startingFrom": "From",
   "pricingStartingFrom": "Pricing Starting From",
-  "day": "day"
+  "day": "day",
+  "notification": {
+    "important": "Important",
+    "priceDisclaimer": "Prices may vary based on seasonality, availability, and special events. Click",
+    "priceInfo": "on any vehicle for the most current pricing and detailed information."
+  }
 }

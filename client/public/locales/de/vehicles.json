@@ -39,5 +39,10 @@
   "monthly": "Monatlich",
   "startingFrom": "Ab",
   "pricingStartingFrom": "Preise beginnen ab",
-  "day": "Tag"
+  "day": "Tag",
+  "notification": {
+    "important": "Wichtig",
+    "priceDisclaimer": "Preise können je nach Saison, Verfügbarkeit und besonderen Ereignissen variieren. Klicken Sie auf",
+    "priceInfo": "bei einem Fahrzeug für die aktuellsten Preise und detaillierte Informationen."
+  }
 }

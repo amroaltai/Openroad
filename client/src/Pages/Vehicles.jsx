@@ -849,6 +849,59 @@ const EnlargedImageModal = memo(
 );
 EnlargedImageModal.displayName = "EnlargedImageModal";
 
+// Add PriceNotificationBanner component here
+const PriceNotificationBanner = memo(() => {
+  const { t } = useTranslation("vehicles");
+
+  return (
+    <div className="relative bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-md border border-orange-500/20 rounded-lg py-4 px-5 shadow-lg mb-6 overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute -right-6 -top-6 w-24 h-24 bg-orange-500/10 rounded-full blur-xl"></div>
+      <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-amber-500/10 rounded-full blur-xl"></div>
+
+      <div className="flex items-center">
+        <div className="flex-shrink-0">
+          <div className="bg-gradient-to-br from-orange-500/30 to-amber-500/30 p-3 rounded-full mr-4 shadow-inner">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-6 w-6 text-orange-400"
+            >
+              {/* Bell notification icon */}
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div className="text-white text-sm md:text-base">
+            <span className="font-bold text-orange-400 mr-1">
+              {t("notification.important", "Important")}:
+            </span>
+            {t(
+              "notification.priceDisclaimer",
+              "Prices may vary based on seasonality, availability, and special events. Click"
+            )}
+            <span className="inline-block bg-orange-500 text-white py-0.5 px-2 mx-2 rounded-md text-xs font-bold">
+              {t("book", "Book")}
+            </span>
+            {t(
+              "notification.priceInfo",
+              "on any vehicle for the most current pricing and detailed information."
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+PriceNotificationBanner.displayName = "PriceNotificationBanner";
+
 const Vehicles = memo(() => {
   const { t, i18n } = useTranslation("vehicles");
   const [cars, setCars] = useState([]);
@@ -1228,6 +1281,10 @@ const Vehicles = memo(() => {
                 )}{" "}
                 {filterStateText}
               </div>
+
+              {/* Keep this PriceNotificationBanner */}
+              <PriceNotificationBanner />
+
               <div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 aria-live="polite"

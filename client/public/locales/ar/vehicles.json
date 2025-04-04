@@ -39,5 +39,10 @@
   "monthly": "شهري",
   "startingFrom": "من",
   "pricingStartingFrom": "الأسعار تبدأ من",
-  "day": "يوم"
+  "day": "يوم",
+  "notification": {
+    "important": "هام",
+    "priceDisclaimer": "قد تختلف الأسعار حسب الموسم والتوفر والمناسبات الخاصة. انقر",
+    "priceInfo": "على أي سيارة للحصول على أحدث المعلومات التسعيرية والتفاصيل."
+  }
 }
